@@ -1,696 +1,376 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#120d0a">
-<title>sıfıraltı.co</title>
-<style>
-:root{--bg:#120d0a;--bg2:#1b120d;--panel:#211712;--panel2:#2b1d16;--line:#4b3426;--text:#fff7e9;--muted:#b7a18f;--cyan:#d8ad67;--cyan2:#a87837;--gold:#f3c778;--green:#79d49b;--red:#ff7b7b;--violet:#c6a7ff;--shadow:0 14px 36px rgba(0,0,0,.32)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:linear-gradient(180deg,var(--bg),#040a10);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit}.app{width:min(100%,600px);margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 12px calc(94px + env(safe-area-inset-bottom))}.top{position:sticky;top:0;z-index:20;padding:10px 0 8px;background:linear-gradient(180deg,rgba(7,16,24,.98),rgba(7,16,24,.9),rgba(7,16,24,0));backdrop-filter:blur(8px)}.brandline{display:flex;justify-content:space-between;align-items:center;gap:10px}.logo{font-size:22px;font-weight:950;letter-spacing:-.05em}.logo span{color:var(--cyan)}.brandbox{min-width:174px}.permline{display:flex;justify-content:space-between;gap:8px;margin-top:5px;font-size:8px;font-weight:950;color:var(--gold)}.brandlvl{display:flex;justify-content:space-between;gap:8px;font-size:10px;font-weight:900;color:var(--muted)}.bar{height:7px;background:#07111a;border:1px solid #183247;border-radius:999px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan2),var(--cyan));transition:width .25s ease}.stats{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:7px;margin-top:10px}.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:9px 10px;min-width:0}.stat small{display:block;font-size:9px;font-weight:900;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}.stat b{display:block;font-size:14px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat.main b{font-size:18px;color:var(--cyan)}.cityswitch{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}.citybtn,.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:12px;padding:10px 8px;font-weight:950;font-size:12px}.citybtn.active,.tab.active{background:var(--cyan);border-color:var(--cyan);color:#05202c}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.page.hidden{display:none}.sectionHead{display:flex;justify-content:space-between;align-items:end;margin:14px 2px 8px}.sectionHead h2{font-size:14px;margin:0}.sectionHead span{font-size:10px;color:var(--muted);font-weight:900}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.panel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.branch{padding:12px;min-height:184px;position:relative;overflow:hidden;content-visibility:auto;contain-intrinsic-size:184px}.branch.locked{opacity:.52;filter:saturate(.55)}.branchTop{display:flex;justify-content:space-between;gap:8px}.district{font-size:13px;font-weight:950;line-height:1.15}.idx{font-size:9px;color:var(--muted);font-weight:900}.lvl{font-size:10px;color:var(--cyan);font-weight:900;margin-top:5px}.money{font-size:18px;font-weight:950;margin-top:12px;letter-spacing:-.03em}.rate{font-size:10px;color:var(--muted);font-weight:850;margin-top:2px}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px}.chip{background:#08131d;border:1px solid var(--line);border-radius:9px;padding:6px 4px;text-align:center}.chip small{display:block;font-size:7px;color:var(--muted);font-weight:900}.chip b{display:block;font-size:9px;margin-top:2px}.cap{margin-top:9px}.capline{display:flex;justify-content:space-between;font-size:8px;color:var(--muted);font-weight:900}.cap .bar{height:6px;margin-top:4px}.tagrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.tag{font-size:8px;font-weight:900;padding:4px 6px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:#08131d}.tag.live{color:var(--green);border-color:rgba(87,223,168,.35)}.missionGrid{display:grid;gap:9px}.mission{padding:13px}.missionTop{display:flex;justify-content:space-between;gap:10px}.missionTitle{font-size:12px;font-weight:950}.reward{font-size:9px;color:var(--gold);font-weight:950;white-space:nowrap}.missionMeta{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);font-weight:900;margin-top:7px}.mapGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mapCard{padding:11px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:14px}.mapCard.locked{opacity:.48}.mapCard.active{border-color:var(--cyan)}.mapCardTop{display:flex;justify-content:space-between;gap:8px}.mapName{font-size:11px;font-weight:950}.mapIncome{font-size:10px;color:var(--green);font-weight:900;margin-top:5px}.mapMeta{font-size:8px;color:var(--muted);font-weight:850;margin-top:3px}.bottom{position:fixed;z-index:25;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,600px);padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(7,16,24,0),rgba(7,16,24,.98) 26%)}.dock{display:grid;grid-template-columns:1fr 1fr;gap:8px}.action{border:0;border-radius:15px;padding:15px 10px;font-size:13px;font-weight:950;color:#05202c;background:var(--cyan);box-shadow:0 10px 24px rgba(32,185,233,.22)}.action.secondary{background:var(--gold);color:#2b2107}.action:disabled{opacity:.38;box-shadow:none}.bigHud{position:relative;z-index:18;width:100%;margin-top:9px;pointer-events:none}.bigHudBox{height:54px;background:rgba(6,14,22,.97);border:1px solid rgba(79,216,255,.42);border-radius:16px;padding:7px 8px;box-shadow:0 10px 28px rgba(0,0,0,.24);overflow:hidden;display:flex;align-items:center}.hudList{width:100%;height:100%;display:flex;align-items:center;overflow:hidden}.hudMsg{width:100%;display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;background:#08131d;border:1px solid var(--line);opacity:0;transform:translateY(5px);transition:opacity .16s ease,transform .16s ease}.hudMsg.show{opacity:1;transform:translateY(0)}.hudMsg.hide{opacity:0;transform:translateY(-5px)}.hudMsgIcon{font-size:15px;text-align:center}.hudMsgTitle{font-size:10px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hudMsgSub{font-size:8px;color:var(--muted);font-weight:800;line-height:1.3;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.playerTag{font-size:9px;color:var(--green);font-weight:950;margin-top:3px}.mult{display:inline-flex;align-items:center;gap:5px;color:var(--gold);font-weight:950;font-size:10px}.mult i{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.4s infinite}@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(247,201,109,0)}100%{box-shadow:0 0 0 0 rgba(247,201,109,0)}}
-@media(max-width:700px){.top{backdrop-filter:none}.panel,.bigHudBox,.action{box-shadow:none}.mult i{animation:none}.bar i{transition:none}}
-@media(max-width:390px){.app{padding-left:9px;padding-right:9px}.cityswitch{gap:5px}.citybtn{font-size:9px;padding:9px 3px}.grid,.mapGrid{gap:7px}.branch{padding:10px;min-height:180px}.district{font-size:12px}.money{font-size:16px}.stats{gap:5px}.stat{padding:8px}.stat b{font-size:12px}.stat.main b{font-size:16px}.chip{padding:5px 3px}.citybtn,.tab{font-size:11px;padding:9px 6px}}
-
-/* Compact mobile branch layout */
-.grid{gap:7px}.branch{padding:9px;min-height:0;contain-intrinsic-size:220px;border-radius:15px}.branchTop{gap:5px}.district{font-size:12px}.lvl{font-size:9px;margin-top:3px}.money{font-size:17px;margin-top:8px}.rate{font-size:9px}.branchTabs{gap:4px;margin-top:6px}.branchTab{padding:4px 6px;font-size:7px;border-radius:7px}.upgradeRows{gap:4px;margin-top:7px}.upgradeRow{padding:6px;border-radius:9px}.upgradeRowTop strong,.upgradeRowTop b{font-size:8px}.upgradeRowMeta{font-size:7px;margin-top:2px}.upgradeRow .bar{height:4px;margin-top:4px}.cap{margin-top:6px}.cap .bar{height:4px;margin-top:3px}.tagrow{gap:4px;margin-top:6px}.tag{font-size:7px;padding:3px 5px}.bigHudBox{height:44px;border-radius:13px;padding:5px 6px}.hudMsg{padding:4px 6px}.citybtn{padding:8px 5px}.sectionHead{margin:11px 2px 6px}.sectionHead h2{font-size:13px}.action{padding:11px 8px}.bottomTabs .tab{padding:6px 2px 5px}
-@media(max-width:430px){.app{padding-left:8px;padding-right:8px}.stats{gap:5px}.stat{padding:7px 8px;border-radius:12px}.stat small{font-size:8px}.stat b{font-size:12px}.stat.main b{font-size:16px}.cityswitch{gap:5px}.citybtn{font-size:10px}.grid{gap:6px}.branch{padding:8px;border-radius:14px}.district{font-size:11px}.money{font-size:16px}.upgradeRow{padding:5px}.upgradeRowMeta{white-space:nowrap;overflow:hidden}.tagrow .tag:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bottom{padding-left:8px;padding-right:8px}}
-
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-.eventGrid{display:grid;gap:10px}.eventCard{padding:14px;position:relative;overflow:hidden}.eventCard.special{border-color:rgba(247,201,109,.55)}.eventBadge{display:inline-flex;padding:4px 7px;border-radius:999px;border:1px solid var(--line);font-size:8px;font-weight:950;color:var(--muted);background:#08131d}.eventBadge.special{color:var(--gold);border-color:rgba(247,201,109,.45)}.eventTitle{font-size:14px;font-weight:950;margin-top:8px}.eventMeta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.eventMetric{background:#08131d;border:1px solid var(--line);border-radius:10px;padding:7px;text-align:center}.eventMetric small{display:block;font-size:7px;color:var(--muted);font-weight:900}.eventMetric b{display:block;font-size:10px;margin-top:2px}.eventAction{width:100%;margin-top:11px;border:0;border-radius:12px;padding:11px 10px;background:var(--cyan);color:#05202c;font-weight:950}.eventAction:disabled{opacity:.4}.eventProgress{margin-top:12px}.eventCountdown{font-size:28px;font-weight:950;letter-spacing:-.04em;text-align:center;margin-top:12px;color:var(--cyan)}.eventReward{font-size:10px;color:var(--muted);font-weight:850;text-align:center;margin-top:6px}.reportList{display:grid;gap:8px}.report{padding:11px}.reportTop{display:flex;justify-content:space-between;gap:8px}.reportName{font-size:11px;font-weight:950}.reportDate{font-size:8px;color:var(--muted);font-weight:850}.reportMeta{font-size:9px;color:var(--muted);font-weight:850;margin-top:6px;line-height:1.45}.branchTabs{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.branchTab{border:1px solid var(--line);background:#08131d;color:var(--muted);border-radius:8px;padding:5px 7px;font-size:8px;font-weight:950}.branchTab.active{background:var(--cyan);border-color:var(--cyan);color:#05202c}.branchTab.locked{opacity:.4}
-
-@media (max-width:700px),(prefers-reduced-motion:reduce){
-  .top,.bigHudBox{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-  .panel,.action,.bigHudBox{box-shadow:none!important}
-  .bar i,.bigHud{transition:none!important}
-  .mult i{animation:none!important}
-}
-@keyframes hudFlashMobile{0%{border-color:var(--cyan)}100%{border-color:rgba(79,216,255,.45)}}
-
-/* Akıcı arayüz: düşük maliyetli mobil çizim ve dokunma iyileştirmeleri */
-html{scroll-behavior:smooth}button,.tab,.citybtn,.branchTab,.eventAction{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.page{contain:layout style}.panel,.mission,.mapCard,.eventCard{content-visibility:auto;contain-intrinsic-size:120px;contain:layout paint style}
-button:active,.tab:active,.citybtn:active,.branchTab:active,.eventAction:active{transform:scale(.985)}
-.hudMsg{will-change:opacity,transform}
-@media(max-width:700px){.panel,.mission,.mapCard,.eventCard{box-shadow:none}.page{overscroll-behavior-y:contain}}
-
-.miniGameOverlay{position:fixed;inset:0;z-index:90;background:rgba(2,7,12,.92);display:flex;align-items:center;justify-content:center;padding:18px}.miniGameOverlay.hidden{display:none}.miniGameCard{width:min(100%,420px);background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid rgba(79,216,255,.45);border-radius:22px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.45)}.miniGameTop{display:flex;justify-content:space-between;gap:12px;align-items:center}.miniGameTitle{font-size:18px;font-weight:950}.miniGameTimer{font-size:13px;font-weight:950;color:var(--gold)}.miniGameText{font-size:11px;color:var(--muted);font-weight:850;margin-top:8px}.miniGameArea{position:relative;height:230px;margin-top:14px;border:1px solid var(--line);border-radius:16px;background:#06111a;overflow:hidden}.tapTarget{position:absolute;width:58px;height:58px;border:0;border-radius:50%;background:var(--cyan);color:#05202c;font-size:25px;font-weight:950;transform:translate(-50%,-50%)}.choiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:34px 12px}.choiceBtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:18px 8px;font-weight:950}.timingWrap{padding:54px 16px}.timingTrack{height:22px;border-radius:999px;background:#102332;position:relative;overflow:hidden}.timingZone{position:absolute;left:40%;width:20%;height:100%;background:rgba(87,223,168,.45)}.timingNeedle{position:absolute;top:-4px;width:4px;height:30px;background:var(--gold);left:0}.miniGameAction{width:100%;margin-top:12px;border:0;border-radius:14px;padding:13px;background:var(--gold);color:#2b2107;font-weight:950}.miniGameProgress{font-size:12px;font-weight:950;color:var(--cyan);margin-top:9px;text-align:center}
-
-/* Premium yönetim arayüzü */
-html,body{background:radial-gradient(circle at 50% -10%,#332117 0,#18100c 35%,#0d0907 100%)}
-.app{padding-bottom:154px}.top{padding:7px 0 5px;background:linear-gradient(180deg,rgba(18,13,10,.99),rgba(18,13,10,.93),rgba(18,13,10,0))}.brandline{padding:2px 3px}.logo{font-size:19px}.brandbox{min-width:160px}.stats{grid-template-columns:1.25fr 1fr 1fr;margin-top:7px;gap:5px}.stat{border-radius:11px;padding:6px 8px;background:rgba(33,23,18,.88)}.stat small{font-size:7px}.stat b,.stat.main b{font-size:12px;margin-top:2px}.bigHud{margin-top:6px}.bigHudBox{height:44px;border-radius:12px;border-color:rgba(243,199,120,.38);background:rgba(25,17,13,.97)}.cityswitch{margin-top:6px;gap:5px}.citybtn{padding:8px 4px;font-size:9px;border-radius:10px}.citybtn.active,.tab.active{background:var(--gold);border-color:var(--gold);color:#2b1b0c}.panel{background:linear-gradient(180deg,rgba(45,30,22,.96),rgba(29,20,15,.98));border-color:var(--line)}
-.bottom{padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(18,13,10,0),rgba(18,13,10,.98) 18%)}.dock{gap:7px}.action{padding:12px 8px;border-radius:12px;background:var(--gold);color:#2b1b0c;box-shadow:none}.action.secondary{background:#fff1d2;color:#2b1b0c}.bottomTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:7px}.bottomTabs .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border-radius:10px;font-size:8px}.bottomTabs .tab span{font-size:14px;line-height:1}.sectionHead{margin-top:12px}.branch{min-height:260px}.upgradeRows{display:grid;gap:6px;margin-top:10px}.upgradeRow{background:rgba(14,9,7,.62);border:1px solid var(--line);border-radius:11px;padding:8px}.upgradeRowTop,.upgradeRowMeta{display:flex;justify-content:space-between;gap:8px;align-items:center}.upgradeRowTop strong{font-size:9px;letter-spacing:.04em}.upgradeRowTop b{font-size:9px;color:var(--gold)}.upgradeRowMeta{margin-top:4px;font-size:8px;color:var(--muted);font-weight:850}.upgradeRow .bar{height:5px;margin-top:6px}.mapGrid{display:block;position:relative;padding:5px 0 5px 22px}.mapGrid:before{content:"";position:absolute;left:9px;top:18px;bottom:18px;width:2px;background:linear-gradient(var(--gold),rgba(243,199,120,.12))}.mapNode{position:relative;margin:0 0 10px;padding:12px 12px 12px 14px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:14px}.mapNode:before{content:"";position:absolute;left:-20px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:3px solid var(--bg);box-shadow:0 0 0 2px rgba(243,199,120,.28)}.mapNode.locked{opacity:.45}.mapNode.locked:before{background:#69594c}.mapNode.maxed{border-color:var(--gold);box-shadow:inset 0 0 0 1px rgba(243,199,120,.18)}.mapNodeTop{display:flex;justify-content:space-between;gap:8px}.mapNodeName{font-size:12px;font-weight:950}.mapNodeMeta{font-size:9px;color:var(--muted);margin-top:4px;font-weight:850}.mapNodeIncome{font-size:11px;color:var(--green);font-weight:950;margin-top:6px}.rewardBurst{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(8,5,3,.78);backdrop-filter:blur(5px)}.rewardBurst.hidden{display:none}.rewardBurstCard{width:min(100%,360px);text-align:center;padding:28px 20px;border-radius:24px;border:1px solid rgba(243,199,120,.65);background:radial-gradient(circle at 50% 0,#5a3b20,#241710 65%);animation:rewardPop .42s ease both}.rewardBurstIcon{font-size:52px}.rewardBurstTitle{font-size:24px;font-weight:950;color:var(--gold);margin-top:8px}.rewardBurstSub{font-size:13px;color:var(--text);font-weight:850;margin-top:8px}@keyframes rewardPop{0%{opacity:0;transform:scale(.75)}65%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}@media(max-width:390px){.app{padding-bottom:150px}.branch{min-height:255px}.upgradeRow{padding:7px}.bottomTabs .tab{font-size:7px}}
-
-
-/* Horizontal branch cards */
-#branchGrid.grid{grid-template-columns:1fr;gap:8px}
-.branch{
-  display:grid;
-  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-  grid-template-areas:
-    "top upgrades"
-    "tabs upgrades"
-    "money upgrades"
-    "rate upgrades"
-    "cap tags";
-  column-gap:10px;
-  row-gap:4px;
-  align-items:start;
-  min-height:0;
-  padding:10px 11px;
-  contain-intrinsic-size:142px;
-}
-.branch>.branchTop{grid-area:top;min-width:0}
-.branch>.branchTabs{grid-area:tabs;margin-top:2px;align-self:start}
-.branch>.money{grid-area:money;margin-top:3px;font-size:18px;line-height:1.05}
-.branch>.rate{grid-area:rate;margin-top:0}
-.branch>.upgradeRows{grid-area:upgrades;margin-top:0;gap:4px;min-width:0}
-.branch>.cap{grid-area:cap;margin-top:4px;align-self:end}
-.branch>.tagrow{grid-area:tags;margin-top:4px;align-self:end;justify-content:flex-end}
-.branch .upgradeRow{padding:5px 7px;border-radius:9px}
-.branch .upgradeRowTop strong,.branch .upgradeRowTop b{font-size:8px}
-.branch .upgradeRowMeta{font-size:7px;margin-top:2px}
-.branch .upgradeRow .bar{height:4px;margin-top:4px}
-.branch .branchTab{padding:4px 6px;font-size:7px}
-.branch .tag{font-size:7px;padding:3px 5px}
-.branch.locked{
-  grid-template-columns:1fr auto;
-  grid-template-areas:
-    "top top"
-    "money rate"
-    "tags tags";
-  align-items:end;
-  min-height:92px;
-}
-.branch.locked>.money{font-size:15px;margin-top:7px}
-.branch.locked>.rate{text-align:right;align-self:end;margin-bottom:1px}
-.branch.locked>.tagrow{justify-content:flex-start}
-@media(max-width:430px){
-  .branch{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);column-gap:8px;padding:9px}
-  .branch>.money{font-size:16px}
-  .branch .district{font-size:11px}
-  .branch .lvl{font-size:8px}
-  .branch .upgradeRow{padding:4px 6px}
-  .branch .upgradeRowMeta span:first-child{max-width:64%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .branch>.tagrow{gap:3px}
-}
-@media(max-width:350px){
-  .branch{grid-template-columns:minmax(0,.74fr) minmax(0,1.26fr);column-gap:6px;padding:8px}
-  .branch .branchTab{padding:3px 5px;font-size:6px}
-  .branch .upgradeRowMeta{font-size:6px}
-  .branch .tag{font-size:6px}
-}
-
-
-/* Ultra compact two-line branch cards */
-#branchGrid.grid{grid-template-columns:1fr;gap:6px}
-.branch{display:block!important;min-height:0!important;padding:7px 8px!important;border-radius:12px!important;contain-intrinsic-size:88px!important}
-.branchCompactTop{display:flex;align-items:center;gap:6px;min-width:0}
-.branchIdentity{min-width:0;flex:1}
-.branchIdentity .district{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.branchIdentity .lvl{font-size:8px;margin-top:1px;white-space:nowrap}
-.branchMiniStats{display:grid;grid-template-columns:repeat(3,auto);gap:4px;flex-shrink:0}
-.branchMiniStat{min-width:46px;padding:4px 5px;border:1px solid var(--line);border-radius:7px;background:rgba(14,9,7,.66);text-align:center;line-height:1.05}
-.branchMiniStat small{display:block;font-size:6px;color:var(--muted);font-weight:950;letter-spacing:.03em}
-.branchMiniStat b{display:block;font-size:8px;color:var(--gold);margin-top:2px;white-space:nowrap}
-.branchCompactBottom{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:6px}
-.branchMetric{display:inline-flex;align-items:center;gap:3px;min-width:0;padding:3px 5px;border:1px solid rgba(75,52,38,.82);border-radius:7px;background:rgba(9,7,6,.48);font-size:7px;font-weight:900;color:var(--muted);white-space:nowrap}
-.branchMetric strong{font-size:8px;color:var(--text)}
-.branchMetric.live{color:var(--green);border-color:rgba(121,212,155,.32)}
-.branchMetric.maxed{color:var(--gold);border-color:rgba(243,199,120,.4)}
-.branchTabs.compactTabs{display:flex;gap:3px;margin:0 0 0 auto;max-width:100%;overflow:hidden}
-.branchTabs.compactTabs .branchTab{padding:3px 5px;font-size:6px;border-radius:6px;white-space:nowrap}
-.branchCompactCap{display:inline-flex;align-items:center;gap:4px}
-.branchCompactCap .miniBar{width:42px;height:4px;background:#07111a;border:1px solid #183247;border-radius:999px;overflow:hidden}
-.branchCompactCap .miniBar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan2),var(--cyan))}
-.branch.locked{display:flex!important;align-items:center;gap:8px;min-height:0!important;padding:8px!important}
-.branch.locked .lockedMain{min-width:0;flex:1}
-.branch.locked .money,.branch.locked .rate,.branch.locked .tagrow{margin:0!important}
-.branch.locked .money{font-size:10px!important}
-.branch.locked .rate{font-size:8px!important;text-align:left!important}
-@media(max-width:430px){
- .branch{padding:6px 7px!important}
- .branchCompactTop{gap:4px}
- .branchIdentity .district{font-size:10px}
- .branchMiniStats{gap:3px}
- .branchMiniStat{min-width:40px;padding:3px 4px}
- .branchMiniStat small{font-size:5.5px}.branchMiniStat b{font-size:7px}
- .branchCompactBottom{gap:3px;margin-top:5px}
- .branchMetric{padding:3px 4px;font-size:6px}.branchMetric strong{font-size:7px}
- .branchTabs.compactTabs .branchTab{padding:3px 4px;font-size:5.5px}
-}
-
-</style>
-
-<style id="minimalTextCleanup">
-/* Gereksiz metinleri kaldıran sade görünüm */
-.playerTag,.bigHud,.sectionHead>span,.idx,.tagrow,.branchMetric.live,.branchMetric.maxed,.mapMeta,.eventBadge,.reportDate{display:none!important}
-.sectionHead{margin:9px 2px 5px}.sectionHead h2{font-size:12px;color:var(--muted)}
-.bottomTabs .tab{font-size:0;padding:8px 2px}.bottomTabs .tab span{font-size:18px}
-.branchCompactBottom{margin-top:4px}.branchMetric{padding:3px 5px}
-.branchMiniStat small{font-size:0}.branchMiniStat small:after{font-size:6px}
-.branchMiniStat:nth-child(1) small:after{content:'Y'}
-.branchMiniStat:nth-child(2) small:after{content:'P'}
-.branchMiniStat:nth-child(3) small:after{content:'M'}
-.eventMetric small{font-size:0}.eventMetric:nth-child(1) small:after{content:'₺';font-size:8px}.eventMetric:nth-child(2) small:after{content:'⏱';font-size:8px}.eventMetric:nth-child(3) small:after{content:'×';font-size:8px}
-.eventReward{font-size:9px}.reportMeta{font-size:8px}.missionMeta{font-size:8px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#070b16" />
+  <title>Neon Empire — Premium Idle</title>
+  <style>
+    :root{
+      --bg:#070b16;
+      --panel:rgba(17,24,43,.72);
+      --panel-2:rgba(12,18,34,.88);
+      --line:rgba(255,255,255,.08);
+      --text:#f7f9ff;
+      --muted:#8f9bb7;
+      --cyan:#4eeaff;
+      --blue:#5b7cff;
+      --purple:#a85cff;
+      --green:#58f3a7;
+      --gold:#ffd166;
+      --danger:#ff6685;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:
+      radial-gradient(circle at 20% -10%,rgba(91,124,255,.28),transparent 35%),
+      radial-gradient(circle at 100% 10%,rgba(168,92,255,.2),transparent 30%),
+      linear-gradient(180deg,#090f20 0%,#060914 70%,#050710 100%);
+      color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow-x:hidden
+    }
+    body:before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:30px 30px
+    }
+    button{font:inherit}
+    .app{max-width:480px;margin:0 auto;min-height:100vh;padding:18px 16px 110px;position:relative}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:44px;height:44px;border-radius:15px;background:
+      linear-gradient(145deg,var(--cyan),var(--blue) 55%,var(--purple));
+      display:grid;place-items:center;font-weight:900;color:#06101e;box-shadow:0 0 35px rgba(78,234,255,.25)}
+    .brand h1{font-size:17px;margin:0;letter-spacing:.4px}
+    .brand small{color:var(--muted)}
+    .icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:white}
+    .hero{
+      border:1px solid var(--line);border-radius:28px;padding:20px;
+      background:
+        linear-gradient(135deg,rgba(78,234,255,.09),transparent 35%),
+        linear-gradient(160deg,rgba(168,92,255,.14),rgba(17,24,43,.82));
+      box-shadow:var(--shadow);position:relative;overflow:hidden
+    }
+    .hero:after{
+      content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+      background:radial-gradient(circle,rgba(78,234,255,.22),transparent 65%);
+      right:-70px;top:-70px
+    }
+    .eyebrow{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1.4px}
+    .money{font-size:40px;font-weight:900;margin:9px 0 4px;letter-spacing:-1.5px}
+    .persec{color:var(--green);font-weight:800}
+    .level-wrap{margin-top:18px}
+    .level-row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .bar{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+    .bar > div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));border-radius:inherit;transition:.35s}
+    .tap-zone{margin:18px 0;display:grid;place-items:center;position:relative}
+    .core{
+      width:192px;height:192px;border-radius:50%;border:none;color:white;cursor:pointer;position:relative;
+      background:
+      radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),rgba(78,234,255,.2) 8%,rgba(91,124,255,.25) 30%,rgba(7,11,22,.95) 65%),
+      conic-gradient(from 0deg,var(--cyan),var(--blue),var(--purple),var(--cyan));
+      box-shadow:0 0 0 10px rgba(255,255,255,.025),0 0 60px rgba(78,234,255,.25),inset 0 0 35px rgba(255,255,255,.1);
+      transition:transform .08s
+    }
+    .core:active{transform:scale(.96)}
+    .core-inner{
+      position:absolute;inset:16px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 40% 30%,#182544,#0a1020 70%);
+      border:1px solid rgba(255,255,255,.12)
+    }
+    .core-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+    .core-value{font-weight:900;font-size:29px;margin-top:6px}
+    .orb{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan);animation:orbit 5s linear infinite}
+    .orb.two{animation-duration:7s;animation-direction:reverse;background:var(--purple);box-shadow:0 0 18px var(--purple)}
+    @keyframes orbit{from{transform:rotate(0deg) translateX(112px) rotate(0deg)}to{transform:rotate(360deg) translateX(112px) rotate(-360deg)}}
+    .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+    .quick{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px;text-align:center}
+    .quick b{display:block;font-size:15px}.quick span{color:var(--muted);font-size:11px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}
+    .section-head h2{font-size:17px;margin:0}.section-head span{font-size:12px;color:var(--cyan)}
+    .smart-card{
+      border:1px solid rgba(78,234,255,.18);border-radius:20px;padding:15px;
+      background:linear-gradient(135deg,rgba(78,234,255,.08),rgba(91,124,255,.08));
+      display:flex;gap:12px;align-items:center
+    }
+    .smart-icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:rgba(78,234,255,.12);font-size:22px}
+    .smart-card h3{margin:0 0 4px;font-size:14px}.smart-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.4}
+    .smart-card button{margin-left:auto;border:0;border-radius:12px;padding:10px 12px;color:#07111e;background:linear-gradient(135deg,var(--cyan),#8cf4ff);font-weight:900}
+    .upgrade-list{display:grid;gap:10px}
+    .upgrade{
+      display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:13px;
+      border:1px solid var(--line);border-radius:19px;background:var(--panel)
+    }
+    .uicon{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,rgba(91,124,255,.22),rgba(168,92,255,.18));display:grid;place-items:center;font-size:23px}
+    .upgrade h3{margin:0 0 4px;font-size:14px}.upgrade p{margin:0;color:var(--muted);font-size:11px}
+    .buy{border:0;border-radius:13px;padding:10px 12px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-weight:800;min-width:80px}
+    .buy:disabled{opacity:.35;filter:grayscale(.4)}
+    .bottom-nav{
+      position:fixed;z-index:20;bottom:14px;left:50%;transform:translateX(-50%);
+      width:min(calc(100% - 28px),452px);height:72px;border:1px solid var(--line);border-radius:24px;
+      background:rgba(8,13,26,.92);backdrop-filter:blur(20px);display:grid;grid-template-columns:repeat(4,1fr);box-shadow:var(--shadow)
+    }
+    .nav-btn{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-size:11px}
+    .nav-btn.active{color:var(--cyan)}.nav-btn strong{font-size:20px}
+    .toast{
+      position:fixed;top:20px;left:50%;transform:translate(-50%,-130%);z-index:30;
+      background:#111a2e;border:1px solid var(--line);padding:12px 16px;border-radius:15px;box-shadow:var(--shadow);
+      transition:.3s;white-space:nowrap;font-size:13px
+    }
+    .toast.show{transform:translate(-50%,0)}
+    .float{position:absolute;pointer-events:none;font-weight:900;color:var(--cyan);animation:floatUp .8s ease-out forwards}
+    @keyframes floatUp{to{transform:translateY(-70px) scale(1.3);opacity:0}}
+    .modal{position:fixed;inset:0;background:rgba(3,6,12,.75);z-index:50;display:none;align-items:flex-end;justify-content:center}
+    .modal.show{display:flex}
+    .sheet{width:min(100%,480px);background:#0d1426;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 18px 28px}
+    .sheet h2{margin-top:0}.sheet p{color:var(--muted);line-height:1.55}
+    .sheet button{width:100%;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:900}
+    .hidden{display:none!important}
+  </style>
 </head>
 <body>
-<div class="app">
-<header class="top">
-  <div class="brandline"><div><div class="logo">sıfıraltı<span>.co</span></div><div class="playerTag" id="playerTag"></div></div><div class="brandbox"><div class="brandlvl"><span>LV.<b id="brandLevel">1</b></span><span id="brandXpText">0/100</span></div><div class="bar"><i id="brandBar"></i></div><div class="permline"><span id="permMultiplier">ÇARPAN x1.00 • Lv.0</span><span id="permParts">0/10</span></div></div></div>
-  <div class="stats"><div class="stat main"><small>Kasa</small><b id="cash">₺0</b></div><div class="stat"><small>/SN</small><b id="rate">₺0</b></div><div class="stat"><small>HAZIR</small><b id="ready">₺0</b></div></div>
-  <div class="bigHud" id="bigHud"><div class="bigHudBox"><div class="hudList" id="hudList"></div></div></div>
-  <div class="cityswitch"><button class="citybtn active" data-city="ankara">ANKARA</button><button class="citybtn" data-city="istanbul">İSTANBUL</button><button class="citybtn" data-city="izmir">İZMİR</button><button class="citybtn" data-city="antalya">ANTALYA</button></div>
-</header>
-<main id="page-game" class="page"><div class="sectionHead"><h2 id="cityTitle">Ankara Şubeleri</h2><span id="branchCount">0 / 25</span></div><section id="branchGrid" class="grid"></section></main>
-<main id="page-missions" class="page hidden"><div class="sectionHead"><h2>Görevler</h2><span id="missionSeries" hidden></span></div><section id="missionGrid" class="missionGrid"></section></main>
-<main id="page-map" class="page hidden"><div class="sectionHead"><h2 id="mapTitle">Ankara Haritası</h2><span id="mapSummary">0 açık</span></div><section id="mapGrid" class="mapGrid"></section></main>
-<main id="page-events" class="page hidden"><div class="sectionHead"><h2>Etkinlikler</h2><span id="eventStatus">3 teklif</span></div><section id="eventGrid" class="eventGrid"></section><div class="sectionHead"><h2>Geçmiş</h2></div><section id="eventReports" class="reportList"></section></main>
-</div>
-<div class="rewardBurst hidden" id="rewardBurst" aria-live="polite"><div class="rewardBurstCard"><div class="rewardBurstIcon" id="rewardBurstIcon">🎁</div><div class="rewardBurstTitle" id="rewardBurstTitle">ÖDÜL</div><div class="rewardBurstSub" id="rewardBurstSub"></div></div></div><div class="miniGameOverlay hidden" id="miniGameOverlay"><div class="miniGameCard"><div class="miniGameTop"><div class="miniGameTitle" id="miniGameTitle">Fırsat Operasyonu</div><div class="miniGameTimer" id="miniGameTimer">00:12</div></div><div class="miniGameText" id="miniGameText"></div><div class="miniGameArea" id="miniGameArea"></div><div class="miniGameProgress" id="miniGameProgress"></div><button class="miniGameAction hidden" id="miniGameAction" type="button">DURDUR</button></div></div><div class="bottom"><div class="dock"><button class="action" id="collectBtn">TOPLA</button><button class="action secondary" id="upgradeBtn">YÜKSELT</button></div><nav class="tabs bottomTabs"><button class="tab active" data-page="game" aria-label="Oyun"><span>☕</span></button><button class="tab" data-page="missions" aria-label="Görevler"><span>✓</span></button><button class="tab" data-page="map" aria-label="Harita"><span>⌖</span></button><button class="tab" data-page="events" aria-label="Etkinlikler"><span>★</span></button></nav></div>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">NE</div>
+        <div><h1>NEON EMPIRE</h1><small>Akıllı Idle Sistem</small></div>
+      </div>
+      <button class="icon-btn" id="settingsBtn">⚙️</button>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow"><span>Toplam Enerji</span><span id="rank">Çaylak</span></div>
+      <div class="money" id="money">0</div>
+      <div class="persec"><span id="perSec">0</span> / saniye</div>
+      <div class="level-wrap">
+        <div class="level-row"><span>Seviye <b id="level">1</b></span><span id="xpText">0 / 100 XP</span></div>
+        <div class="bar"><div id="xpBar"></div></div>
+      </div>
+    </section>
+
+    <div class="tap-zone" id="tapZone">
+      <div class="orb"></div><div class="orb two"></div>
+      <button class="core" id="coreBtn">
+        <span class="core-inner">
+          <span class="core-label">Enerji Üret</span>
+          <span class="core-value">+<span id="tapPower">1</span></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="quick-grid">
+      <div class="quick"><b id="critChance">%5</b><span>Kritik Şans</span></div>
+      <div class="quick"><b id="multi">x1.0</b><span>Global Çarpan</span></div>
+      <div class="quick"><b id="offlineCap">2s</b><span>Offline Süre</span></div>
+    </div>
+
+    <div class="section-head"><h2>Akıllı Asistan</h2><span>AI CORE</span></div>
+    <div class="smart-card">
+      <div class="smart-icon">🧠</div>
+      <div><h3 id="smartTitle">Analiz yapılıyor</h3><p id="smartText">Sistem, en verimli yükseltmeyi hesaplıyor.</p></div>
+      <button id="smartBuy">AL</button>
+    </div>
+
+    <div class="section-head"><h2>Yükseltmeler</h2><span id="ownedCount">0 tesis</span></div>
+    <div class="upgrade-list" id="upgradeList"></div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active"><strong>◉</strong>Üretim</button>
+    <button class="nav-btn" id="boostBtn"><strong>⚡</strong>Boost</button>
+    <button class="nav-btn" id="prestigeBtn"><strong>✦</strong>Prestij</button>
+    <button class="nav-btn" id="statsBtn"><strong>▥</strong>İstatistik</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+  <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
 <script>
-'use strict';
-window.addEventListener('error',e=>{console.error(e.error||e.message);if(typeof bigNotify==='function'&&state)bigNotify('⚠️','Oyun hatası','Güvenli kayıt korundu.');});
-window.addEventListener('unhandledrejection',e=>console.error('Promise hatası:',e.reason));
-const $=id=>document.getElementById(id),clamp=(n,a,b)=>Math.max(a,Math.min(b,n)),now=()=>Date.now();
-const SAVE='sifiraltiCoOnlineV3',BACKUP='sifiraltiCoOnlineBackupV3',OLD_PRIMARY='sifiraltiCoOnlineV2',OLD_BACKUP='sifiraltiCoOnlineBackupV2';
-const LEGACY_SAVE_KEYS=[OLD_PRIMARY,OLD_BACKUP,'sifiraltiCoEmergencyV1','sifiraltiCoMetroV1','mbkHoldingSave','mbkNationSaveV1','sifiraltiCoFullDemoV1'];
-const MAX={brand:500,branch:500,manager:50,staff:100,portfolio:10,multiplier:100,branchesPerDistrict:5};
-const BRANCH_INCOME=[1,2,4,8,16],BRANCH_COST=[0.5,1.5,2.5,4,6.5];
-const OFFLINE_CAP=12*60*60*1000,AUTOSAVE_MS=5000,CHEST_MS=1*60*1000,MAX_OFFLINE_CHESTS=Math.floor(OFFLINE_CAP/CHEST_MS),BRANCH_UNLOCK_LEVEL=500,JACKPOT_GUARANTEE=25,ZEROALTI_CHEST_CHANCE=.008;
-const JACKPOT_TIERS=[{value:500,duration:30000,weight:55},{value:1000,duration:20000,weight:28},{value:2500,duration:10000,weight:13},{value:5000,duration:5000,weight:4}];
-const OFFLINE_BURST_SOFT_CAP=500,OFFLINE_BURST_HARD_CAP=5000,MINIGAME_MIN_MS=30*60*1000,MINIGAME_MAX_MS=90*60*1000;
-const Ankara=['Çankaya','Keçiören','Mamak','Yenimahalle','Etimesgut','Sincan','Altındağ','Pursaklar','Gölbaşı','Kahramankazan','Akyurt','Çubuk','Elmadağ','Polatlı','Beypazarı','Kızılcahamam','Haymana','Şereflikoçhisar','Nallıhan','Ayaş','Kalecik','Güdül','Çamlıdere','Evren','Bala'];
-const Istanbul=['Kadıköy','Beşiktaş','Üsküdar','Şişli','Bakırköy','Ataşehir','Maltepe','Kartal','Pendik','Beylikdüzü','Bahçelievler','Başakşehir','Kağıthane','Sarıyer','Eyüpsultan','Fatih','Beyoğlu','Zeytinburnu','Küçükçekmece','Avcılar','Esenyurt','Bağcılar','Güngören','Bayrampaşa','Gaziosmanpaşa','Sultangazi','Arnavutköy','Büyükçekmece','Silivri','Çatalca','Tuzla','Sancaktepe','Sultanbeyli','Çekmeköy','Beykoz','Adalar','Ümraniye','Esenler','Şile'];
-const Izmir=['Konak','Karşıyaka','Bornova','Bayraklı','Buca','Balçova','Narlıdere','Gaziemir','Çiğli','Güzelbahçe','Menemen','Torbalı','Urla','Seferihisar','Menderes','Kemalpaşa','Aliağa','Foça','Bergama','Dikili','Çeşme','Selçuk','Ödemiş','Tire','Bayındır','Kiraz','Beydağ','Kınık','Karaburun','Karabağlar'];
-const Antalya=['Muratpaşa','Konyaaltı','Kepez','Aksu','Döşemealtı','Alanya','Manavgat','Serik','Kemer','Kaş','Kumluca','Finike','Demre','Gazipaşa','Korkuteli','Elmalı','Akseki','İbradı','Gündoğmuş'];
-const CITIES=['ankara','istanbul','izmir','antalya'],CITY_NAMES={ankara:'Ankara',istanbul:'İstanbul',izmir:'İzmir',antalya:'Antalya'};
-const AVM_DISTRICTS={ankara:new Set(['Çankaya','Yenimahalle','Keçiören','Etimesgut','Mamak']),istanbul:new Set(['Arnavutköy','Ataşehir','Avcılar','Bağcılar','Bahçelievler','Bakırköy','Başakşehir','Bayrampaşa','Beşiktaş','Beylikdüzü','Beyoğlu','Büyükçekmece','Çekmeköy','Esenyurt','Eyüpsultan','Fatih','Gaziosmanpaşa','Güngören','Kadıköy','Kağıthane','Kartal','Küçükçekmece','Maltepe','Pendik','Sancaktepe','Sarıyer','Silivri','Sultanbeyli','Sultangazi','Şişli','Tuzla','Ümraniye','Üsküdar','Zeytinburnu']),izmir:new Set(['Balçova','Bayraklı','Bornova','Çiğli','Gaziemir','Karşıyaka','Konak','Menemen','Torbalı','Urla']),antalya:new Set(['Muratpaşa','Kepez','Konyaaltı','Aksu','Alanya','Manavgat','Serik'])};
-function storeType(city,name){return AVM_DISTRICTS[city]?.has(name)?'AVM MAĞAZASI':'CADDE MAĞAZASI'}
-function makeDistricts(city,names,cityMul){return names.map((name,i)=>({name,base:10*cityMul*Math.pow(1.19,i),openCost:Math.floor(500*cityMul*Math.pow(1.31,i)),unlock:1+Math.floor(i*4.3),storeType:storeType(city,name)}))}
-const DATA={ankara:makeDistricts('ankara',Ankara,1),istanbul:makeDistricts('istanbul',Istanbul,1.18),izmir:makeDistricts('izmir',Izmir,1.12),antalya:makeDistricts('antalya',Antalya,1.10)};
-const PORTFOLIOS=['Temel','Öğrenci','Ofis','Aile','Premium','Sadık','Kurumsal','VIP','Elit','Global','İkon'];
-const missionTypes=['collect','upgrade','open','brand','manager','staff','portfolio','rate','ready','chest','levels','spend','auto','events','multiplier','branches','jackpot'];
-const EVENT_DOMESTIC=['Eskişehir AVM Standı','Bursa Meydan Etkinliği','Adana Kahve Festivali','Gaziantep AVM Standı','Samsun Sahil Standı','Kayseri Alışveriş Festivali','Konya Kahve Günleri','Trabzon Forum Standı'];
-const EVENT_ABROAD=['Berlin Coffee Expo','Dubai Coffee Week','Paris Café Festival','Tokyo Coffee Show','Londra Coffee Market','Milano Coffee Days'];
-let state,activeCity='ankara',currentPage='game',lastTick=now(),saveTimer=null,lastMapRender=0,lastEventRender=0,lastBurstSweep=0,lastMissionCheck=0,lastUpgradeCheck=0,upgradeAvailable=false,saveHealthy=true;
-const liveCache=[];
-function num(v,d=0){v=Number(v);return Number.isFinite(v)?v:d}function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function freshBranch(open=false){return{unlocked:open,level:open?1:0,manager:0,staff:open?1:0,portfolio:0,stored:0,lastAuto:0}}
-function freshDistrict(open=false){return{unlocked:open,activeBranch:0,branches:[freshBranch(open)]}}
-function freshState(){return{version:13,cash:2500,brandLevel:1,brandXp:0,multiplierLevel:0,multiplierParts:0,jackpotPity:0,jackpotCount:0,city:{ankara:Ankara.map((_,i)=>freshDistrict(i===0)),istanbul:Istanbul.map((_,i)=>freshDistrict(i===0)),izmir:Izmir.map((_,i)=>freshDistrict(i===0)),antalya:Antalya.map((_,i)=>freshDistrict(i===0))},missions:[],missionHistory:[],missionSeries:1,stats:{collect:0,upgrade:0,open:4,manager:0,staff:4,portfolio:0,chest:0,spend:0,autoCollect:0},multipliers:[],events:{offers:[],active:null,reports:[]},miniGame:{nextAt:now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS),lastType:'',wins:0},ui:{activeCity:'ankara',currentPage:'game',scrollY:0},lastChest:now(),lastAutoSweep:now(),lastSave:now()}}
-function multiplierNeedForState(level){if(level>=MAX.multiplier)return 1;return Math.max(1,Math.floor((10*Math.pow(1.082,level)+level*1.35)*0.56))}
-function normalizeBranch(o,open){return{unlocked:!!open,level:clamp(Math.floor(num(o?.level,open?1:0)),open?1:0,MAX.branch),manager:clamp(Math.floor(num(o?.manager,0)),0,MAX.manager),staff:clamp(Math.floor(num(o?.staff,open?1:0)),open?1:0,MAX.staff),portfolio:clamp(Math.floor(num(o?.portfolio,0)),0,MAX.portfolio),stored:Math.max(0,num(o?.stored,0)),lastAuto:Math.max(0,num(o?.lastAuto,0))}}
-function migrate(raw){const s=freshState();if(!raw||typeof raw!=='object')return s;s.cash=Math.max(0,num(raw.cash,s.cash));s.brandLevel=clamp(Math.floor(num(raw.brandLevel,1)),1,MAX.brand);const rawXp=Math.max(0,num(raw.brandXp,0));if(num(raw.version,0)<12&&s.brandLevel<MAX.brand){const oldNeed=Math.max(1,oldBrandNeedForLevel(s.brandLevel)),newNeed=Math.max(1,brandNeedForLevel(s.brandLevel));s.brandXp=Math.floor(newNeed*clamp(rawXp/oldNeed,0,.999))}else{s.brandXp=s.brandLevel>=MAX.brand?0:Math.min(rawXp,Math.max(0,brandNeedForLevel(s.brandLevel)-1))};s.multiplierLevel=clamp(Math.floor(num(raw.multiplierLevel,0)),0,MAX.multiplier);s.multiplierParts=Math.max(0,num(raw.multiplierParts,0));s.jackpotPity=clamp(Math.floor(num(raw.jackpotPity,0)),0,JACKPOT_GUARANTEE-1);s.jackpotCount=Math.max(0,Math.floor(num(raw.jackpotCount,0)));s.lastSave=num(raw.lastSave,now());s.lastChest=num(raw.lastChest,now());s.missionSeries=Math.max(1,Math.floor(num(raw.missionSeries,1)));s.missionHistory=Array.isArray(raw.missionHistory)?raw.missionHistory.filter(x=>missionTypes.includes(x)).slice(-12):[];const rs=raw.stats&&typeof raw.stats==='object'?raw.stats:{};for(const k of Object.keys(s.stats))s.stats[k]=Math.max(0,num(rs[k],s.stats[k]));s.multipliers=Array.isArray(raw.multipliers)?raw.multipliers.filter(m=>m&&num(m.until)>s.lastSave&&num(m.value)>1).map(m=>({value:num(m.value),until:num(m.until),label:['offline','jackpot','zeroalti','minigame','chest'].includes(m.label)?m.label:'chest'})):[];
- for(const city of CITIES){const src=raw.city?.[city];if(!Array.isArray(src))continue;s.city[city]=s.city[city].map((d,i)=>{const old=src[i]||{},districtUnlocked=!!old.unlocked||i===0;if(Array.isArray(old.branches)){const branches=old.branches.slice(0,MAX.branchesPerDistrict).map((b,j)=>normalizeBranch(b,districtUnlocked&&!!b.unlocked));if(!branches.length)branches.push(freshBranch(districtUnlocked));branches[0].unlocked=districtUnlocked;return{unlocked:districtUnlocked,activeBranch:clamp(Math.floor(num(old.activeBranch,branches.length-1)),0,branches.length-1),branches}}const legacy=normalizeBranch(old,districtUnlocked);return{unlocked:districtUnlocked,activeBranch:0,branches:[legacy]}})}
- const ev=raw.events&&typeof raw.events==='object'?raw.events:{};s.events.offers=Array.isArray(ev.offers)?ev.offers.filter(validEventOffer).slice(0,3).map(normalizeEventXpData):[];s.events.active=validActiveEvent(ev.active)?normalizeEventXpData(ev.active):null;s.events.reports=Array.isArray(ev.reports)?ev.reports.filter(r=>r&&r.name).slice(0,10):[];
- const mg=raw.miniGame&&typeof raw.miniGame==='object'?raw.miniGame:{};s.miniGame={nextAt:Math.max(now()+5000,num(mg.nextAt,now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS))),lastType:String(mg.lastType||''),wins:Math.max(0,Math.floor(num(mg.wins,0)))};
- const ui=raw.ui&&typeof raw.ui==='object'?raw.ui:{};s.ui={activeCity:CITIES.includes(ui.activeCity)?ui.activeCity:'ankara',currentPage:['game','missions','map','events'].includes(ui.currentPage)?ui.currentPage:'game',scrollY:Math.max(0,num(ui.scrollY,0))};
- while(s.multiplierLevel<MAX.multiplier&&s.multiplierParts>=multiplierNeedForState(s.multiplierLevel)){s.multiplierParts-=multiplierNeedForState(s.multiplierLevel);s.multiplierLevel++}if(s.multiplierLevel>=MAX.multiplier)s.multiplierParts=0;s.missions=Array.isArray(raw.missions)?raw.missions.filter(validMission).slice(0,6):[];unlockEarnedBranches(s);return s}
-function validMission(m){return m&&missionTypes.includes(m.type)&&num(m.target)>0&&num(m.rewardCash)>=0&&num(m.rewardXp)>0}
-function safeParse(v){try{return JSON.parse(v)}catch{return null}}
-function readStorage(k){try{return safeParse(localStorage.getItem(k))}catch{return null}}
-function snapshotValid(raw){return !!raw&&typeof raw==='object'&&raw.city&&typeof raw.city==='object'&&Number.isFinite(Number(raw.cash))&&Number.isFinite(Number(raw.brandLevel))}
-function storageAvailable(){
- try{
-  const key='__sifiralti_storage_test__';
-  localStorage.setItem(key,'1');
-  const ok=localStorage.getItem(key)==='1';
-  localStorage.removeItem(key);
-  return ok;
- }catch{return false}
-}
-function buildSaveSnapshot(){
- state.ui={activeCity,currentPage,scrollY:Math.max(0,Math.round(window.scrollY||0))};
- state.lastSave=now();
- return JSON.parse(JSON.stringify(state));
-}
-function save(){
- if(!state)return false;
- try{
-  const snapshot=buildSaveSnapshot();
-  localStorage.setItem(SAVE,JSON.stringify(snapshot));
-  const verified=readStorage(SAVE);
-  if(!snapshotValid(verified))throw new Error('Kayıt doğrulanamadı');
-  saveHealthy=true;
-  updateProfileUI();
-  return true;
- }catch(err){
-  console.error('Kayıt hatası:',err);
-  saveHealthy=false;
-  updateProfileUI();
-  return false;
- }
-}
-function findOneLegacySave(){
- for(const key of [BACKUP,...LEGACY_SAVE_KEYS]){
-  const raw=readStorage(key);
-  if(snapshotValid(raw))return raw;
- }
- return null;
-}
-async function load(){
- let bootError=null,migratedLegacy=false;
- try{
-  let raw=readStorage(SAVE);
-  if(!snapshotValid(raw)){
-   raw=findOneLegacySave();
-   migratedLegacy=!!raw;
-  }
-  state=snapshotValid(raw)?migrate(raw):freshState();
-  activeCity=state.ui?.activeCity||'ankara';
-  currentPage=state.ui?.currentPage||'game';
-  invalidateBranchCache();
-  state.lastChest=Math.max(now()-OFFLINE_CAP,num(state.lastChest,now()));
-  normalizeStored();
-  ensureMissions();
-  ensureEventOffers();
-  applyOffline();
-  completeEventIfDue();
-  switchPage(currentPage);
-  renderAll();
-  requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,num(state.ui?.scrollY,0)))));
-  save();
- }catch(err){
-  bootError=err;
-  console.error('Kayıt yükleme hatası:',err);
-  state=freshState();
-  invalidateBranchCache();
-  normalizeStored();
-  ensureMissions();
-  ensureEventOffers();
-  renderAll();
- }
- const storageOk=storageAvailable();
- setInfo(bootError?'🛠️':storageOk?'✅':'⚠️',bootError?'Kayıt onarıldı':storageOk?'Otomatik kayıt aktif':'Depolama kapalı',storageOk?(migratedLegacy?'Eski kayıt tek ana kayda taşındı.':'Oyun kaldığın yerden devam eder.'):'Bu açılış ortamı yerel kayıt tutmuyor.');
- updateProfileUI();
- renderHud();
- lastTick=now();
- nextFrameAt=0;
- requestAnimationFrame(loop);
- clearInterval(saveTimer);
- saveTimer=setInterval(save,AUTOSAVE_MS);
-}
-function fmt(n){n=num(n);const a=Math.abs(n),u=[[1e18,'Qi'],[1e15,'Qa'],[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']];for(const[x,s]of u)if(a>=x)return'₺'+(n/x).toFixed(a>=x*100?0:a>=x*10?1:2)+s;return'₺'+Math.floor(n).toLocaleString('tr-TR')}function plain(n){n=num(n);const a=Math.abs(n),u=[[1e18,'Qi'],[1e15,'Qa'],[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']];for(const[x,k]of u)if(a>=x)return(n/x).toFixed(a>=x*100?0:a>=x*10?1:2)+k;return Math.floor(n).toLocaleString('tr-TR')}
-function oldBrandNeedForLevel(level){if(level>=MAX.brand)return 1;const l=Math.max(0,level-1);return Math.floor(100*Math.pow(1.075,Math.min(l,349))*Math.pow(1.05,Math.max(0,l-349)))}function brandNeedForLevel(level){if(level>=MAX.brand)return 1;const l=Math.max(0,level-1);return Math.floor(100+60*l+12*l*l)}function brandNeed(){return brandNeedForLevel(state.brandLevel)}function multiplierNeed(l=state.multiplierLevel){return multiplierNeedForState(l)}function permanentMultiplier(l=state.multiplierLevel){l=clamp(Math.floor(num(l,0)),0,MAX.multiplier);if(l<=20)return 1+l*.05;if(l<=40)return 2+(l-20)*.05;if(l<=60)return 3+(l-40)*.10;if(l<=80)return 5+(l-60)*.25;return 10+(l-80)*.75}
-function addMultiplierParts(a){if(state.multiplierLevel>=MAX.multiplier)return 0;state.multiplierParts+=Math.max(0,Math.floor(num(a,0)));let g=0;while(state.multiplierLevel<MAX.multiplier&&state.multiplierParts>=multiplierNeed()){state.multiplierParts-=multiplierNeed();state.multiplierLevel++;g++}if(state.multiplierLevel>=MAX.multiplier)state.multiplierParts=0;return g}
-function temporaryMultiplier(){state.multipliers=state.multipliers.filter(m=>m.until>now());return state.multipliers.reduce((m,x)=>Math.max(m,x.value),1)}function activeMultiplier(){return permanentMultiplier()*temporaryMultiplier()}function milestone(l){let m=1;for(const[x,v]of[[10,1.1],[25,1.12],[50,1.15],[100,1.18],[150,1.2],[200,1.22],[250,1.25],[275,1.18],[300,1.25],[350,1.12],[400,1.15],[450,1.18],[500,1.22]])if(l>=x)m*=v;return m}
-let branchCacheState=null,branchCache=null;
-function invalidateBranchCache(){branchCacheState=null;branchCache=null}
-function allDistricts(){return CITIES.flatMap(city=>state.city[city].map((d,i)=>({city,i,d})))}
-function allBranches(){
- if(branchCacheState===state&&branchCache)return branchCache;
- branchCacheState=state;
- branchCache=CITIES.flatMap(city=>state.city[city].flatMap((d,i)=>d.branches.map((b,j)=>({city,i,j,b,d}))));
- return branchCache;
-}
-function branchAt(city,i,j){return state.city[city][i].branches[j]}
-function branchFullyMaxed(b){return !!b&&b.level>=MAX.branch&&b.manager>=MAX.manager&&b.staff>=MAX.staff&&b.portfolio>=MAX.portfolio}
-function maxedBranchCount(){return allBranches().reduce((n,x)=>n+(x.b.unlocked&&branchFullyMaxed(x.b)?1:0),0)}
-function maxedBranchXpMultiplier(){return 1+Math.min(1,maxedBranchCount()*.10)}
-function maxLevelIncomeBonus(b){let m=1;if(b.manager>=40)m*=1.12;if(b.manager>=MAX.manager)m*=1.24;if(b.staff>=75)m*=1.12;if(b.staff>=MAX.staff)m*=1.1666666667;if(b.portfolio>=7)m*=1.12;if(b.portfolio>=MAX.portfolio)m*=1.0972222222;if(branchFullyMaxed(b))m*=2;return m}
-function brandMaxBonus(){if(state.brandLevel>=MAX.brand)return 1.50;if(state.brandLevel>=400)return 1.15;return 1}
-function branchRateBase(city,i,j){const b=branchAt(city,i,j),d=DATA[city][i];if(!b?.unlocked||b.level<=0)return 0;return d.base*b.level*milestone(b.level)*(1+(state.brandLevel-1)*.012)*brandMaxBonus()*(1+b.manager*.0825)*(1+b.staff*.048)*(1+b.portfolio*.15)*maxLevelIncomeBonus(b)*BRANCH_INCOME[j]}
-function branchRate(city,i,j){return branchRateBase(city,i,j)*activeMultiplier()*ECOSYSTEM_REWARD_MULTIPLIER}function capacity(city,i,j){const b=branchAt(city,i,j),branchMax=b.level>=MAX.branch?1.30:1;return Math.max(500,branchRateBase(city,i,j)*permanentMultiplier()*ECOSYSTEM_REWARD_MULTIPLIER*(55+b.manager*2+b.staff*.45)*branchMax)}
-function branchCost(city,i,j){const b=branchAt(city,i,j),d=DATA[city][i],l=b.level;const growth=Math.pow(1.085,Math.min(l,100))*Math.pow(1.055,Math.max(0,Math.min(l,300)-100))*Math.pow(1.035,Math.max(0,l-300)),base=d.openCost*.7*growth*BRANCH_COST[j],seconds=ECO.cost.branch[0]+Math.min(ECO.cost.branch[1]-ECO.cost.branch[0],l*.75)+j*20,cost=adaptCost(base,seconds,.40,2.40,.72);return Math.max(1,Math.floor(cost*(j===0?.50:1)))}function managerCost(city,i,j){const b=branchAt(city,i,j),d=DATA[city][i],l=b.manager,base=d.openCost*2.1*Math.pow(1.52,Math.min(l,30))*Math.pow(1.28,Math.max(0,l-30))*BRANCH_COST[j],seconds=ECO.cost.manager[0]+Math.min(ECO.cost.manager[1]-ECO.cost.manager[0],l*20)+j*60;return adaptCost(base,seconds,.70,1.60,.32)*.70}function staffCost(city,i,j){const b=branchAt(city,i,j),d=DATA[city][i],l=b.staff,base=d.openCost*.42*Math.pow(1.22,Math.min(l,60))*Math.pow(1.14,Math.max(0,l-60))*BRANCH_COST[j],seconds=ECO.cost.staff[0]+Math.min(ECO.cost.staff[1]-ECO.cost.staff[0],l*4)+j*35;return adaptCost(base,seconds,.70,1.58,.30)*.70}function portfolioCost(city,i,j){const b=branchAt(city,i,j),d=DATA[city][i],l=b.portfolio,base=d.openCost*8*Math.pow(4.1,Math.min(l,5))*Math.pow(2.2,Math.max(0,l-5))*BRANCH_COST[j],seconds=ECO.cost.portfolio[0]+Math.min(ECO.cost.portfolio[1]-ECO.cost.portfolio[0],l*180)+j*120;return adaptCost(base,seconds,.72,1.60,.32)*.70}
-function totalRate(){return allBranches().reduce((s,x)=>s+branchRate(x.city,x.i,x.j),0)}function readyTotal(){return allBranches().reduce((s,x)=>s+x.b.stored,0)}
-const ECONOMY_VERSION=12;
-const SMART_MISSION_VERSION=1;
-const ECOSYSTEM_REWARD_MULTIPLIER=2;
-const PERMANENT_PARTS_REWARD_MULTIPLIER=1.25;
-const ECO={
- cost:{branch:[25,445],manager:[180,1080],staff:[70,490],portfolio:[420,2220],district:[900,7200]},
- mission:{collect:[100,.050],upgrade:[155,.064],open:[390,.105],brand:[320,.090],manager:[180,.070],staff:[145,.058],portfolio:[280,.086],rate:[225,.076],ready:[130,.050],chest:[110,.050],levels:[195,.072],spend:[260,.086],auto:[165,.060],events:[340,.095],multiplier:[300,.090],branches:[360,.100],jackpot:[480,.120]},
- chest:{Bronz:[12,.0015,.010],Gümüş:[25,.0025,.020],Altın:[45,.0040,.040],Epic:[85,.0070,.080],Legend:[180,.0120,.150]},
- event:{domesticXp:[.008,.015,.025],abroadXp:[.025,.04,.06],domesticParts:[.08,.14,.22],abroadParts:[.22,.35,.55]}
-};
-function sustainableRate(){return Math.max(1,allBranches().reduce((s,x)=>s+(x.b.unlocked?branchRateBase(x.city,x.i,x.j)*permanentMultiplier():0),0))}
-function economyRate(){return sustainableRate()}
-function economyCash(seconds,min=1000){return Math.max(min,Math.floor(economyRate()*Math.max(1,seconds)))}
-function economyXp(percent,min=5,maxPercent=.15){const need=Math.max(1,brandNeed()),p=clamp(percent,.001,maxPercent);return Math.max(min,Math.floor(need*p*ECOSYSTEM_REWARD_MULTIPLIER))}
-function economyParts(percent,min=1){return Math.max(min,Math.floor(multiplierNeed()*percent*ECOSYSTEM_REWARD_MULTIPLIER*PERMANENT_PARTS_REWARD_MULTIPLIER))}
-function adaptCost(base,seconds,minRatio=.45,maxRatio=2.25,weight=.68){base=Math.max(1,num(base,1));const target=Math.max(1,economyCash(seconds,1)),ratio=clamp(target/base,minRatio,maxRatio);return Math.max(1,Math.floor(base*Math.pow(ratio,weight)))}
-function districtOpenCost(city,i){const meta=DATA[city][i],seconds=ECO.cost.district[0]+Math.min(ECO.cost.district[1]-ECO.cost.district[0],i*170);return adaptCost(meta.openCost,seconds,.72,1.55,.30)}
-function missionProfile(t){const q=ECO.mission[t]||[120,.052];return{cashSec:q[0],xp:q[1]}}
-function missionRewards(t,difficulty='orta',special=false){
- const q=missionProfile(t),mul={kolay:.72,orta:1,zor:1.48,özel:1.28}[difficulty]||1;
- const specialMul=special?1.18:1;
- return{rewardCash:Math.floor(economyCash(q.cashSec)*ECOSYSTEM_REWARD_MULTIPLIER*mul*specialMul),rewardXp:Math.floor(economyXp(q.xp,10)*mul*specialMul)}
-}
-function normalizeStored(){for(const x of allBranches()){if(!x.b.unlocked)x.b.stored=0;else x.b.stored=clamp(num(x.b.stored,0),0,capacity(x.city,x.i,x.j))}}
-function unlockEarnedBranches(s=state){let changed=false;for(const city of CITIES)for(const d of s.city[city]){if(!d.unlocked)continue;while(d.branches.length<MAX.branchesPerDistrict&&d.branches[d.branches.length-1].level>=BRANCH_UNLOCK_LEVEL){d.branches.push(freshBranch(true));d.activeBranch=d.branches.length-1;changed=true}d.activeBranch=clamp(d.activeBranch,0,d.branches.length-1)}if(changed&&s===state)invalidateBranchCache()}
-function addBrandXp(x){if(state.brandLevel>=MAX.brand)return;x=Math.max(0,num(x,0));state.brandXp+=x*maxedBranchXpMultiplier();while(state.brandLevel<MAX.brand&&state.brandXp>=brandNeed()){state.brandXp-=brandNeed();state.brandLevel++;bigNotify('🏆','Marka seviyesi yükseldi','sıfıraltı.co Marka Lv.'+state.brandLevel);if(state.brandLevel>=MAX.brand){state.brandXp=0;break}}}
-function missionValue(t){const s=state.stats;switch(t){case'collect':return s.collect;case'upgrade':return s.upgrade;case'open':return s.open;case'brand':return state.brandLevel;case'manager':return s.manager;case'staff':return s.staff;case'portfolio':return s.portfolio;case'rate':return totalRate();case'ready':return readyTotal();case'chest':return s.chest;case'levels':return allBranches().reduce((a,x)=>a+x.b.level,0);case'spend':return s.spend;case'auto':return s.autoCollect;case'events':return state.events.reports.length;case'multiplier':return state.multiplierLevel;case'branches':return allBranches().filter(x=>x.b.unlocked).length;case'jackpot':return state.jackpotCount;default:return 0}}
-function missionLabel(t,x){return{collect:'Toplam '+fmt(x)+' topla',upgrade:plain(x)+' yükseltme yap',open:plain(x)+' ilçe aç',brand:'Marka Lv.'+plain(x)+' ol',manager:plain(x)+' yönetici geliştir',staff:plain(x)+' personel geliştir',portfolio:plain(x)+' müşteri portföyü geliştir',rate:fmt(x)+'/sn gelire ulaş',ready:fmt(x)+' hazır para biriktir',chest:plain(x)+' sandık aç',levels:plain(x)+' toplam şube seviyesine ulaş',spend:fmt(x)+' yatırım yap',auto:'Otomasyonla '+fmt(x)+' topla',events:plain(x)+' etkinlik tamamla',multiplier:'Kalıcı çarpanı Lv.'+plain(x)+' yap',branches:plain(x)+' aktif şubeye ulaş',jackpot:plain(x)+' jackpot bul'}[t]}
-function missionEcosystemProfile(){
- const open=allBranches().filter(x=>x.b.unlocked),count=Math.max(1,open.length),rate=Math.max(1,economyRate());
- const avgLevel=open.reduce((s,x)=>s+x.b.level,0)/count;
- const avgManager=open.reduce((s,x)=>s+x.b.manager,0)/count;
- const avgStaff=open.reduce((s,x)=>s+x.b.staff,0)/count;
- const avgPortfolio=open.reduce((s,x)=>s+x.b.portfolio,0)/count;
- const levelGap=1-clamp(avgLevel/MAX.branch,0,1),managerGap=1-clamp(avgManager/MAX.manager,0,1),staffGap=1-clamp(avgStaff/MAX.staff,0,1),portfolioGap=1-clamp(avgPortfolio/MAX.portfolio,0,1);
- const branchOne=open.filter(x=>x.j===0),branchOneProgress=branchOne.length?branchOne.reduce((s,x)=>s+x.b.level/MAX.branch,0)/branchOne.length:0;
- const xpProgress=state.brandLevel>=MAX.brand?1:clamp(state.brandXp/Math.max(1,brandNeed()),0,1);
- const cashPressure=clamp((rate*180)/Math.max(1,state.cash),0,3);
- const partProgress=state.multiplierLevel>=MAX.multiplier?1:clamp(state.multiplierParts/Math.max(1,multiplierNeed()),0,1);
- const recent=(state.missionHistory||[]).slice(-5);
- let focus='gelir';
- const scores={
-  gelir:cashPressure+levelGap*.45,
-  exp:(1-xpProgress)*1.15+(state.brandLevel<MAX.brand?.35:0),
-  parça:(1-partProgress)*.95+(state.multiplierLevel<MAX.multiplier?.25:0),
-  şube:branchOneProgress>.58&&branchOneProgress<1?1.25:levelGap*.8,
-  aktif:(state.miniGame?.wins||0)+(state.events?.reports?.length||0)+(state.stats.chest||0)>8?.72:.38
- };
- focus=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
- return{open,count,rate,avgLevel,avgManager,avgStaff,avgPortfolio,levelGap,managerGap,staffGap,portfolioGap,branchOneProgress,xpProgress,cashPressure,partProgress,recent,focus};
-}
-function missionDifficultyScale(d){return{kolay:.62,orta:1,zor:1.55,özel:1.18}[d]||1}
-function missionTypeWeights(profile,difficulty='orta',special=false){
- const w={collect:1,upgrade:1,open:.55,brand:.65,manager:.75,staff:.85,portfolio:.65,rate:.95,ready:.85,chest:.72,levels:.9,spend:.82,auto:.7,events:.62,multiplier:.55,branches:.5,jackpot:.35};
- if(profile.focus==='gelir'){w.collect*=1.7;w.rate*=1.65;w.ready*=1.45;w.auto*=1.25}
- if(profile.focus==='exp'){w.brand*=1.9;w.events*=1.35;w.chest*=1.2}
- if(profile.focus==='parça'){w.multiplier*=2.2;w.chest*=1.45;w.events*=1.35;w.jackpot*=1.2}
- if(profile.focus==='şube'){w.upgrade*=1.65;w.levels*=1.55;w.manager*=1.2;w.staff*=1.3;w.portfolio*=1.15;w.branches*=1.15}
- if(profile.focus==='aktif'){w.chest*=1.55;w.events*=1.65;w.jackpot*=1.35;w.auto*=1.2}
- if(difficulty==='kolay'){w.collect*=1.25;w.ready*=1.2;w.chest*=1.15;w.jackpot*=.55;w.events*=.8}
- if(difficulty==='zor'){w.upgrade*=1.2;w.levels*=1.3;w.events*=1.18;w.multiplier*=1.15;w.jackpot*=1.1}
- if(special){for(const k of Object.keys(w))w[k]*=.45;if(profile.focus==='gelir'){w.collect=2.8;w.rate=2.6;w.ready=2.2}if(profile.focus==='exp'){w.brand=2.9;w.events=2.2;w.chest=1.7}if(profile.focus==='parça'){w.multiplier=3;w.chest=2.2;w.events=2}if(profile.focus==='şube'){w.upgrade=2.7;w.levels=2.5;w.branches=2.1}if(profile.focus==='aktif'){w.events=2.7;w.chest=2.5;w.jackpot=2.2}}
- return w;
-}
-function weightedMissionType(choices,weights,recent=[]){
- let pool=choices.map(t=>({t,w:Math.max(.01,(weights[t]||.1)*(recent.includes(t)?.28:1))})),sum=pool.reduce((s,x)=>s+x.w,0),r=Math.random()*sum;
- for(const x of pool){r-=x.w;if(r<=0)return x.t}return pool[pool.length-1]?.t||choices[0];
-}
-function makeMission(t,difficulty='orta',special=false,profile=missionEcosystemProfile()){
- const b=Math.max(1,state.brandLevel),r=profile.rate,scale=missionDifficultyScale(difficulty);let x;
- if(t==='collect')x=Math.max(5000,Math.floor(r*(difficulty==='kolay'?45:difficulty==='zor'?150:90)*scale+state.stats.collect*.025));
- if(t==='upgrade')x=state.stats.upgrade+Math.max(3,Math.floor((5+b/18)*scale));
- if(t==='open')x=Math.min(allDistricts().length,state.stats.open+1);
- if(t==='brand')x=Math.min(MAX.brand,state.brandLevel+Math.max(1,Math.round((difficulty==='zor'?3:1)*scale)));
- if(t==='manager')x=state.stats.manager+Math.max(2,Math.floor((2+b/24)*scale));
- if(t==='staff')x=state.stats.staff+Math.max(3,Math.floor((4+b/18)*scale));
- if(t==='portfolio')x=state.stats.portfolio+Math.max(1,Math.round(scale));
- if(t==='rate')x=Math.max(100,r*(1+(difficulty==='kolay'?.12:difficulty==='zor'?.48:.28)));
- if(t==='ready')x=Math.max(1000,r*(difficulty==='kolay'?18:difficulty==='zor'?70:38));
- if(t==='chest')x=state.stats.chest+Math.max(1,Math.round((difficulty==='zor'?4:2)*scale));
- if(t==='levels')x=missionValue('levels')+Math.max(6,Math.floor((8+b/9)*scale));
- if(t==='spend')x=state.stats.spend+Math.max(2500,r*(difficulty==='kolay'?28:difficulty==='zor'?115:65));
- if(t==='auto')x=state.stats.autoCollect+Math.max(2500,r*(difficulty==='kolay'?24:difficulty==='zor'?90:52));
- if(t==='events')x=state.events.reports.length+(difficulty==='zor'?2:1);
- if(t==='multiplier')x=Math.min(MAX.multiplier,state.multiplierLevel+1);
- if(t==='branches')x=Math.min(allDistricts().length*MAX.branchesPerDistrict,missionValue('branches')+1);
- if(t==='jackpot')x=state.jackpotCount+1;
- const rw=missionRewards(t,difficulty,special);
- return{type:t,target:x,rewardCash:rw.rewardCash,rewardXp:rw.rewardXp,label:missionLabel(t,x),difficulty:special?'özel':difficulty,focus:special?profile.focus:'',special:!!special,balanceVersion:ECONOMY_VERSION,smartVersion:SMART_MISSION_VERSION};
-}
-function eligibleMissionTypes(){const open=allBranches().filter(x=>x.b.unlocked);return missionTypes.filter(t=>!(t==='open'&&state.stats.open>=allDistricts().length)&&!(t==='brand'&&state.brandLevel>=MAX.brand)&&!(t==='upgrade'&&open.every(x=>x.b.level>=MAX.branch))&&!(t==='manager'&&open.every(x=>x.b.manager>=MAX.manager))&&!(t==='staff'&&open.every(x=>x.b.staff>=MAX.staff))&&!(t==='portfolio'&&open.every(x=>x.b.portfolio>=MAX.portfolio))&&!(t==='multiplier'&&state.multiplierLevel>=MAX.multiplier)&&!(t==='branches'&&open.length>=allDistricts().length*MAX.branchesPerDistrict)&&!(t==='jackpot'&&state.brandLevel<8))}
-function ensureMissions(){
- const profile=missionEcosystemProfile(),layout=['kolay','kolay','orta','orta','zor','özel'];
- const oldValid=(state.missions||[]).every(m=>m&&m.smartVersion===SMART_MISSION_VERSION&&m.balanceVersion===ECONOMY_VERSION);
- if(!oldValid)state.missions=[];
- state.missions=(state.missions||[]).filter(m=>validMission(m)&&missionValue(m.type)<m.target).slice(0,6);
- while(state.missions.length<6){
-  const slot=state.missions.length,difficulty=layout[slot],special=difficulty==='özel';
-  let choices=eligibleMissionTypes().filter(t=>!state.missions.some(m=>m.type===t));
-  if(!choices.length)choices=eligibleMissionTypes();if(!choices.length)break;
-  const weights=missionTypeWeights(profile,difficulty,special),recent=[...(profile.recent||[]),...state.missions.map(m=>m.type)];
-  const t=weightedMissionType(choices,weights,recent);
-  state.missions.push(makeMission(t,special?'orta':difficulty,special,profile));
- }
-}
-function checkMissions(){let c=false;for(let i=state.missions.length-1;i>=0;i--){const m=state.missions[i];if(missionValue(m.type)>=m.target){state.cash+=m.rewardCash;addBrandXp(m.rewardXp);state.missionHistory=(state.missionHistory||[]).concat(m.type).slice(-12);state.missions.splice(i,1);state.missionSeries++;c=true;bigNotify('✅',m.special?'Özel görev tamamlandı':'Görev tamamlandı',m.label+' • '+fmt(m.rewardCash)+' • +'+plain(m.rewardXp)+' EXP')}}if(c){ensureMissions();if(currentPage==='missions')renderMissions();save()}}
-function automationRule(m){if(m>=50)return{threshold:.25,interval:2};if(m>=40)return{threshold:.35,interval:3};if(m>=30)return{threshold:.45,interval:4};if(m>=25)return{threshold:.55,interval:5};if(m>=15)return{threshold:.70,interval:7};if(m>=10)return{threshold:.80,interval:9};if(m>=5)return{threshold:.90,interval:12};return null}
-function runAutomation(force=false){const t=now();let total=0,count=0;for(const x of allBranches()){if(!x.b.unlocked)continue;const r=automationRule(x.b.manager);if(!r)continue;const cap=capacity(x.city,x.i,x.j);if(!force&&x.b.stored<cap*r.threshold)continue;if(!force&&t-num(x.b.lastAuto)<r.interval*1000)continue;if(x.b.stored<1)continue;total+=x.b.stored;x.b.stored=0;x.b.lastAuto=t;count++}if(total>0){state.cash+=total;state.stats.collect+=total;state.stats.autoCollect+=total}state.lastAutoSweep=t;return{total,count}}
-function burstProtectionActive(){return temporaryMultiplier()>1}
-function sweepBurstProtection(t=now()){if(!burstProtectionActive()||t-lastBurstSweep<500)return{total:0,count:0};let total=0,count=0;for(const x of allBranches()){if(!x.b.unlocked||x.b.stored<1)continue;total+=x.b.stored;x.b.stored=0;x.b.lastAuto=t;count++}if(total>0){state.cash+=total;state.stats.collect+=total;state.stats.autoCollect+=total}lastBurstSweep=t;state.lastAutoSweep=t;return{total,count}}
-function collectAll(){const a=readyTotal();if(a<1){setInfo('💤','Kasalar boş','Şubeler para biriktiriyor.');return}for(const x of allBranches())x.b.stored=0;state.cash+=a;state.stats.collect+=a;const collectedSeconds=a/Math.max(1,economyRate());addBrandXp(economyXp(clamp(collectedSeconds/5400,.0015,.02),2,.02));setInfo('💰','Akıllı toplama',fmt(a)+' ana kasaya aktarıldı.');checkMissions();renderAll();save({force:true})}
-function smartUpgradeContext(){
- const open=allBranches().filter(x=>x.b.unlocked),count=Math.max(1,open.length),rate=Math.max(1,economyRate());
- const avgLevel=open.reduce((s,x)=>s+x.b.level,0)/count;
- const avgManager=open.reduce((s,x)=>s+x.b.manager,0)/count;
- const avgStaff=open.reduce((s,x)=>s+x.b.staff,0)/count;
- const avgPortfolio=open.reduce((s,x)=>s+x.b.portfolio,0)/count;
- const maxed=open.reduce((n,x)=>n+(branchFullyMaxed(x.b)?1:0),0);
- const openRatio=open.length/Math.max(1,allDistricts().length*MAX.branchesPerDistrict);
- const progress=clamp((avgLevel/MAX.branch)*.52+(avgManager/MAX.manager)*.16+(avgStaff/MAX.staff)*.16+(avgPortfolio/MAX.portfolio)*.16,0,1);
- let cheapest=Infinity;
- for(const x of open){const b=x.b;if(b.level<MAX.branch)cheapest=Math.min(cheapest,branchCost(x.city,x.i,x.j));if(b.manager<MAX.manager)cheapest=Math.min(cheapest,managerCost(x.city,x.i,x.j));if(b.staff<MAX.staff)cheapest=Math.min(cheapest,staffCost(x.city,x.i,x.j));if(b.portfolio<MAX.portfolio)cheapest=Math.min(cheapest,portfolioCost(x.city,x.i,x.j))}
- const paybackSec=Number.isFinite(cheapest)?cheapest/rate:0;
- let difficulty='Rahat',reserve=.12,ops=180;
- if(paybackSec>900){difficulty='Kritik';reserve=.45;ops=70}
- else if(paybackSec>420){difficulty='Zor';reserve=.32;ops=100}
- else if(paybackSec>150){difficulty='Normal';reserve=.22;ops=135}
- if(progress>.82){reserve=Math.max(reserve,.28);ops=Math.min(ops,120)}
- return{open,count,rate,avgLevel,avgManager,avgStaff,avgPortfolio,maxed,openRatio,progress,paybackSec,difficulty,reserve,ops};
-}
-function candidateActions(ctx=smartUpgradeContext(),budget=state.cash){
- const actions=[],open=ctx.open,avg={level:ctx.avgLevel,manager:ctx.avgManager,staff:ctx.avgStaff,portfolio:ctx.avgPortfolio};
- const stage=ctx.progress<.22?'başlangıç':ctx.progress<.58?'büyüme':ctx.progress<.84?'ileri':'tamamlama';
- const stageWeight={
-  başlangıç:{level:1.34,manager:.92,staff:1.16,portfolio:.72,open:.78},
-  büyüme:{level:1.08,manager:1.08,staff:1.10,portfolio:.94,open:1.05},
-  ileri:{level:.94,manager:1.10,staff:1.06,portfolio:1.18,open:.92},
-  tamamlama:{level:1.04,manager:1.12,staff:1.12,portfolio:1.25,open:.55}
- }[stage];
- const pressure=ctx.difficulty==='Kritik'?1.7:ctx.difficulty==='Zor'?1.35:ctx.difficulty==='Normal'?1.12:1;
- for(const city of CITIES)for(let i=0;i<state.city[city].length;i++){
-  const d=state.city[city][i],meta=DATA[city][i];
-  if(!d.unlocked){
-   const prev=i===0||state.city[city][i-1].unlocked&&state.city[city][i-1].branches[0].level>=Math.min(80,12+Math.floor(i*2.3));
-   const oc=districtOpenCost(city,i);
-   if(prev&&state.brandLevel>=meta.unlock&&budget>=oc){
-    const affordability=clamp(ctx.rate*900/Math.max(1,oc),.25,2.5);
-    actions.push({kind:'open',city,i,cost:oc,score:(stageWeight.open*affordability)/(1+i*.10),stage});
-   }
-   continue;
-  }
-  for(let j=0;j<d.branches.length;j++){
-   const b=d.branches[j],before=branchRate(city,i,j),nearMax=(b.level/MAX.branch+b.manager/MAX.manager+b.staff/MAX.staff+b.portfolio/MAX.portfolio)/4;
-   const add=(kind,cost,apply,undo,max,cur,avgCur,balanceWeight)=>{
-    if(cur>=max||budget<cost)return;
-    apply();const gain=Math.max(0,branchRate(city,i,j)-before);undo();
-    const roi=gain/Math.max(1,cost),payback=gain>0?cost/gain:1e12;
-    const balance=1+Math.max(0,avgCur-cur)*balanceWeight;
-    const finish=nearMax>.78?(1+nearMax*.65):1;
-    const cheap=1+clamp((ctx.rate*300)/Math.max(1,cost),0,1.25)*(.35*pressure);
-    const survival=1/(1+Math.max(0,payback-300)/1200*pressure);
-    const score=roi*1e9*stageWeight[kind]*balance*finish*cheap*survival;
-    actions.push({kind,city,i,j,cost,score,stage,gain,payback});
-   };
-   add('level',branchCost(city,i,j),()=>b.level++,()=>b.level--,MAX.branch,b.level,avg.level,.035);
-   add('manager',managerCost(city,i,j),()=>b.manager++,()=>b.manager--,MAX.manager,b.manager,avg.manager,.055);
-   add('staff',staffCost(city,i,j),()=>b.staff++,()=>b.staff--,MAX.staff,b.staff,avg.staff,.038);
-   add('portfolio',portfolioCost(city,i,j),()=>b.portfolio++,()=>b.portfolio--,MAX.portfolio,b.portfolio,avg.portfolio,.075);
-  }
- }
- return actions;
-}
-function smartUpgrade(){
- const ctx=smartUpgradeContext(),startCash=state.cash,minReserve=Math.floor(startCash*ctx.reserve),maxSpend=Math.max(0,startCash-minReserve);
- let ops=0,spent=0,newBranches=0,structureChanged=false,kindCount={level:0,manager:0,staff:0,portfolio:0,open:0};
- while(ops<ctx.ops&&spent<maxSpend){
-  const available=Math.max(0,maxSpend-spent),list=candidateActions(ctx,Math.min(state.cash,available));
-  if(!list.length)break;
-  let p=list[0];for(let q=1;q<list.length;q++)if(list[q].score>p.score)p=list[q];
-  if(p.cost>available||p.cost>state.cash)break;
-  state.cash-=p.cost;spent+=p.cost;ops++;kindCount[p.kind]=(kindCount[p.kind]||0)+1;
-  if(p.kind==='open'){
-   const d=state.city[p.city][p.i];d.unlocked=true;d.branches=[freshBranch(true)];d.activeBranch=0;state.stats.open++;structureChanged=true;
-  }else{
-   const b=branchAt(p.city,p.i,p.j);b[p.kind==='level'?'level':p.kind]++;state.stats[p.kind==='level'?'upgrade':p.kind]++;
-   if(p.kind==='level'&&b.level===BRANCH_UNLOCK_LEVEL){const d=state.city[p.city][p.i];if(d.branches.length<MAX.branchesPerDistrict){d.branches.push(freshBranch(true));d.activeBranch=d.branches.length-1;newBranches++;structureChanged=true}}
-  }
- }
- if(structureChanged)invalidateBranchCache();
- if(!ops){setInfo('⬆️','Yükseltme bekliyor',ctx.difficulty+' ekonomi • uygun bütçeli yükseltme yok.');return}
- state.stats.spend+=spent;
- const investedSeconds=spent/Math.max(1,economyRate());addBrandXp(economyXp(clamp(.006+ops*.00045+investedSeconds/150000,.006,.05),3,.05));
- const focus=Object.entries(kindCount).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1])[0]?.[0]||'level';
- const focusName={level:'Şube',manager:'Yönetici',staff:'Personel',portfolio:'Portföy',open:'Yeni ilçe'}[focus];
- setInfo('⚡','Akıllı yükseltme • '+ctx.difficulty,ops+' işlem • '+fmt(spent)+' • Odak: '+focusName+' • Rezerv %'+Math.round(ctx.reserve*100));
- if(newBranches)bigNotify('🏪','Yeni şube açıldı',newBranches+' adet yeni şube faaliyete geçti.');
- checkMissions();renderAll();save();
-}
-function weightedChest(){const r=Math.random();if(r<.50)return{name:'Bronz',icon:'📦',rank:1,mult:5};if(r<.78)return{name:'Gümüş',icon:'🎁',rank:2,mult:10};if(r<.94)return{name:'Altın',icon:'🪙',rank:3,mult:25};if(r<.99)return{name:'Epic',icon:'💎',rank:4,mult:50};return{name:'Legend',icon:'👑',rank:5,mult:100}}
-function chestEcosystemProfile(){
- const open=activeOpenBranches(),rate=Math.max(1,economyRate());let cheapest=Infinity;
- for(const x of open){const b=x.b;if(b.level<MAX.branch)cheapest=Math.min(cheapest,branchCost(x.city,x.i,x.j));if(b.manager<MAX.manager)cheapest=Math.min(cheapest,managerCost(x.city,x.i,x.j));if(b.staff<MAX.staff)cheapest=Math.min(cheapest,staffCost(x.city,x.i,x.j));if(b.portfolio<MAX.portfolio)cheapest=Math.min(cheapest,portfolioCost(x.city,x.i,x.j))}
- if(!Number.isFinite(cheapest))cheapest=rate*60;
- const cashSeconds=state.cash/rate,cashScore=clamp(1.55-cashSeconds/240,.35,2.25)+clamp(cheapest/Math.max(1,state.cash),0,2)*.35;
- const xpProgress=state.brandLevel>=MAX.brand?1:clamp(state.brandXp/Math.max(1,brandNeed()),0,1),xpScore=state.brandLevel>=MAX.brand?.12:clamp(1.55-xpProgress,.45,1.65);
- const partProgress=state.multiplierLevel>=MAX.multiplier?1:clamp(state.multiplierParts/Math.max(1,multiplierNeed()),0,1),partsScore=state.multiplierLevel>=MAX.multiplier?.12:clamp(1.50-partProgress,.45,1.60)+(state.multiplierLevel<Math.floor(state.brandLevel/8)?.25:0);
- const branch1=open.filter(x=>x.j===0&&x.b.level<MAX.branch),near=branch1.filter(x=>x.b.level>=400).length,levelScore=branch1.length?clamp(.28+(near/branch1.length)*2.4+(branch1.some(x=>x.b.level>=475)?.55:0),.28,2.35):.05;
- return{scores:{cash:cashScore,xp:xpScore,parts:partsScore,level:levelScore},rate,need:Math.max(1,brandNeed())}
-}
-function chooseWeightedFocus(scores){const entries=Object.entries(scores).filter(([,v])=>v>0),total=entries.reduce((a,[,v])=>a+v,0);let r=Math.random()*total;for(const[k,v]of entries){r-=v;if(r<=0)return k}return entries[0]?.[0]||'cash'}
-function branchOneChestTarget(){return activeOpenBranches().filter(x=>x.j===0&&x.b.level<MAX.branch).sort((a,b)=>b.b.level-a.b.level||a.i-b.i)[0]||null}
-function chestFocusName(k){return{cash:'Gelir',xp:'Marka EXP',parts:'Kalıcı parça',level:'Şube 1'}[k]||'Dengeli'}
-function softenOfflineBurst(raw){raw=Math.max(1,num(raw,1));if(raw<=OFFLINE_BURST_SOFT_CAP)return raw;return Math.min(OFFLINE_BURST_HARD_CAP,Math.floor(OFFLINE_BURST_SOFT_CAP+Math.sqrt(raw-OFFLINE_BURST_SOFT_CAP)*20))}
-function jackpotActive(){return state.multipliers.some(m=>m.label==='jackpot'&&m.until>now())}
-function jackpotChance(){const n=state.jackpotPity+1;if(n>=JACKPOT_GUARANTEE)return 1;if(n<15)return.0025;return Math.min(.72,.04+(n-15)*.075)}
-function chooseJackpotTier(){let r=Math.random()*JACKPOT_TIERS.reduce((a,x)=>a+x.weight,0);for(const tier of JACKPOT_TIERS){r-=tier.weight;if(r<=0)return tier}return JACKPOT_TIERS[0]}
-function rollJackpot(a=true){if(jackpotActive())return null;if(Math.random()>=jackpotChance()){state.jackpotPity=Math.min(JACKPOT_GUARANTEE-1,state.jackpotPity+1);return null}state.jackpotPity=0;state.jackpotCount++;const tier=chooseJackpotTier();if(a)state.multipliers.push({value:tier.value,until:now()+tier.duration,label:'jackpot'});return tier}
-function grantZeroaltiChestReward(){
- const pool=['hour','all5','selected25','xp','parts','storm'],kind=pool[randInt(0,pool.length-1)],rate=Math.max(1,economyRate());let title='',sub='';
- if(kind==='hour'){const amount=rate*3600;state.cash+=amount;title='1 saatlik net gelir';sub=fmt(amount)}
- else if(kind==='all5'){let added=0,converted=0;for(const x of activeOpenBranches()){const r=addBranchLevels(x,5);added+=r.added;converted+=r.converted*rate*60}if(converted)state.cash+=converted;invalidateBranchCache();title='Tüm açık şubelere +5';sub=added+' seviye'+(converted?' • fazlası '+fmt(converted):'')}
- else if(kind==='selected25'){const x=selectedBranchRef();let added=0,converted=0;if(x){const r=addBranchLevels(x,25);added=r.added;converted=r.converted*rate*60;if(converted)state.cash+=converted;invalidateBranchCache()}title='Seçili şubeye +25';sub=added+' seviye'+(converted?' • fazlası '+fmt(converted):'')}
- else if(kind==='xp'){const gain=Math.max(25,Math.floor(brandNeed()*.50));addBrandXp(gain);title='Marka EXP desteği';sub='+'+gain+' EXP'}
- else if(kind==='parts'){const gain=Math.max(10,Math.floor(multiplierNeed()*1.25));const levels=addMultiplierParts(gain);title='Kalıcı çarpan paketi';sub='+'+gain+' parça'+(levels?' • '+levels+' seviye':'')}
- else{state.multipliers=state.multipliers.filter(m=>m.until>now()&&m.label!=='zeroalti');state.multipliers.push({value:250,until:now()+60000,label:'zeroalti'});title='sıfıraltı.co Fırtınası';sub='x250 gelir • 60 saniye'}
- bigNotify('❄️','SIFIRALTI.CO SANDIĞI',title+' • '+sub);return{title,sub}
-}
-function openChest(count=1,offline=false){
- count=Math.max(1,Math.min(MAX_OFFLINE_CHESTS,Math.floor(num(count,1))));
- let cash=0,xp=0,parts=0,branchLevels=0,best=null,jackpots=[],zeroalti=0,regular=0,bestMult=1,burst=0,offlineJackpotUsed=false;
- const profile=chestEcosystemProfile(),rateSnapshot=profile.rate,needSnapshot=profile.need,focusCounts={cash:0,xp:0,parts:0,level:0};
- for(let k=0;k<count;k++){
-  const gotJackpot=!offlineJackpotUsed&&rollJackpot(!offline);
-  if(gotJackpot){jackpots.push(gotJackpot);if(offline){offlineJackpotUsed=true;burst+=gotJackpot.value}else continue}
-  if(!offline&&Math.random()<ZEROALTI_CHEST_CHANCE){zeroalti++;grantZeroaltiChestReward()}
-  const c=weightedChest(),focus=chooseWeightedFocus(profile.scores);focusCounts[focus]++;
-  regular++;best=!best||c.rank>best.rank?c:best;if(offline)burst+=c.mult;else bestMult=Math.max(bestMult,c.mult);
-  const eco=ECO.chest[c.name]||ECO.chest.Bronz,boost=focus==='cash'?1.95:.72;
-  cash+=Math.max(1000,rateSnapshot*eco[0])*ECOSYSTEM_REWARD_MULTIPLIER*boost;
-  xp+=Math.max(2,Math.floor(needSnapshot*eco[1]))*ECOSYSTEM_REWARD_MULTIPLIER*(focus==='xp'?2.05:.72);
-  parts+=Math.max(1,Math.floor(multiplierNeed()*eco[2]*ECOSYSTEM_REWARD_MULTIPLIER*PERMANENT_PARTS_REWARD_MULTIPLIER*(focus==='parts'?2.05:.72)));
-  if(focus==='level'){
-   const chance=[0,.12,.24,.45,.75,1][c.rank]||0;
-   if(Math.random()<chance)branchLevels+=Math.max(1,[0,1,1,2,3,5][c.rank]||1)
-  }
- }
- if(offline&&burst>1){const t=now();burst=softenOfflineBurst(burst);state.multipliers=state.multipliers.filter(m=>m.until>t&&!['offline','jackpot','chest'].includes(m.label));state.multipliers.push({value:burst,until:t+30000,label:'offline'})}
- else if(!offline&&bestMult>1)state.multipliers.push({value:bestMult,until:now()+30000,label:'chest'});
- state.cash+=cash;addBrandXp(xp);state.stats.chest+=count;const levels=addMultiplierParts(parts);
- let addedBranchLevels=0;if(branchLevels>0){let left=branchLevels;while(left>0){const target=branchOneChestTarget();if(!target)break;const r=addBranchLevels(target,left);addedBranchLevels+=r.added;left=r.converted;if(r.added===0)break}invalidateBranchCache()}
- const dominant=Object.entries(focusCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||'cash';
- if(regular)setInfo(best.icon,(offline?regular+' çevrimdışı ':'')+best.name+' sandık',fmt(cash)+' • +'+xp+' EXP • +'+parts+' parça'+(addedBranchLevels?' • Şube 1 +'+addedBranchLevels:'')+' • Odak: '+chestFocusName(dominant));
- if(offline&&burst>1)bigNotify('⚡','ÇEVRİMDIŞI PATLAMA','x'+multiplierText(burst)+' gelir • 30 saniye');
- if(jackpots.length&&!offline){const tier=jackpots[jackpots.length-1];bigNotify('⚡','JACKPOT SANDIĞI','x'+multiplierText(tier.value)+' gelir • '+Math.ceil(tier.duration/1000)+' saniye')}
- if(addedBranchLevels)bigNotify('🏪','SANDIK ŞUBE DESTEĞİ','Şube 1 seviyelerine toplam +'+addedBranchLevels);
- if(levels)bigNotify('✦','Marka Çarpanı yükseldi','Lv.'+state.multiplierLevel);
- checkMissions()
-}
-function offlineMultiplierAverage(a,b){if(b<=a)return 1;const rel=state.multipliers.filter(m=>m.until>a),pts=[a,b,...rel.map(m=>clamp(m.until,a,b))].sort((x,y)=>x-y);let w=0;for(let i=0;i<pts.length-1;i++){const x=pts[i],y=pts[i+1],mid=(x+y)/2,m=rel.reduce((v,z)=>z.until>mid?Math.max(v,z.value):v,1);w+=m*(y-x)}return permanentMultiplier()*w/(b-a)}
-function accrueUntil(t=now()){
- const elapsed=Math.max(0,t-lastTick);
- if(elapsed<50)return;
- const seconds=Math.min(elapsed,OFFLINE_CAP)/1000,avg=offlineMultiplierAverage(lastTick,t);
- for(const x of allBranches())if(x.b.unlocked)x.b.stored=Math.min(capacity(x.city,x.i,x.j),x.b.stored+branchRateBase(x.city,x.i,x.j)*avg*seconds);
- normalizeStored();
- runAutomation(true);
- lastTick=t;
-}
-function smartSuspendSave(){
- if(!state)return;
- accrueUntil(now());
- state.ui={activeCity,currentPage,scrollY:Math.max(0,Math.round(window.scrollY||0))};
- save();
-}
-function applyOffline(){const t=now(),start=Math.max(t-OFFLINE_CAP,num(state.lastSave,t)),elapsed=t-start;if(elapsed>2500){const avg=offlineMultiplierAverage(start,t);for(const x of allBranches())if(x.b.unlocked)x.b.stored=Math.min(capacity(x.city,x.i,x.j),x.b.stored+branchRateBase(x.city,x.i,x.j)*avg*elapsed/1000);normalizeStored();const auto=runAutomation(true),due=Math.max(0,Math.floor((t-state.lastChest)/CHEST_MS)),chests=Math.min(MAX_OFFLINE_CHESTS,due);if(chests){openChest(chests,true);state.lastChest+=chests*CHEST_MS}state.multipliers=state.multipliers.filter(m=>m.until>t);bigNotify('🕒','Çevrimdışı gelir',Math.floor(elapsed/60000)+' dk işlendi'+(auto.total?' • '+fmt(auto.total)+' toplandı':''))}state.lastSave=t}
-let miniGameRuntime=null;
-function scheduleNextMiniGame(){if(!state.miniGame)state.miniGame={nextAt:0,lastType:'',wins:0};state.miniGame.nextAt=now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS)}
-function activeOpenBranches(){return allBranches().filter(x=>x.b.unlocked)}
-function addBranchLevels(x,amount){if(!x||!x.b)return{added:0,converted:amount};const before=x.b.level,added=Math.min(amount,MAX.branch-before);x.b.level+=added;let converted=amount-added;if(before<BRANCH_UNLOCK_LEVEL&&x.b.level>=BRANCH_UNLOCK_LEVEL){const d=state.city[x.city][x.i];if(d.branches.length<MAX.branchesPerDistrict){d.branches.push(freshBranch(true));d.activeBranch=d.branches.length-1;bigNotify('🏪','Yeni şube açıldı',DATA[x.city][x.i].name+' • Şube '+d.branches.length)}}return{added,converted}}
-function selectedBranchRef(){const list=state.city[activeCity];for(let i=0;i<list.length;i++)if(list[i].unlocked){const j=clamp(list[i].activeBranch,0,list[i].branches.length-1);return{city:activeCity,i,j,b:list[i].branches[j]}}return activeOpenBranches()[0]||null}
-function grantMiniGameReward(){const pool=['hour','burst','all5','selected25','xp','parts'],kind=pool[randInt(0,pool.length-1)],rate=economyRate();let title='',sub='';if(kind==='hour'){const amount=rate*3600;state.cash+=amount;title='1 saatlik gelir';sub=fmt(amount)}else if(kind==='burst'){state.multipliers=state.multipliers.filter(m=>m.until>now()&&m.label!=='minigame');state.multipliers.push({value:5000,until:now()+10000,label:'minigame'});title='x5000 patlama';sub='10 saniye'}else if(kind==='all5'){let added=0,converted=0;for(const x of activeOpenBranches()){const r=addBranchLevels(x,5);added+=r.added;if(r.converted)converted+=r.converted*rate*60}if(converted)state.cash+=converted;invalidateBranchCache();title='Tüm açık şubeler +5';sub=added+' seviye'+(converted?' • fazlası '+fmt(converted):'')}else if(kind==='selected25'){const x=selectedBranchRef();let added=0,converted=0;if(x){const r=addBranchLevels(x,25);added=r.added;converted=r.converted*rate*60;if(converted)state.cash+=converted;invalidateBranchCache()}title='Seçili şube +25';sub=added+' seviye'+(converted?' • fazlası '+fmt(converted):'')}else if(kind==='xp'){const gain=Math.max(10,Math.floor(brandNeed()*.25));addBrandXp(gain);title='Marka EXP';sub='+'+gain+' EXP'}else{const gain=Math.max(5,Math.floor(multiplierNeed()*.75));const levels=addMultiplierParts(gain);title='Kalıcı çarpan parçası';sub='+'+gain+' parça'+(levels?' • '+levels+' seviye':'')}state.miniGame.wins++;bigNotify('🎁',title,sub);checkMissions();renderAll();save()}
-function endMiniGame(success){if(!miniGameRuntime)return;clearInterval(miniGameRuntime.timer);clearInterval(miniGameRuntime.anim);miniGameRuntime=null;$('miniGameOverlay').classList.add('hidden');$('miniGameAction').classList.add('hidden');$('miniGameAction').onclick=null;scheduleNextMiniGame();if(success)grantMiniGameReward();else bigNotify('⌛','Fırsat kaçtı','Bir sonraki operasyonu bekle.');save()}
-function startTapGame(){let taps=0;const area=$('miniGameArea');$('miniGameText').textContent='Hareket eden simgeye 10 kez dokun.';$('miniGameProgress').textContent='0 / 10';area.innerHTML='<button class="tapTarget" id="tapTarget" type="button">☕</button>';const target=$('tapTarget');const move=()=>{target.style.left=randInt(12,88)+'%';target.style.top=randInt(15,85)+'%'};target.addEventListener('click',()=>{taps++;$('miniGameProgress').textContent=taps+' / 10';move();if(taps>=10)endMiniGame(true)});move();miniGameRuntime.anim=setInterval(move,750)}
-function startChoiceGame(){const symbols=['☕','🥤','🍰'],correct=randInt(0,2);$('miniGameText').textContent='Farklı renkte parlayan doğru ürünü seç.';$('miniGameProgress').textContent='Tek seçim hakkı';$('miniGameArea').innerHTML='<div class="choiceGrid">'+symbols.map((x,i)=>`<button class="choiceBtn" data-choice="${i}" type="button" style="${i===correct?'border-color:var(--cyan);color:var(--cyan)':''}">${x}</button>`).join('')+'</div>';document.querySelectorAll('[data-choice]').forEach(b=>b.addEventListener('click',()=>endMiniGame(+b.dataset.choice===correct)))}
-function startTimingGame(){let pos=0,dir=1;$('miniGameText').textContent='İbre yeşil alandayken durdur.';$('miniGameProgress').textContent='Hedef: orta bölge';$('miniGameArea').innerHTML='<div class="timingWrap"><div class="timingTrack"><div class="timingZone"></div><div class="timingNeedle" id="timingNeedle"></div></div></div>';$('miniGameAction').classList.remove('hidden');miniGameRuntime.anim=setInterval(()=>{pos+=dir*2.6;if(pos>=100){pos=100;dir=-1}else if(pos<=0){pos=0;dir=1}$('timingNeedle').style.left=pos+'%'},30);$('miniGameAction').onclick=()=>endMiniGame(pos>=40&&pos<=60)}
-function startMiniGame(){if(miniGameRuntime||document.hidden||!state?.nickname)return;const types=['tap','choice','timing'].filter(x=>x!==state.miniGame.lastType),type=types[randInt(0,types.length-1)];state.miniGame.lastType=type;$('miniGameOverlay').classList.remove('hidden');$('miniGameTitle').textContent='Fırsat Operasyonu';$('miniGameTimer').textContent='00:12';$('miniGameAction').classList.add('hidden');miniGameRuntime={type,endAt:now()+12000,timer:null,anim:null};if(type==='tap')startTapGame();else if(type==='choice')startChoiceGame();else startTimingGame();miniGameRuntime.timer=setInterval(()=>{if(!miniGameRuntime)return;const left=Math.max(0,miniGameRuntime.endAt-now());$('miniGameTimer').textContent='00:'+String(Math.ceil(left/1000)).padStart(2,'0');if(left<=0)endMiniGame(false)},100)}
-function maybeStartMiniGame(){if(!state.miniGame)scheduleNextMiniGame();if(!miniGameRuntime&&!document.hidden&&now()>=state.miniGame.nextAt)startMiniGame()}
-function eventXpPercent(abroad,factor){const factors=abroad?[20,32,48]:[5,8,12],xp=abroad?ECO.event.abroadXp:ECO.event.domesticXp;let idx=factors.indexOf(Number(factor));if(idx<0)idx=0;return xp[idx]}function normalizedEventXp(e){return economyXp(eventXpPercent(!!e.abroad,e.factor),30,.12)}function normalizeEventXpData(e){if(!e)return e;return{...e,rewardXp:normalizedEventXp(e),balanceVersion:EVENT_BALANCE_VERSION}}function validEventOffer(e){return e&&e.id&&e.name&&num(e.cost)>0&&num(e.rewardCash)>=num(e.cost)*5&&num(e.duration)>0}function validActiveEvent(e){return validEventOffer(e)&&num(e.startedAt)>0&&num(e.endsAt)>0}
-function eventScale(){return Math.max(5000,economyRate()*3600)}
-const EVENT_BALANCE_VERSION=11;
-const EVENT_TIERS={domestic:[{hours:6,cost:0.75,factor:5},{hours:9,cost:1.5,factor:8},{hours:12,cost:3,factor:12}],abroad:[{hours:12,cost:1.5,factor:20},{hours:18,cost:3,factor:32},{hours:24,cost:6,factor:48}]};
-function makeEventOffer(idx){const abroad=Math.random()<.16,tiers=abroad?EVENT_TIERS.abroad:EVENT_TIERS.domestic,tier=tiers[clamp(idx,0,tiers.length-1)],generatedScale=eventScale(),generatedRate=economyRate();let cost=Math.max(1000,Math.floor(generatedScale*tier.cost));const duration=tier.hours*3600000,factor=tier.factor,names=abroad?EVENT_ABROAD:EVENT_DOMESTIC;return{id:'ev_'+now()+'_'+idx+'_'+Math.random().toString(36).slice(2,7),name:names[randInt(0,names.length-1)],abroad,duration,cost,rewardCash:Math.floor(cost*factor*ECOSYSTEM_REWARD_MULTIPLIER),rewardXp:economyXp(abroad?ECO.event.abroadXp[idx]:ECO.event.domesticXp[idx],30,.12),rewardParts:economyParts(abroad?ECO.event.abroadParts[idx]:ECO.event.domesticParts[idx],3),factor,generatedAt:now(),generatedRate,generatedScale,brandAt:state.brandLevel,balanceVersion:EVENT_BALANCE_VERSION}}
-function ensureEventOffers(){if(state.events.active)return;const offers=state.events.offers,currentScale=eventScale(),currentRate=economyRate(),invalid=!Array.isArray(offers)||offers.length!==3||offers.some(e=>e.balanceVersion!==EVENT_BALANCE_VERSION);let stale=invalid;if(!stale&&offers.length){const baseScale=Math.max(1,num(offers[0].generatedScale,0)),baseRate=Math.max(1,num(offers[0].generatedRate,0)),madeAt=num(offers[0].generatedAt,0),brandAt=num(offers[0].brandAt,state.brandLevel);stale=currentScale>=baseScale*1.35||currentScale<=baseScale*.72||currentRate>=baseRate*1.35||currentRate<=baseRate*.72||Math.abs(state.brandLevel-brandAt)>=3||now()-madeAt>=15*60*1000}if(stale)state.events.offers=[0,1,2].map(makeEventOffer)}
-function startEvent(id){if(state.events.active)return;const e=state.events.offers.find(x=>x.id===id);if(!e)return;if(state.cash<e.cost){setInfo('⚠️','Yetersiz kasa',fmt(e.cost)+' gerekiyor.');return}state.cash-=e.cost;state.stats.spend+=e.cost;state.events.active={...e,startedAt:now(),endsAt:now()+e.duration};state.events.offers=[];bigNotify('🎪','ETKİNLİK BAŞLADI',e.name+' • '+formatDuration(e.duration));renderAll();save()}
-function completeEventIfDue(){const e=state.events.active;if(!e||now()<e.endsAt)return false;state.cash+=e.rewardCash;addBrandXp(e.rewardXp);const levels=addMultiplierParts(e.rewardParts);state.events.reports.unshift({name:e.name,abroad:e.abroad,cost:e.cost,rewardCash:e.rewardCash,net:e.rewardCash-e.cost,rewardXp:e.rewardXp,rewardParts:e.rewardParts,completedAt:now()});state.events.reports=state.events.reports.slice(0,10);state.events.active=null;state.events.offers=[0,1,2].map(makeEventOffer);bigNotify('✨','ETKİNLİK TAMAMLANDI',e.name+' • '+fmt(e.rewardCash)+' • +'+plain(e.rewardXp)+' EXP • +'+e.rewardParts+' parça');if(levels)bigNotify('✦','Marka Çarpanı yükseldi','Lv.'+state.multiplierLevel);save();return true}
-function formatDuration(ms){const h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),s=Math.floor(ms%60000/1000);return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
-function tick(dt){completeEventIfDue();maybeStartMiniGame();const t=now(),temp=temporaryMultiplier(),protection=temp>1,perm=permanentMultiplier();let overflow=0;for(const x of allBranches())if(x.b.unlocked){const cap=capacity(x.city,x.i,x.j),gain=branchRateBase(x.city,x.i,x.j)*perm*temp*dt,next=x.b.stored+gain;if(protection&&next>cap){overflow+=next-cap;x.b.stored=cap}else x.b.stored=Math.min(cap,next)}if(overflow>0){state.cash+=overflow;state.stats.collect+=overflow;state.stats.autoCollect+=overflow}if(protection)sweepBurstProtection(t);else if(t-num(state.lastAutoSweep)>=1000)runAutomation();const due=Math.floor((t-state.lastChest)/CHEST_MS);if(due>0){const p=Math.min(due,5);openChest(p);state.lastChest+=p*CHEST_MS}if(t-lastMissionCheck>=1000){checkMissions();lastMissionCheck=t}renderTop();renderLive();if(currentPage==='events'&&t-lastEventRender>=1000){renderEvents();lastEventRender=t}if(currentPage==='map'&&t-lastMapRender>=1000){renderMap();lastMapRender=t}}
-let nextFrameAt=0,lastLoopErrorAt=0;function loop(t){try{if(!document.hidden&&t>=nextFrameAt){const current=now(),dt=clamp((current-lastTick)/1000,0,1);lastTick=current;tick(dt);nextFrameAt=t+250}}catch(err){console.error('Oyun döngüsü hatası:',err);if(now()-lastLoopErrorAt>5000){lastLoopErrorAt=now();setInfo('🛠️','Oyun döngüsü toparlandı','Bir arayüz hatası yakalandı; oyun çalışmaya devam ediyor.')}}finally{requestAnimationFrame(loop)}}
-function setInfo(i,t,s){bigNotify(i,t,s)}
-let hudQueue=[],hudBusy=false,hudTimer=null,lastHudKey='',lastHudAt=0;
-const MAX_HUD_QUEUE=8;
-let rewardBurstTimer=null;
-function showRewardBurst(icon,title,sub){const box=$('rewardBurst');if(!box)return;$('rewardBurstIcon').textContent=icon||'🎁';$('rewardBurstTitle').textContent=title||'ÖDÜL';$('rewardBurstSub').textContent=sub||'';box.classList.remove('hidden');clearTimeout(rewardBurstTimer);rewardBurstTimer=setTimeout(()=>box.classList.add('hidden'),2300)}
-function bigNotify(icon,title,sub){
- if(!state)return;
- const item={icon,title,sub,time:now()},key=String(icon||'')+'|'+String(title||'')+'|'+String(sub||'');
- if(key===lastHudKey&&item.time-lastHudAt<1500)return;
- lastHudKey=key;lastHudAt=item.time;
- if(['🎁','⚡','✨','🏆','✦'].includes(String(icon||''))||/JACKPOT|TAMAMLANDI|ÖDÜL|x5000|Marka seviyesi/i.test(String(title||'')))showRewardBurst(icon,title,sub);
- if(hudQueue.length>=MAX_HUD_QUEUE)hudQueue.splice(0,hudQueue.length-MAX_HUD_QUEUE+1);
- hudQueue.push(item);runHudQueue();
-}
-function renderHud(){if(!$('hudList')||!state)return;$('hudList').innerHTML=''}
-function runHudQueue(){if(hudBusy||!hudQueue.length||!$('hudList'))return;hudBusy=true;const x=hudQueue.shift();$('hudList').innerHTML=`<div class="hudMsg" id="hudCurrent"><div class="hudMsgIcon">${x.icon||'•'}</div><div><div class="hudMsgTitle">${x.title||''}</div>${x.sub?`<div class="hudMsgSub">${x.sub}</div>`:''}</div></div>`;const el=$('hudCurrent');requestAnimationFrame(()=>el&&el.classList.add('show'));clearTimeout(hudTimer);hudTimer=setTimeout(()=>{if(el){el.classList.remove('show');el.classList.add('hide')}setTimeout(()=>{$('hudList').innerHTML='';hudBusy=false;runHudQueue()},180)},820)}
-function seedHudQueue(){}
-function updateProfileUI(){if(!state)return;$('playerTag').textContent=saveHealthy?'OTOMATİK KAYIT ✓':'KAYIT HATASI'}
-function multiplierText(v){v=Math.round(num(v,1)*100)/100;return Number.isInteger(v)?String(v):v.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
+(() => {
+  const upgrades = [
+    {id:'drone', name:'Nano Drone', icon:'🛸', base:15, income:1, desc:'Her saniye enerji toplar.'},
+    {id:'lab', name:'Quantum Lab', icon:'🧪', base:120, income:8, desc:'Otonom araştırma geliri.'},
+    {id:'reactor', name:'Fusion Reactor', icon:'⚛️', base:950, income:52, desc:'Yüksek yoğunluklu üretim.'},
+    {id:'network', name:'Neural Network', icon:'🧠', base:7800, income:410, desc:'Kendi verimini optimize eder.'},
+    {id:'orbital', name:'Orbital Station', icon:'🛰️', base:62000, income:3200, desc:'Gezegen dışı pasif üretim.'},
+    {id:'singularity', name:'Singularity Core', icon:'🌌', base:520000, income:26000, desc:'Gerçekliği enerjiye çevirir.'}
+  ];
 
+  const defaultState = {
+    money:0, total:0, taps:0, level:1, xp:0, prestige:0,
+    tapLevel:1, critLevel:0, offlineLevel:0, boostUntil:0,
+    owned:{drone:0,lab:0,reactor:0,network:0,orbital:0,singularity:0},
+    lastSeen:Date.now()
+  };
+  let state = load();
 
-function renderTop(){
-  updateProfileUI();
-  const need=brandNeed(),pct=state.brandLevel>=MAX.brand?100:clamp(state.brandXp/need*100,0,100),t=now();
-  state.multipliers=state.multipliers.filter(m=>m.until>t);
-  const offlineTemp=state.multipliers.find(m=>m.label==='offline'),temp=offlineTemp||state.multipliers.reduce((a,m)=>!a||m.value>a.value?m:a,null),perm=permanentMultiplier();
-  $('brandLevel').textContent=state.brandLevel>=MAX.brand?'MAX':state.brandLevel;
-  $('brandXpText').textContent=state.brandLevel>=MAX.brand?'MAX':plain(state.brandXp)+'/'+plain(need);
-  $('brandBar').style.width=pct+'%';
-  if(temp){
-    $('permMultiplier').textContent=(temp.label==='offline'?'ÇEVRİMDIŞI':temp.label==='jackpot'?'JACKPOT':temp.label==='zeroalti'?'SIFIRALTI.CO':'AKTİF')+' x'+multiplierText(temp.value)+' • '+Math.ceil((temp.until-t)/1000)+'sn';
-    $('permParts').textContent='x'+multiplierText(perm*temp.value);
-  }else{
-    $('permMultiplier').textContent='x'+multiplierText(perm)+' • '+(state.multiplierLevel>=MAX.multiplier?'MAX':'Lv.'+state.multiplierLevel);
-    $('permParts').textContent=state.multiplierLevel>=MAX.multiplier?'MAX':plain(state.multiplierParts)+'/'+plain(multiplierNeed());
+  const $ = s => document.querySelector(s);
+  const moneyEl=$('#money'), perSecEl=$('#perSec'), tapPowerEl=$('#tapPower');
+  const toastEl=$('#toast'), modal=$('#modal'), sheet=$('#sheet');
+
+  function load(){
+    try{
+      const raw=localStorage.getItem('neonEmpireSave');
+      return raw ? {...defaultState,...JSON.parse(raw),owned:{...defaultState.owned,...JSON.parse(raw).owned}} : structuredClone(defaultState);
+    }catch(e){ return structuredClone(defaultState); }
   }
-  $('cash').textContent=fmt(state.cash);
-  $('rate').textContent=fmt(totalRate());
-  $('ready').textContent=fmt(readyTotal());
-  if(t-lastUpgradeCheck>=2500){upgradeAvailable=candidateActions().length>0;lastUpgradeCheck=t}
-  $('upgradeBtn').disabled=!upgradeAvailable;
-  document.querySelectorAll('.citybtn').forEach(b=>b.classList.toggle('active',b.dataset.city===activeCity));
-}
-function rebuildLiveCache(){liveCache.length=0;document.querySelectorAll('[data-stored]').forEach(s=>{const k=s.dataset.stored,r=document.querySelector(`[data-rate="${k}"]`),c=document.querySelector(`[data-captext="${k}"]`),bar=document.querySelector(`[data-capbar="${k}"]`),parts=k.split('-'),city=parts[0],i=+parts[1],j=+parts[2];liveCache.push({city,i,j,s,r,c,bar})})}
-function renderLive(){for(const x of liveCache){const b=branchAt(x.city,x.i,x.j);if(!b)continue;const cap=Math.max(1,capacity(x.city,x.i,x.j)),pct=clamp(b.stored/cap*100,0,100);if(x.s)x.s.textContent=fmt(b.stored);if(x.r)x.r.textContent=fmt(branchRate(x.city,x.i,x.j))+'/sn';if(x.c)x.c.textContent=Math.floor(pct)+'%';if(x.bar)x.bar.style.width=pct+'%'}}
-function renderBranches(){const list=state.city[activeCity],data=DATA[activeCity];$('cityTitle').textContent=CITY_NAMES[activeCity]+' Şubeleri';$('branchCount').textContent=list.filter(d=>d.unlocked).length+' / '+list.length;$('branchGrid').innerHTML=list.map((d,i)=>{const meta=data[i];if(!d.unlocked)return`<article class="panel branch locked" id="branch-card-${activeCity}-${i}"><div class="lockedMain"><div class="district">${meta.name}</div><div class="lvl">KİLİTLİ • Marka Lv.${meta.unlock}</div></div><div><div class="money">${fmt(districtOpenCost(activeCity,i))}</div><div class="rate">Açılış maliyeti</div></div><span class="tag">${meta.storeType}</span></article>`;const j=clamp(d.activeBranch,0,d.branches.length-1),b=d.branches[j],cap=capacity(activeCity,i,j),pct=clamp(b.stored/cap*100,0,100),tabs=d.branches.map((x,k)=>`<button class="branchTab ${k===j?'active':''}" data-select-branch="${activeCity}|${i}|${k}">Ş${k+1}</button>`).join('')+(d.branches.length<5?`<span class="branchTab locked">Ş${d.branches.length+1} 🔒</span>`:'');return`<article class="panel branch" id="branch-card-${activeCity}-${i}"><div class="branchCompactTop"><div class="branchIdentity"><div class="district">${meta.name} • Şube ${j+1}</div><div class="lvl">Lv.${b.level}/${MAX.branch} • x${BRANCH_INCOME[j]}</div></div><div class="branchMiniStats"><div class="branchMiniStat"><small>YÖNETİCİ</small><b>${b.manager}/${MAX.manager}</b></div><div class="branchMiniStat"><small>PERSONEL</small><b>${b.staff}/${MAX.staff}</b></div><div class="branchMiniStat"><small>PORTFÖY</small><b>${b.portfolio}/${MAX.portfolio}</b></div></div></div><div class="branchCompactBottom"><span class="branchMetric"><strong data-rate="${activeCity}-${i}-${j}">${fmt(branchRate(activeCity,i,j))}/sn</strong></span><span class="branchMetric"><strong data-stored="${activeCity}-${i}-${j}">${fmt(b.stored)}</strong></span><span class="branchMetric branchCompactCap">KASA <strong data-captext="${activeCity}-${i}-${j}">${Math.floor(pct)}%</strong><span class="miniBar"><i data-capbar="${activeCity}-${i}-${j}" style="width:${pct}%"></i></span></span><span class="branchMetric live">AKTİF</span>${automationRule(b.manager)?`<span class="branchMetric live">OTO %${Math.round(automationRule(b.manager).threshold*100)}</span>`:''}${branchFullyMaxed(b)?'<span class="branchMetric maxed">MAX +%100</span>':''}<span class="branchMetric">${meta.storeType}</span><div class="branchTabs compactTabs">${tabs}</div></div></article>`}).join('');document.querySelectorAll('[data-select-branch]').forEach(btn=>btn.addEventListener('click',()=>{const[c,i,j]=btn.dataset.selectBranch.split('|');state.city[c][+i].activeBranch=+j;renderBranches();save()}));rebuildLiveCache()}
-function renderMissions(){
-  ensureMissions();
-  const grid=$('missionGrid');
-  if(!grid)return;
-  $('missionSeries').textContent='';
-  if(!state.missions.length){
-    grid.innerHTML='<article class="panel mission"><div class="missionTitle">Yeni görev hazırlanıyor…</div></article>';
-    return;
+  function save(){
+    state.lastSeen=Date.now();
+    localStorage.setItem('neonEmpireSave',JSON.stringify(state));
   }
-  grid.innerHTML=state.missions.map(m=>{
-    const v=Math.max(0,missionValue(m.type));
-    const target=Math.max(1,num(m.target,1));
-    const p=clamp(v/target*100,0,100);
-    const label=m.label||missionLabel(m.type,target)||'Görev';
-    const badge=m.special?'ÖZEL • '+String(m.focus||'').toUpperCase():String(m.difficulty||'ORTA').toUpperCase();
-    return `<article class="panel mission ${m.special?'special':''}"><div class="missionTop"><div><div class="eventBadge ${m.special?'special':''}">${badge}</div><div class="missionTitle">${label}</div></div><div class="reward">${fmt(m.rewardCash)} • ${plain(m.rewardXp)} EXP</div></div><div class="missionMeta"><span>${plain(Math.min(v,target))} / ${plain(target)}</span><span>${Math.floor(p)}%</span></div><div class="bar"><i style="width:${p}%"></i></div></article>`;
-  }).join('');
-}
-function renderMap(){const list=state.city[activeCity],data=DATA[activeCity];$('mapTitle').textContent=CITY_NAMES[activeCity]+' Şube Ağı';$('mapSummary').textContent=list.filter(d=>d.unlocked).length+' açık';$('mapGrid').innerHTML=list.map((d,i)=>{const income=d.unlocked?d.branches.reduce((sum,b,j)=>sum+branchRate(activeCity,i,j),0):0,maxed=d.unlocked&&d.branches.every(branchFullyMaxed);return`<article class="mapNode ${d.unlocked?'':'locked'} ${maxed?'maxed':''}" data-map-district="${i}"><div class="mapNodeTop"><div class="mapNodeName">${data[i].name}</div><div class="idx">${String(i+1).padStart(2,'0')}</div></div><div class="mapNodeIncome">${d.unlocked?fmt(income)+'/sn':'Marka Lv.'+data[i].unlock}</div><div class="mapNodeMeta">${d.unlocked?d.branches.length+' / 5 şube • '+(maxed?'TAMAMEN MAX':'gelişim sürüyor'):'Açılış '+fmt(districtOpenCost(activeCity,i))}</div></article>`}).join('');document.querySelectorAll('[data-map-district]').forEach(el=>el.addEventListener('click',()=>{const i=+el.dataset.mapDistrict;if(!state.city[activeCity][i].unlocked)return;switchPage('game');requestAnimationFrame(()=>document.getElementById(`branch-card-${activeCity}-${i}`)?.scrollIntoView({behavior:'smooth',block:'center'}))}))}
-function renderEvents(){completeEventIfDue();const e=state.events.active;if(e){$('eventStatus').textContent='Aktif etkinlik';const left=Math.max(0,e.endsAt-now()),pct=clamp((now()-e.startedAt)/e.duration*100,0,100);$('eventGrid').innerHTML=`<article class="panel eventCard ${e.abroad?'special':''}"><span class="eventBadge ${e.abroad?'special':''}">${e.abroad?'YURT DIŞI ÖZEL':'AKTİF ETKİNLİK'}</span><div class="eventTitle">${e.name}</div><div class="eventCountdown">${formatDuration(left)}</div><div class="eventReward">Ödül ${fmt(e.rewardCash)} • +${plain(e.rewardXp)} EXP • +${e.rewardParts} parça</div><div class="eventProgress"><div class="bar"><i style="width:${pct}%"></i></div></div></article>`}else{ensureEventOffers();$('eventStatus').textContent='3 teklif';$('eventGrid').innerHTML=state.events.offers.map(x=>`<article class="panel eventCard ${x.abroad?'special':''}"><span class="eventBadge ${x.abroad?'special':''}">${x.abroad?'YURT DIŞI ÖZEL':'TÜRKİYE ETKİNLİĞİ'}</span><div class="eventTitle">${x.name}</div><div class="eventMeta"><div class="eventMetric"><small>KATILIM</small><b>${fmt(x.cost)}</b></div><div class="eventMetric"><small>SÜRE</small><b>${formatDuration(x.duration).slice(0,5)}</b></div><div class="eventMetric"><small>GETİRİ</small><b>x${x.factor}</b></div></div><div class="eventReward">${fmt(x.rewardCash)} • +${plain(x.rewardXp)} EXP • +${x.rewardParts} parça</div><button class="eventAction" data-event-id="${x.id}" ${state.cash<x.cost?'disabled':''}>ETKİNLİĞE KATIL</button></article>`).join('');document.querySelectorAll('[data-event-id]').forEach(b=>b.addEventListener('click',()=>startEvent(b.dataset.eventId)))}$('eventReports').innerHTML=state.events.reports.length?state.events.reports.map(r=>`<article class="panel report"><div class="reportTop"><div class="reportName">${r.name}</div><div class="reportDate">${new Date(r.completedAt).toLocaleString('tr-TR')}</div></div><div class="reportMeta">Katılım ${fmt(r.cost)} • Ödül ${fmt(r.rewardCash)} • Net ${fmt(r.net)}<br>+${plain(r.rewardXp)} EXP • +${r.rewardParts} çarpan parçası</div></article>`).join(''):'<article class="panel report"><div class="reportMeta">Henüz tamamlanan etkinlik yok.</div></article>'}
-function renderAll(){lastUpgradeCheck=0;renderTop();renderBranches();if(currentPage==='missions')renderMissions();if(currentPage==='map')renderMap();if(currentPage==='events')renderEvents()}
-function switchPage(p){currentPage=p;state.ui&&(state.ui.currentPage=p);lastMapRender=0;lastEventRender=0;document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$('page-'+p).classList.remove('hidden');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===p));if(p==='missions')renderMissions();if(p==='map')renderMap();if(p==='events')renderEvents()}
-$('rewardBurst').addEventListener('click',()=>$('rewardBurst').classList.add('hidden'));
+  function fmt(n){
+    if(n<1000) return Math.floor(n).toLocaleString('tr-TR');
+    const u=['K','M','B','T','Qa','Qi']; let i=-1;
+    while(n>=1000&&i<u.length-1){n/=1000;i++}
+    return n.toLocaleString('tr-TR',{maximumFractionDigits:n<10?2:1})+u[i];
+  }
+  function levelNeed(){ return Math.floor(100*Math.pow(1.22,state.level-1)); }
+  function tapPower(){ return Math.max(1,Math.floor((1+state.tapLevel*1.6)*globalMult())); }
+  function critChance(){ return Math.min(.45,.05+state.critLevel*.025); }
+  function offlineHours(){ return 2+state.offlineLevel*1.5; }
+  function globalMult(){
+    let m=1+state.prestige*.12;
+    if(Date.now()<state.boostUntil) m*=2;
+    return m;
+  }
+  function incomePerSec(){
+    let sum=0;
+    upgrades.forEach(u=>sum+=state.owned[u.id]*u.income);
+    return sum*globalMult();
+  }
+  function price(u){
+    return Math.floor(u.base*Math.pow(1.15,state.owned[u.id]));
+  }
+  function rank(){
+    if(state.level<5)return 'Çaylak';
+    if(state.level<12)return 'Operatör';
+    if(state.level<25)return 'Mimar';
+    if(state.level<50)return 'Yönetici';
+    return 'Neon Lord';
+  }
+  function addXp(v){
+    state.xp+=v;
+    let need=levelNeed();
+    while(state.xp>=need){
+      state.xp-=need; state.level++; need=levelNeed();
+      toast('Seviye atladın! Yeni seviye: '+state.level);
+    }
+  }
+  function renderUpgrades(){
+    const list=$('#upgradeList'); list.innerHTML='';
+    upgrades.forEach(u=>{
+      const p=price(u);
+      const el=document.createElement('div');
+      el.className='upgrade';
+      el.innerHTML=`<div class="uicon">${u.icon}</div>
+      <div><h3>${u.name} <span style="color:#8f9bb7">Lv.${state.owned[u.id]}</span></h3>
+      <p>+${fmt(u.income*globalMult())}/sn • ${u.desc}</p></div>
+      <button class="buy" ${state.money<p?'disabled':''}>${fmt(p)}</button>`;
+      el.querySelector('button').onclick=()=>buyUpgrade(u.id);
+      list.appendChild(el);
+    });
+  }
+  function update(){
+    const ps=incomePerSec(), tp=tapPower(), need=levelNeed();
+    moneyEl.textContent=fmt(state.money);
+    perSecEl.textContent=fmt(ps);
+    tapPowerEl.textContent=fmt(tp);
+    $('#level').textContent=state.level;
+    $('#rank').textContent=rank();
+    $('#xpText').textContent=`${fmt(state.xp)} / ${fmt(need)} XP`;
+    $('#xpBar').style.width=Math.min(100,state.xp/need*100)+'%';
+    $('#critChance').textContent='%'+Math.round(critChance()*100);
+    $('#multi').textContent='x'+globalMult().toFixed(1);
+    $('#offlineCap').textContent=offlineHours().toFixed(1)+'s';
+    $('#ownedCount').textContent=Object.values(state.owned).reduce((a,b)=>a+b,0)+' tesis';
+    renderUpgrades(); updateSmart();
+  }
+  function buyUpgrade(id){
+    const u=upgrades.find(x=>x.id===id), p=price(u);
+    if(state.money<p)return;
+    state.money-=p; state.owned[id]++; addXp(10+state.owned[id]*2);
+    toast(u.name+' geliştirildi'); update(); save();
+  }
+  function smartChoice(){
+    let choices=upgrades.map(u=>{
+      const p=price(u), gain=u.income*globalMult();
+      return {u,p,score:gain/p,afford:state.money>=p};
+    });
+    const affordable=choices.filter(x=>x.afford);
+    return (affordable.length?affordable:choices).sort((a,b)=>b.score-a.score)[0];
+  }
+  function updateSmart(){
+    const c=smartChoice();
+    $('#smartTitle').textContent=c.afford?`${c.u.name} öneriliyor`:`${fmt(c.p-state.money)} daha biriktir`;
+    $('#smartText').textContent=c.afford
+      ? `En iyi fiyat/verim oranı. Tahmini katkı: +${fmt(c.u.income*globalMult())}/sn.`
+      : `${c.u.name}, sıradaki en verimli yatırım olacak.`;
+    $('#smartBuy').disabled=!c.afford;
+    $('#smartBuy').style.opacity=c.afford?1:.4;
+  }
+  $('#smartBuy').onclick=()=>buyUpgrade(smartChoice().u.id);
 
+  $('#coreBtn').addEventListener('click',e=>{
+    let gain=tapPower(), crit=Math.random()<critChance();
+    if(crit) gain*=5;
+    state.money+=gain;state.total+=gain;state.taps++;addXp(1);
+    const f=document.createElement('div');
+    f.className='float';f.textContent=(crit?'KRİTİK +':'+')+fmt(gain);
+    f.style.left=(e.clientX-25)+'px';f.style.top=(e.clientY-15)+'px';
+    document.body.appendChild(f);setTimeout(()=>f.remove(),850);
+    if(navigator.vibrate) navigator.vibrate(crit?[20,30,20]:8);
+    update();
+  });
 
-document.querySelectorAll('.citybtn').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;state.ui&&(state.ui.activeCity=activeCity);renderAll();save()}));document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{switchPage(b.dataset.page);save()}));$('collectBtn').addEventListener('click',collectAll);$('upgradeBtn').addEventListener('click',smartUpgrade);let scrollSaveTimer=null;
-window.addEventListener('scroll',()=>{if(!state)return;state.ui.scrollY=Math.max(0,Math.round(window.scrollY||0));clearTimeout(scrollSaveTimer);scrollSaveTimer=setTimeout(save,350)},{passive:true});
-window.addEventListener('pagehide',smartSuspendSave);
-window.addEventListener('beforeunload',smartSuspendSave);
-window.addEventListener('freeze',smartSuspendSave);
-document.addEventListener('visibilitychange',()=>{if(document.hidden){if(miniGameRuntime)endMiniGame(false);smartSuspendSave()}else{applyOffline();completeEventIfDue();lastTick=now();nextFrameAt=0;renderAll();requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,num(state.ui?.scrollY,0))));save()}});load();setTimeout(seedHudQueue,250);
+  $('#boostBtn').onclick=()=>{
+    const cost=Math.max(100,Math.floor(incomePerSec()*120));
+    openSheet('2X NEON BOOST',`2 dakika boyunca tüm üretim iki katına çıkar.<br><br>Maliyet: <b>${fmt(cost)}</b> enerji`,
+      ()=>{if(state.money<cost)return toast('Yeterli enerjin yok');state.money-=cost;state.boostUntil=Date.now()+120000;closeSheet();toast('2X boost aktif');update();save();});
+  };
+  $('#prestigeBtn').onclick=()=>{
+    const req=1000000;
+    const gain=Math.floor(Math.sqrt(state.total/req));
+    openSheet('PRESTİJ SIFIRLAMA', gain>0
+      ? `İmparatorluğu sıfırla ve kalıcı <b>+%${gain*12}</b> üretim bonusu kazan.`
+      : `İlk prestij için toplam <b>${fmt(req)}</b> enerji üretmelisin.`,
+      ()=>{if(gain<1)return;const p=state.prestige+gain;state=structuredClone(defaultState);state.prestige=p;closeSheet();save();update();toast('Prestij tamamlandı');});
+  };
+  $('#statsBtn').onclick=()=>openSheet('İSTATİSTİKLER',
+    `Toplam üretim: <b>${fmt(state.total)}</b><br>Toplam dokunuş: <b>${fmt(state.taps)}</b><br>Prestij: <b>${state.prestige}</b><br>Mevcut global çarpan: <b>x${globalMult().toFixed(2)}</b>`,
+    closeSheet,'Kapat');
+  $('#settingsBtn').onclick=()=>openSheet('AYARLAR',
+    `Oyun otomatik kaydedilir. Kayıt cihazında saklanır.<br><br><b>Akıllı sistemler:</b> yatırım analizi, çevrimdışı kazanç, dinamik fiyatlandırma, otomatik kayıt ve prestij hesaplama.`,
+    ()=>{if(confirm('Tüm ilerleme silinsin mi?')){localStorage.removeItem('neonEmpireSave');location.reload()}},'Kaydı Sıfırla');
+
+  function openSheet(title,body,action,label='Onayla'){
+    sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
+    modal.classList.add('show');$('#sheetAction').onclick=action;
+  }
+  function closeSheet(){modal.classList.remove('show')}
+  modal.addEventListener('click',e=>{if(e.target===modal)closeSheet()});
+  function toast(t){toastEl.textContent=t;toastEl.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>toastEl.classList.remove('show'),1800)}
+
+  function offlineReward(){
+    const now=Date.now(), away=Math.max(0,(now-state.lastSeen)/1000);
+    const capped=Math.min(away,offlineHours()*3600);
+    const reward=incomePerSec()*capped;
+    if(reward>=1){
+      state.money+=reward;state.total+=reward;
+      setTimeout(()=>openSheet('HOŞ GELDİN',`${Math.floor(capped/60)} dakika uzaktaydın.<br>Akıllı sistem senin için <b>${fmt(reward)}</b> enerji üretti.`,closeSheet,'Topla'),300);
+    }
+  }
+
+  offlineReward(); update();
+  setInterval(()=>{
+    const gain=incomePerSec()/10;
+    state.money+=gain;state.total+=gain;
+    if(Math.random()<.12)addXp(Math.max(1,Math.floor(incomePerSec()/100)));
+    moneyEl.textContent=fmt(state.money);perSecEl.textContent=fmt(incomePerSec());
+  },100);
+  setInterval(()=>{update();save()},3000);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+})();
 </script>
 </body>
 </html>
