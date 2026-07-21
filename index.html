@@ -3,374 +3,364 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#070b16" />
-  <title>Neon Empire — Premium Idle</title>
+  <meta name="theme-color" content="#080b14" />
+  <title>Neon Idle</title>
   <style>
     :root{
-      --bg:#070b16;
-      --panel:rgba(17,24,43,.72);
-      --panel-2:rgba(12,18,34,.88);
+      --bg:#080b14;
+      --panel:#111727;
       --line:rgba(255,255,255,.08);
       --text:#f7f9ff;
-      --muted:#8f9bb7;
-      --cyan:#4eeaff;
-      --blue:#5b7cff;
-      --purple:#a85cff;
-      --green:#58f3a7;
-      --gold:#ffd166;
-      --danger:#ff6685;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --muted:#8e99b2;
+      --cyan:#57e6ff;
+      --blue:#6476ff;
+      --purple:#a55cff;
+      --green:#53efa1;
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;min-height:100%;background:
-      radial-gradient(circle at 20% -10%,rgba(91,124,255,.28),transparent 35%),
-      radial-gradient(circle at 100% 10%,rgba(168,92,255,.2),transparent 30%),
-      linear-gradient(180deg,#090f20 0%,#060914 70%,#050710 100%);
-      color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      overflow-x:hidden
+    html,body{
+      margin:0;
+      min-height:100%;
+      background:
+        radial-gradient(circle at top left,rgba(100,118,255,.18),transparent 35%),
+        radial-gradient(circle at top right,rgba(165,92,255,.14),transparent 30%),
+        var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
-    body:before{
-      content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;
-      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-      background-size:30px 30px
-    }
+    body{overflow-x:hidden}
     button{font:inherit}
-    .app{max-width:480px;margin:0 auto;min-height:100vh;padding:18px 16px 110px;position:relative}
-    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:44px;height:44px;border-radius:15px;background:
-      linear-gradient(145deg,var(--cyan),var(--blue) 55%,var(--purple));
-      display:grid;place-items:center;font-weight:900;color:#06101e;box-shadow:0 0 35px rgba(78,234,255,.25)}
-    .brand h1{font-size:17px;margin:0;letter-spacing:.4px}
-    .brand small{color:var(--muted)}
-    .icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:white}
-    .hero{
-      border:1px solid var(--line);border-radius:28px;padding:20px;
+    .app{
+      max-width:480px;
+      margin:0 auto;
+      min-height:100vh;
+      padding:20px 16px 40px;
+    }
+    .title{
+      margin:4px 0 18px;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.8px;
+    }
+    .balance{
+      padding:22px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:linear-gradient(145deg,rgba(87,230,255,.08),rgba(17,23,39,.95));
+      box-shadow:0 20px 60px rgba(0,0,0,.34);
+    }
+    .label{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.3px;
+    }
+    .money{
+      margin:8px 0 5px;
+      font-size:42px;
+      font-weight:900;
+      letter-spacing:-1.5px;
+    }
+    .rate{
+      color:var(--green);
+      font-weight:800;
+      font-size:14px;
+    }
+    .tap-area{
+      display:grid;
+      place-items:center;
+      padding:34px 0 28px;
+    }
+    .tap-button{
+      width:188px;
+      height:188px;
+      border:0;
+      border-radius:50%;
+      color:white;
+      cursor:pointer;
+      position:relative;
       background:
-        linear-gradient(135deg,rgba(78,234,255,.09),transparent 35%),
-        linear-gradient(160deg,rgba(168,92,255,.14),rgba(17,24,43,.82));
-      box-shadow:var(--shadow);position:relative;overflow:hidden
+        radial-gradient(circle at 35% 30%,rgba(255,255,255,.65),rgba(87,230,255,.12) 10%,rgba(100,118,255,.2) 35%,#0b1120 70%),
+        conic-gradient(var(--cyan),var(--blue),var(--purple),var(--cyan));
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,.025),
+        0 0 55px rgba(87,230,255,.22);
+      transition:transform .08s ease;
     }
-    .hero:after{
-      content:"";position:absolute;width:180px;height:180px;border-radius:50%;
-      background:radial-gradient(circle,rgba(78,234,255,.22),transparent 65%);
-      right:-70px;top:-70px
+    .tap-button:active{transform:scale(.96)}
+    .tap-inner{
+      position:absolute;
+      inset:15px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 30%,#18213a,#0b1020 72%);
+      border:1px solid rgba(255,255,255,.12);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
     }
-    .eyebrow{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1.4px}
-    .money{font-size:40px;font-weight:900;margin:9px 0 4px;letter-spacing:-1.5px}
-    .persec{color:var(--green);font-weight:800}
-    .level-wrap{margin-top:18px}
-    .level-row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
-    .bar{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
-    .bar > div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));border-radius:inherit;transition:.35s}
-    .tap-zone{margin:18px 0;display:grid;place-items:center;position:relative}
-    .core{
-      width:192px;height:192px;border-radius:50%;border:none;color:white;cursor:pointer;position:relative;
-      background:
-      radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),rgba(78,234,255,.2) 8%,rgba(91,124,255,.25) 30%,rgba(7,11,22,.95) 65%),
-      conic-gradient(from 0deg,var(--cyan),var(--blue),var(--purple),var(--cyan));
-      box-shadow:0 0 0 10px rgba(255,255,255,.025),0 0 60px rgba(78,234,255,.25),inset 0 0 35px rgba(255,255,255,.1);
-      transition:transform .08s
+    .tap-inner span:first-child{
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
     }
-    .core:active{transform:scale(.96)}
-    .core-inner{
-      position:absolute;inset:16px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-      background:radial-gradient(circle at 40% 30%,#182544,#0a1020 70%);
-      border:1px solid rgba(255,255,255,.12)
+    .tap-value{
+      margin-top:7px;
+      font-size:30px;
+      font-weight:900;
     }
-    .core-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
-    .core-value{font-weight:900;font-size:29px;margin-top:6px}
-    .orb{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan);animation:orbit 5s linear infinite}
-    .orb.two{animation-duration:7s;animation-direction:reverse;background:var(--purple);box-shadow:0 0 18px var(--purple)}
-    @keyframes orbit{from{transform:rotate(0deg) translateX(112px) rotate(0deg)}to{transform:rotate(360deg) translateX(112px) rotate(-360deg)}}
-    .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
-    .quick{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px;text-align:center}
-    .quick b{display:block;font-size:15px}.quick span{color:var(--muted);font-size:11px}
-    .section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}
-    .section-head h2{font-size:17px;margin:0}.section-head span{font-size:12px;color:var(--cyan)}
-    .smart-card{
-      border:1px solid rgba(78,234,255,.18);border-radius:20px;padding:15px;
-      background:linear-gradient(135deg,rgba(78,234,255,.08),rgba(91,124,255,.08));
-      display:flex;gap:12px;align-items:center
+    .section-title{
+      margin:0 2px 12px;
+      font-size:17px;
     }
-    .smart-icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:rgba(78,234,255,.12);font-size:22px}
-    .smart-card h3{margin:0 0 4px;font-size:14px}.smart-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.4}
-    .smart-card button{margin-left:auto;border:0;border-radius:12px;padding:10px 12px;color:#07111e;background:linear-gradient(135deg,var(--cyan),#8cf4ff);font-weight:900}
-    .upgrade-list{display:grid;gap:10px}
+    .upgrades{
+      display:grid;
+      gap:10px;
+    }
     .upgrade{
-      display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:13px;
-      border:1px solid var(--line);border-radius:19px;background:var(--panel)
+      display:grid;
+      grid-template-columns:52px 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(17,23,39,.88);
     }
-    .uicon{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,rgba(91,124,255,.22),rgba(168,92,255,.18));display:grid;place-items:center;font-size:23px}
-    .upgrade h3{margin:0 0 4px;font-size:14px}.upgrade p{margin:0;color:var(--muted);font-size:11px}
-    .buy{border:0;border-radius:13px;padding:10px 12px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;font-weight:800;min-width:80px}
-    .buy:disabled{opacity:.35;filter:grayscale(.4)}
-    .bottom-nav{
-      position:fixed;z-index:20;bottom:14px;left:50%;transform:translateX(-50%);
-      width:min(calc(100% - 28px),452px);height:72px;border:1px solid var(--line);border-radius:24px;
-      background:rgba(8,13,26,.92);backdrop-filter:blur(20px);display:grid;grid-template-columns:repeat(4,1fr);box-shadow:var(--shadow)
+    .icon{
+      width:52px;
+      height:52px;
+      border-radius:15px;
+      display:grid;
+      place-items:center;
+      font-size:23px;
+      background:linear-gradient(145deg,rgba(100,118,255,.23),rgba(165,92,255,.17));
     }
-    .nav-btn{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-size:11px}
-    .nav-btn.active{color:var(--cyan)}.nav-btn strong{font-size:20px}
+    .upgrade h3{
+      margin:0 0 4px;
+      font-size:14px;
+    }
+    .upgrade p{
+      margin:0;
+      color:var(--muted);
+      font-size:11px;
+    }
+    .buy{
+      min-width:80px;
+      padding:10px 12px;
+      border:0;
+      border-radius:12px;
+      color:white;
+      font-weight:900;
+      background:linear-gradient(135deg,var(--blue),var(--purple));
+    }
+    .buy:disabled{opacity:.32}
     .toast{
-      position:fixed;top:20px;left:50%;transform:translate(-50%,-130%);z-index:30;
-      background:#111a2e;border:1px solid var(--line);padding:12px 16px;border-radius:15px;box-shadow:var(--shadow);
-      transition:.3s;white-space:nowrap;font-size:13px
+      position:fixed;
+      left:50%;
+      top:18px;
+      transform:translate(-50%,-120%);
+      z-index:20;
+      background:#121a2d;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:11px 15px;
+      font-size:13px;
+      transition:.25s;
+      white-space:nowrap;
     }
     .toast.show{transform:translate(-50%,0)}
-    .float{position:absolute;pointer-events:none;font-weight:900;color:var(--cyan);animation:floatUp .8s ease-out forwards}
-    @keyframes floatUp{to{transform:translateY(-70px) scale(1.3);opacity:0}}
-    .modal{position:fixed;inset:0;background:rgba(3,6,12,.75);z-index:50;display:none;align-items:flex-end;justify-content:center}
-    .modal.show{display:flex}
-    .sheet{width:min(100%,480px);background:#0d1426;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 18px 28px}
-    .sheet h2{margin-top:0}.sheet p{color:var(--muted);line-height:1.55}
-    .sheet button{width:100%;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:900}
-    .hidden{display:none!important}
+    .float{
+      position:fixed;
+      z-index:10;
+      pointer-events:none;
+      color:var(--cyan);
+      font-weight:900;
+      animation:floatUp .7s ease-out forwards;
+    }
+    @keyframes floatUp{
+      to{transform:translateY(-65px);opacity:0}
+    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo">NE</div>
-        <div><h1>NEON EMPIRE</h1><small>Akıllı Idle Sistem</small></div>
-      </div>
-      <button class="icon-btn" id="settingsBtn">⚙️</button>
-    </div>
+  <main class="app">
+    <div class="title">NEON IDLE</div>
 
-    <section class="hero">
-      <div class="eyebrow"><span>Toplam Enerji</span><span id="rank">Çaylak</span></div>
+    <section class="balance">
+      <div class="label">Toplam Enerji</div>
       <div class="money" id="money">0</div>
-      <div class="persec"><span id="perSec">0</span> / saniye</div>
-      <div class="level-wrap">
-        <div class="level-row"><span>Seviye <b id="level">1</b></span><span id="xpText">0 / 100 XP</span></div>
-        <div class="bar"><div id="xpBar"></div></div>
-      </div>
+      <div class="rate"><span id="perSec">0</span> / saniye</div>
     </section>
 
-    <div class="tap-zone" id="tapZone">
-      <div class="orb"></div><div class="orb two"></div>
-      <button class="core" id="coreBtn">
-        <span class="core-inner">
-          <span class="core-label">Enerji Üret</span>
-          <span class="core-value">+<span id="tapPower">1</span></span>
+    <div class="tap-area">
+      <button class="tap-button" id="tapButton">
+        <span class="tap-inner">
+          <span>Enerji Üret</span>
+          <strong class="tap-value">+<span id="tapPower">1</span></strong>
         </span>
       </button>
     </div>
 
-    <div class="quick-grid">
-      <div class="quick"><b id="critChance">%5</b><span>Kritik Şans</span></div>
-      <div class="quick"><b id="multi">x1.0</b><span>Global Çarpan</span></div>
-      <div class="quick"><b id="offlineCap">2s</b><span>Offline Süre</span></div>
-    </div>
-
-    <div class="section-head"><h2>Akıllı Asistan</h2><span>AI CORE</span></div>
-    <div class="smart-card">
-      <div class="smart-icon">🧠</div>
-      <div><h3 id="smartTitle">Analiz yapılıyor</h3><p id="smartText">Sistem, en verimli yükseltmeyi hesaplıyor.</p></div>
-      <button id="smartBuy">AL</button>
-    </div>
-
-    <div class="section-head"><h2>Yükseltmeler</h2><span id="ownedCount">0 tesis</span></div>
-    <div class="upgrade-list" id="upgradeList"></div>
-  </div>
-
-  <nav class="bottom-nav">
-    <button class="nav-btn active"><strong>◉</strong>Üretim</button>
-    <button class="nav-btn" id="boostBtn"><strong>⚡</strong>Boost</button>
-    <button class="nav-btn" id="prestigeBtn"><strong>✦</strong>Prestij</button>
-    <button class="nav-btn" id="statsBtn"><strong>▥</strong>İstatistik</button>
-  </nav>
+    <h2 class="section-title">Yükseltmeler</h2>
+    <section class="upgrades" id="upgrades"></section>
+  </main>
 
   <div class="toast" id="toast"></div>
-  <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 
-<script>
-(() => {
-  const upgrades = [
-    {id:'drone', name:'Nano Drone', icon:'🛸', base:15, income:1, desc:'Her saniye enerji toplar.'},
-    {id:'lab', name:'Quantum Lab', icon:'🧪', base:120, income:8, desc:'Otonom araştırma geliri.'},
-    {id:'reactor', name:'Fusion Reactor', icon:'⚛️', base:950, income:52, desc:'Yüksek yoğunluklu üretim.'},
-    {id:'network', name:'Neural Network', icon:'🧠', base:7800, income:410, desc:'Kendi verimini optimize eder.'},
-    {id:'orbital', name:'Orbital Station', icon:'🛰️', base:62000, income:3200, desc:'Gezegen dışı pasif üretim.'},
-    {id:'singularity', name:'Singularity Core', icon:'🌌', base:520000, income:26000, desc:'Gerçekliği enerjiye çevirir.'}
-  ];
+  <script>
+    (() => {
+      const items = [
+        { id:'drone', name:'Nano Drone', icon:'🛸', base:15, income:1 },
+        { id:'lab', name:'Quantum Lab', icon:'🧪', base:120, income:8 },
+        { id:'reactor', name:'Fusion Reactor', icon:'⚛️', base:950, income:52 },
+        { id:'network', name:'Neural Network', icon:'🧠', base:7800, income:410 },
+        { id:'station', name:'Orbital Station', icon:'🛰️', base:62000, income:3200 }
+      ];
 
-  const defaultState = {
-    money:0, total:0, taps:0, level:1, xp:0, prestige:0,
-    tapLevel:1, critLevel:0, offlineLevel:0, boostUntil:0,
-    owned:{drone:0,lab:0,reactor:0,network:0,orbital:0,singularity:0},
-    lastSeen:Date.now()
-  };
-  let state = load();
+      const defaultState = {
+        money:0,
+        total:0,
+        tapPower:1,
+        owned:{drone:0,lab:0,reactor:0,network:0,station:0},
+        lastSeen:Date.now()
+      };
 
-  const $ = s => document.querySelector(s);
-  const moneyEl=$('#money'), perSecEl=$('#perSec'), tapPowerEl=$('#tapPower');
-  const toastEl=$('#toast'), modal=$('#modal'), sheet=$('#sheet');
+      let state = load();
 
-  function load(){
-    try{
-      const raw=localStorage.getItem('neonEmpireSave');
-      return raw ? {...defaultState,...JSON.parse(raw),owned:{...defaultState.owned,...JSON.parse(raw).owned}} : structuredClone(defaultState);
-    }catch(e){ return structuredClone(defaultState); }
-  }
-  function save(){
-    state.lastSeen=Date.now();
-    localStorage.setItem('neonEmpireSave',JSON.stringify(state));
-  }
-  function fmt(n){
-    if(n<1000) return Math.floor(n).toLocaleString('tr-TR');
-    const u=['K','M','B','T','Qa','Qi']; let i=-1;
-    while(n>=1000&&i<u.length-1){n/=1000;i++}
-    return n.toLocaleString('tr-TR',{maximumFractionDigits:n<10?2:1})+u[i];
-  }
-  function levelNeed(){ return Math.floor(100*Math.pow(1.22,state.level-1)); }
-  function tapPower(){ return Math.max(1,Math.floor((1+state.tapLevel*1.6)*globalMult())); }
-  function critChance(){ return Math.min(.45,.05+state.critLevel*.025); }
-  function offlineHours(){ return 2+state.offlineLevel*1.5; }
-  function globalMult(){
-    let m=1+state.prestige*.12;
-    if(Date.now()<state.boostUntil) m*=2;
-    return m;
-  }
-  function incomePerSec(){
-    let sum=0;
-    upgrades.forEach(u=>sum+=state.owned[u.id]*u.income);
-    return sum*globalMult();
-  }
-  function price(u){
-    return Math.floor(u.base*Math.pow(1.15,state.owned[u.id]));
-  }
-  function rank(){
-    if(state.level<5)return 'Çaylak';
-    if(state.level<12)return 'Operatör';
-    if(state.level<25)return 'Mimar';
-    if(state.level<50)return 'Yönetici';
-    return 'Neon Lord';
-  }
-  function addXp(v){
-    state.xp+=v;
-    let need=levelNeed();
-    while(state.xp>=need){
-      state.xp-=need; state.level++; need=levelNeed();
-      toast('Seviye atladın! Yeni seviye: '+state.level);
-    }
-  }
-  function renderUpgrades(){
-    const list=$('#upgradeList'); list.innerHTML='';
-    upgrades.forEach(u=>{
-      const p=price(u);
-      const el=document.createElement('div');
-      el.className='upgrade';
-      el.innerHTML=`<div class="uicon">${u.icon}</div>
-      <div><h3>${u.name} <span style="color:#8f9bb7">Lv.${state.owned[u.id]}</span></h3>
-      <p>+${fmt(u.income*globalMult())}/sn • ${u.desc}</p></div>
-      <button class="buy" ${state.money<p?'disabled':''}>${fmt(p)}</button>`;
-      el.querySelector('button').onclick=()=>buyUpgrade(u.id);
-      list.appendChild(el);
-    });
-  }
-  function update(){
-    const ps=incomePerSec(), tp=tapPower(), need=levelNeed();
-    moneyEl.textContent=fmt(state.money);
-    perSecEl.textContent=fmt(ps);
-    tapPowerEl.textContent=fmt(tp);
-    $('#level').textContent=state.level;
-    $('#rank').textContent=rank();
-    $('#xpText').textContent=`${fmt(state.xp)} / ${fmt(need)} XP`;
-    $('#xpBar').style.width=Math.min(100,state.xp/need*100)+'%';
-    $('#critChance').textContent='%'+Math.round(critChance()*100);
-    $('#multi').textContent='x'+globalMult().toFixed(1);
-    $('#offlineCap').textContent=offlineHours().toFixed(1)+'s';
-    $('#ownedCount').textContent=Object.values(state.owned).reduce((a,b)=>a+b,0)+' tesis';
-    renderUpgrades(); updateSmart();
-  }
-  function buyUpgrade(id){
-    const u=upgrades.find(x=>x.id===id), p=price(u);
-    if(state.money<p)return;
-    state.money-=p; state.owned[id]++; addXp(10+state.owned[id]*2);
-    toast(u.name+' geliştirildi'); update(); save();
-  }
-  function smartChoice(){
-    let choices=upgrades.map(u=>{
-      const p=price(u), gain=u.income*globalMult();
-      return {u,p,score:gain/p,afford:state.money>=p};
-    });
-    const affordable=choices.filter(x=>x.afford);
-    return (affordable.length?affordable:choices).sort((a,b)=>b.score-a.score)[0];
-  }
-  function updateSmart(){
-    const c=smartChoice();
-    $('#smartTitle').textContent=c.afford?`${c.u.name} öneriliyor`:`${fmt(c.p-state.money)} daha biriktir`;
-    $('#smartText').textContent=c.afford
-      ? `En iyi fiyat/verim oranı. Tahmini katkı: +${fmt(c.u.income*globalMult())}/sn.`
-      : `${c.u.name}, sıradaki en verimli yatırım olacak.`;
-    $('#smartBuy').disabled=!c.afford;
-    $('#smartBuy').style.opacity=c.afford?1:.4;
-  }
-  $('#smartBuy').onclick=()=>buyUpgrade(smartChoice().u.id);
+      const moneyEl = document.getElementById('money');
+      const perSecEl = document.getElementById('perSec');
+      const tapPowerEl = document.getElementById('tapPower');
+      const upgradesEl = document.getElementById('upgrades');
+      const toastEl = document.getElementById('toast');
 
-  $('#coreBtn').addEventListener('click',e=>{
-    let gain=tapPower(), crit=Math.random()<critChance();
-    if(crit) gain*=5;
-    state.money+=gain;state.total+=gain;state.taps++;addXp(1);
-    const f=document.createElement('div');
-    f.className='float';f.textContent=(crit?'KRİTİK +':'+')+fmt(gain);
-    f.style.left=(e.clientX-25)+'px';f.style.top=(e.clientY-15)+'px';
-    document.body.appendChild(f);setTimeout(()=>f.remove(),850);
-    if(navigator.vibrate) navigator.vibrate(crit?[20,30,20]:8);
-    update();
-  });
+      function load(){
+        try{
+          const saved = JSON.parse(localStorage.getItem('neonIdleSave'));
+          return saved ? {
+            ...defaultState,
+            ...saved,
+            owned:{...defaultState.owned,...saved.owned}
+          } : structuredClone(defaultState);
+        }catch{
+          return structuredClone(defaultState);
+        }
+      }
 
-  $('#boostBtn').onclick=()=>{
-    const cost=Math.max(100,Math.floor(incomePerSec()*120));
-    openSheet('2X NEON BOOST',`2 dakika boyunca tüm üretim iki katına çıkar.<br><br>Maliyet: <b>${fmt(cost)}</b> enerji`,
-      ()=>{if(state.money<cost)return toast('Yeterli enerjin yok');state.money-=cost;state.boostUntil=Date.now()+120000;closeSheet();toast('2X boost aktif');update();save();});
-  };
-  $('#prestigeBtn').onclick=()=>{
-    const req=1000000;
-    const gain=Math.floor(Math.sqrt(state.total/req));
-    openSheet('PRESTİJ SIFIRLAMA', gain>0
-      ? `İmparatorluğu sıfırla ve kalıcı <b>+%${gain*12}</b> üretim bonusu kazan.`
-      : `İlk prestij için toplam <b>${fmt(req)}</b> enerji üretmelisin.`,
-      ()=>{if(gain<1)return;const p=state.prestige+gain;state=structuredClone(defaultState);state.prestige=p;closeSheet();save();update();toast('Prestij tamamlandı');});
-  };
-  $('#statsBtn').onclick=()=>openSheet('İSTATİSTİKLER',
-    `Toplam üretim: <b>${fmt(state.total)}</b><br>Toplam dokunuş: <b>${fmt(state.taps)}</b><br>Prestij: <b>${state.prestige}</b><br>Mevcut global çarpan: <b>x${globalMult().toFixed(2)}</b>`,
-    closeSheet,'Kapat');
-  $('#settingsBtn').onclick=()=>openSheet('AYARLAR',
-    `Oyun otomatik kaydedilir. Kayıt cihazında saklanır.<br><br><b>Akıllı sistemler:</b> yatırım analizi, çevrimdışı kazanç, dinamik fiyatlandırma, otomatik kayıt ve prestij hesaplama.`,
-    ()=>{if(confirm('Tüm ilerleme silinsin mi?')){localStorage.removeItem('neonEmpireSave');location.reload()}},'Kaydı Sıfırla');
+      function save(){
+        state.lastSeen = Date.now();
+        localStorage.setItem('neonIdleSave', JSON.stringify(state));
+      }
 
-  function openSheet(title,body,action,label='Onayla'){
-    sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
-    modal.classList.add('show');$('#sheetAction').onclick=action;
-  }
-  function closeSheet(){modal.classList.remove('show')}
-  modal.addEventListener('click',e=>{if(e.target===modal)closeSheet()});
-  function toast(t){toastEl.textContent=t;toastEl.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>toastEl.classList.remove('show'),1800)}
+      function format(n){
+        if(n < 1000) return Math.floor(n).toLocaleString('tr-TR');
+        const units = ['K','M','B','T','Qa'];
+        let index = -1;
+        while(n >= 1000 && index < units.length - 1){
+          n /= 1000;
+          index++;
+        }
+        return n.toLocaleString('tr-TR',{maximumFractionDigits:n < 10 ? 2 : 1}) + units[index];
+      }
 
-  function offlineReward(){
-    const now=Date.now(), away=Math.max(0,(now-state.lastSeen)/1000);
-    const capped=Math.min(away,offlineHours()*3600);
-    const reward=incomePerSec()*capped;
-    if(reward>=1){
-      state.money+=reward;state.total+=reward;
-      setTimeout(()=>openSheet('HOŞ GELDİN',`${Math.floor(capped/60)} dakika uzaktaydın.<br>Akıllı sistem senin için <b>${fmt(reward)}</b> enerji üretti.`,closeSheet,'Topla'),300);
-    }
-  }
+      function price(item){
+        return Math.floor(item.base * Math.pow(1.15, state.owned[item.id]));
+      }
 
-  offlineReward(); update();
-  setInterval(()=>{
-    const gain=incomePerSec()/10;
-    state.money+=gain;state.total+=gain;
-    if(Math.random()<.12)addXp(Math.max(1,Math.floor(incomePerSec()/100)));
-    moneyEl.textContent=fmt(state.money);perSecEl.textContent=fmt(incomePerSec());
-  },100);
-  setInterval(()=>{update();save()},3000);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
-})();
-</script>
+      function incomePerSecond(){
+        return items.reduce((sum,item) => {
+          return sum + state.owned[item.id] * item.income;
+        },0);
+      }
+
+      function render(){
+        moneyEl.textContent = format(state.money);
+        perSecEl.textContent = format(incomePerSecond());
+        tapPowerEl.textContent = format(state.tapPower);
+
+        upgradesEl.innerHTML = '';
+
+        items.forEach(item => {
+          const cost = price(item);
+          const card = document.createElement('div');
+          card.className = 'upgrade';
+          card.innerHTML = `
+            <div class="icon">${item.icon}</div>
+            <div>
+              <h3>${item.name} · Lv.${state.owned[item.id]}</h3>
+              <p>+${format(item.income)} enerji / saniye</p>
+            </div>
+            <button class="buy" ${state.money < cost ? 'disabled' : ''}>${format(cost)}</button>
+          `;
+
+          card.querySelector('button').addEventListener('click',() => {
+            if(state.money < cost) return;
+            state.money -= cost;
+            state.owned[item.id]++;
+            toast(item.name + ' geliştirildi');
+            render();
+            save();
+          });
+
+          upgradesEl.appendChild(card);
+        });
+      }
+
+      function toast(text){
+        toastEl.textContent = text;
+        toastEl.classList.add('show');
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1400);
+      }
+
+      document.getElementById('tapButton').addEventListener('click', event => {
+        state.money += state.tapPower;
+        state.total += state.tapPower;
+
+        const float = document.createElement('div');
+        float.className = 'float';
+        float.textContent = '+' + format(state.tapPower);
+        float.style.left = (event.clientX - 15) + 'px';
+        float.style.top = (event.clientY - 10) + 'px';
+        document.body.appendChild(float);
+        setTimeout(() => float.remove(),700);
+
+        if(navigator.vibrate) navigator.vibrate(8);
+        render();
+      });
+
+      function applyOfflineIncome(){
+        const secondsAway = Math.min((Date.now() - state.lastSeen) / 1000, 7200);
+        const reward = incomePerSecond() * secondsAway;
+
+        if(reward >= 1){
+          state.money += reward;
+          state.total += reward;
+          toast('Çevrimdışı kazanç: +' + format(reward));
+        }
+      }
+
+      applyOfflineIncome();
+      render();
+
+      setInterval(() => {
+        const gain = incomePerSecond() / 10;
+        state.money += gain;
+        state.total += gain;
+        moneyEl.textContent = format(state.money);
+        perSecEl.textContent = format(incomePerSecond());
+      },100);
+
+      setInterval(() => {
+        render();
+        save();
+      },3000);
+
+      document.addEventListener('visibilitychange',() => {
+        if(document.hidden) save();
+      });
+    })();
+  </script>
 </body>
 </html>
