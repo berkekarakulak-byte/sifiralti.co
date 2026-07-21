@@ -208,16 +208,21 @@ function storageAvailable(){
  }catch{return false}
 }
 function buildSaveSnapshot(){
- state.lastSave=now();
- return JSON.parse(JSON.stringify(state));
+ return JSON.parse(JSON.stringify({...state,lastSave:now()}));
+}
+function writeSnapshot(key,snapshot){
+ localStorage.setItem(key,JSON.stringify(snapshot));
+ const verified=readStorage(key);
+ if(!snapshotValid(verified))throw new Error('Kayıt doğrulanamadı');
+ return true;
 }
 function save(){
  if(!state)return false;
  try{
   const snapshot=buildSaveSnapshot();
-  localStorage.setItem(SAVE,JSON.stringify(snapshot));
-  const verified=readStorage(SAVE);
-  if(!snapshotValid(verified))throw new Error('Kayıt doğrulanamadı');
+  writeSnapshot(SAVE,snapshot);
+  try{writeSnapshot(BACKUP,snapshot)}catch{}
+  state.lastSave=snapshot.lastSave;
   saveHealthy=true;
   updateProfileUI();
   return true;
@@ -235,36 +240,34 @@ function findOneLegacySave(){
  }
  return null;
 }
-async function load(){
- let bootError=null,migratedLegacy=false;
+function load(){
+ let raw=null,migratedLegacy=false,loadError=null;
  try{
-  let raw=readStorage(SAVE);
+  raw=readStorage(SAVE);
   if(!snapshotValid(raw)){
    raw=findOneLegacySave();
    migratedLegacy=!!raw;
   }
   state=snapshotValid(raw)?migrate(raw):freshState();
-  invalidateBranchCache();
-  state.lastChest=Math.max(now()-OFFLINE_CAP,num(state.lastChest,now()));
-  normalizeStored();
-  ensureMissions();
-  ensureEventOffers();
-  applyOffline();
-  completeEventIfDue();
-  renderAll();
-  save();
  }catch(err){
-  bootError=err;
-  console.error('Kayıt yükleme hatası:',err);
+  console.error('Kayıt okuma hatası:',err);
+  loadError=err;
   state=freshState();
-  invalidateBranchCache();
-  normalizeStored();
-  ensureMissions();
-  ensureEventOffers();
-  renderAll();
  }
+
+ /* Kayıt başarıyla okunduysa, arayüz/offline hatası yüzünden asla sıfırlama. */
+ try{invalidateBranchCache()}catch(err){console.error(err)}
+ try{state.lastChest=Math.max(now()-OFFLINE_CAP,num(state.lastChest,now()))}catch(err){console.error(err)}
+ try{normalizeStored()}catch(err){console.error(err)}
+ try{ensureMissions()}catch(err){console.error(err)}
+ try{ensureEventOffers()}catch(err){console.error(err)}
+ try{applyOffline()}catch(err){console.error('Çevrimdışı gelir hatası:',err)}
+ try{completeEventIfDue()}catch(err){console.error(err)}
+ try{renderAll()}catch(err){console.error('Arayüz yükleme hatası:',err)}
+
  const storageOk=storageAvailable();
- setInfo(bootError?'🛠️':storageOk?'✅':'⚠️',bootError?'Kayıt onarıldı':storageOk?'Otomatik kayıt aktif':'Depolama kapalı',storageOk?(migratedLegacy?'Eski kayıt tek ana kayda taşındı.':'Oyun kaldığın yerden devam eder.'):'Bu açılış ortamı yerel kayıt tutmuyor.');
+ if(storageOk)save();
+ setInfo(loadError?'🛠️':storageOk?'✅':'⚠️',loadError?'Yeni kayıt oluşturuldu':storageOk?'Otomatik kayıt aktif':'Depolama kapalı',storageOk?(migratedLegacy?'Eski kayıt ana kayda taşındı.':'Sayfa yenilense de aynı kayıttan devam eder.'):'Bu tarayıcı yerel kayıt tutmuyor.');
  updateProfileUI();
  renderHud();
  lastTick=now();
