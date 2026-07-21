@@ -121,28 +121,31 @@
   const CHEST_COOLDOWN = 5 * 60 * 1000;
   const DAILY_COOLDOWN = 24 * 60 * 60 * 1000;
   const BOOST_DURATION = 2 * 60 * 1000;
+  const AUTO_DECISION_INTERVAL = 2500;
 
   const facilities = [
-    {id:'drone',name:'Nano Drone',icon:'🛸',base:15,income:1},
-    {id:'lab',name:'Quantum Lab',icon:'🧪',base:120,income:8},
-    {id:'reactor',name:'Fusion Reactor',icon:'⚛️',base:950,income:52},
-    {id:'network',name:'Neural Network',icon:'🧠',base:7800,income:410},
-    {id:'station',name:'Orbital Station',icon:'🛰️',base:62000,income:3200},
-    {id:'singularity',name:'Singularity Core',icon:'🌌',base:520000,income:26000}
+    {id:'drone',name:'Nano Drone',icon:'🛸',base:15,income:1,unlock:1},
+    {id:'lab',name:'Quantum Lab',icon:'🧪',base:120,income:8,unlock:2},
+    {id:'reactor',name:'Fusion Reactor',icon:'⚛️',base:950,income:52,unlock:4},
+    {id:'network',name:'Neural Network',icon:'🧠',base:7800,income:410,unlock:7},
+    {id:'station',name:'Orbital Station',icon:'🛰️',base:62000,income:3200,unlock:11},
+    {id:'singularity',name:'Singularity Core',icon:'🌌',base:520000,income:26000,unlock:16}
   ];
 
   const managers = [
-    {id:'autoBuy',name:'Auto Buyer',icon:'🤖',cost:20,desc:'Her 5 saniyede en verimli uygun tesisi alır.'},
+    {id:'autoBuy',name:'Akıllı Yükseltme',icon:'🤖',cost:20,desc:'Bütçe ve geri dönüş süresine göre en iyi tesisi otomatik alır.'},
+    {id:'smartCollect',name:'Akıllı Toplama',icon:'🧲',cost:25,desc:'Hazır görevleri, günlük ödülü ve sandığı otomatik toplar.'},
     {id:'overclock',name:'Overclock AI',icon:'⚡',cost:35,desc:'Kalıcı olarak üretimi %25 artırır.'},
     {id:'offline',name:'Offline Director',icon:'🌙',cost:50,desc:'Çevrimdışı sınırı 2 saatten 8 saate çıkarır.'}
   ];
 
   const defaults = {
-    version:2,money:0,total:0,taps:0,level:1,xp:0,gems:0,prestige:0,
+    version:3,money:0,total:0,taps:0,level:1,xp:0,gems:0,prestige:0,
     owned:{drone:0,lab:0,reactor:0,network:0,station:0,singularity:0},
-    managers:{autoBuy:false,overclock:false,offline:false},
+    managers:{autoBuy:false,smartCollect:false,overclock:false,offline:false},
     missions:{tap100:false,buy10:false,earn100k:false},
-    boostUntil:0,lastChest:0,lastDaily:0,lastSeen:Date.now()
+    boostUntil:0,lastChest:0,lastDaily:0,lastSeen:Date.now(),
+    smartMode:'balanced',reserveRatio:.18,lastSmartAction:0
   };
 
   const $ = s => document.querySelector(s);
@@ -158,108 +161,235 @@
   let dirty = false;
   let lastFrame = performance.now();
   let lastUiUpdate = 0;
-  let lastAutoBuy = 0;
+  let lastAutoDecision = 0;
 
   function finite(value,fallback=0){
-    const n = Number(value);
-    return Number.isFinite(n) && n >= 0 ? n : fallback;
+    const n=Number(value);
+    return Number.isFinite(n)&&n>=0?n:fallback;
   }
 
   function loadState(){
     try{
-      const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
-      if(!raw) return structuredClone(defaults);
-      const safe = {
+      const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
+      if(!raw)return structuredClone(defaults);
+      const safe={
         ...defaults,...raw,
         money:finite(raw.money),total:finite(raw.total),taps:Math.floor(finite(raw.taps)),
         level:Math.max(1,Math.floor(finite(raw.level,1))),xp:finite(raw.xp),
         gems:Math.floor(finite(raw.gems)),prestige:Math.floor(finite(raw.prestige)),
         boostUntil:finite(raw.boostUntil),lastChest:finite(raw.lastChest),
         lastDaily:finite(raw.lastDaily),lastSeen:finite(raw.lastSeen,Date.now()),
+        reserveRatio:Math.min(.5,Math.max(.05,finite(raw.reserveRatio,.18))),
         owned:{...defaults.owned,...(raw.owned||{})},
         managers:{...defaults.managers,...(raw.managers||{})},
         missions:{...defaults.missions,...(raw.missions||{})}
       };
-      for(const key of Object.keys(safe.owned)) safe.owned[key] = Math.floor(finite(safe.owned[key]));
+      for(const key of Object.keys(safe.owned))safe.owned[key]=Math.floor(finite(safe.owned[key]));
       return safe;
-    }catch(error){
-      console.warn('Kayıt okunamadı:',error);
+    }catch{
       return structuredClone(defaults);
     }
   }
 
   function saveState(){
     try{
-      state.lastSeen = Date.now();
+      state.lastSeen=Date.now();
       localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-      dirty = false;
-    }catch(error){
+      dirty=false;
+    }catch{
       toast('Kayıt oluşturulamadı');
-      console.error(error);
     }
   }
 
-  function markDirty(){ dirty = true; }
+  function markDirty(){dirty=true}
 
   function format(n){
-    n = finite(n);
-    if(n < 1000) return Math.floor(n).toLocaleString('tr-TR');
+    n=finite(n);
+    if(n<1000)return Math.floor(n).toLocaleString('tr-TR');
     const units=['K','M','B','T','Qa','Qi','Sx','Sp'];
     let i=-1;
-    while(n>=1000 && i<units.length-1){n/=1000;i++}
+    while(n>=1000&&i<units.length-1){n/=1000;i++}
     return n.toLocaleString('tr-TR',{maximumFractionDigits:n<10?2:1})+units[i];
   }
 
+  function progressionStage(){
+    if(state.level<5)return 0;
+    if(state.level<10)return 1;
+    if(state.level<18)return 2;
+    if(state.level<30)return 3;
+    return 4;
+  }
+
   function permanentMultiplier(){
-    return 1 + state.prestige * .15 + (state.managers.overclock ? .25 : 0);
+    return 1+state.prestige*.15+(state.managers.overclock?.25:0);
   }
 
   function activeMultiplier(now=Date.now()){
-    return permanentMultiplier() * (now < state.boostUntil ? 2 : 1);
+    return permanentMultiplier()*(now<state.boostUntil?2:1);
   }
 
   function baseIncome(){
-    return facilities.reduce((sum,f)=>sum + state.owned[f.id] * f.income,0);
+    return facilities.reduce((sum,f)=>sum+state.owned[f.id]*f.income,0);
   }
 
-  function income(now=Date.now()){ return baseIncome() * activeMultiplier(now); }
-  function tapPower(){ return Math.max(1,Math.floor((1 + state.level * .35) * activeMultiplier())); }
-  function price(f){ return Math.max(1,Math.floor(f.base * Math.pow(1.15,state.owned[f.id]))); }
-  function xpNeed(){ return Math.floor(100 * Math.pow(1.2,state.level-1)); }
+  function income(now=Date.now()){return baseIncome()*activeMultiplier(now)}
+  function tapPower(){return Math.max(1,Math.floor((1+state.level*.32)*activeMultiplier()))}
+  function xpNeed(){return Math.floor(90*Math.pow(1.17,state.level-1))}
+
+  function adaptiveGrowth(f){
+    const level=state.owned[f.id];
+    const stage=progressionStage();
+    const earlyRelief=level<10?.965:1;
+    const lateControl=1+Math.max(0,stage-2)*.008;
+    return 1.135*earlyRelief*lateControl;
+  }
+
+  function price(f){
+    const level=state.owned[f.id];
+    const milestoneTax=1+Math.floor(level/25)*.055;
+    return Math.max(1,Math.floor(f.base*Math.pow(adaptiveGrowth(f),level)*milestoneTax));
+  }
 
   function addXp(amount){
-    state.xp += finite(amount);
-    let leveled = false;
-    while(state.xp >= xpNeed() && state.level < 10000){
-      state.xp -= xpNeed();
+    state.xp+=finite(amount);
+    let leveled=false;
+    while(state.xp>=xpNeed()&&state.level<10000){
+      state.xp-=xpNeed();
       state.level++;
-      leveled = true;
+      leveled=true;
     }
-    if(leveled) toast('Seviye '+state.level);
+    if(leveled)toast('Seviye '+state.level);
+  }
+
+  function unlockedFacilities(){
+    return facilities.filter(f=>state.level>=f.unlock);
+  }
+
+  function upgradeMetrics(f){
+    const cost=price(f);
+    const gain=f.income*activeMultiplier();
+    const currentIncome=Math.max(.1,income());
+    const payback=cost/Math.max(.01,gain);
+    const affordability=state.money/cost;
+    const levelGap=Math.max(0,Math.max(...facilities.map(x=>state.owned[x.id]))-state.owned[f.id]);
+    const balanceBonus=1+Math.min(.35,levelGap*.025);
+    const stage=progressionStage();
+
+    // Erken oyunda hızlı ilerleme, orta oyunda verim, ileri oyunda dengeli dağılım.
+    const paybackWeight=stage<2?1.15:stage===2?1.3:1.45;
+    const affordabilityBonus=Math.min(1.35,.85+affordability*.22);
+    const incomeImpact=1+Math.min(.6,gain/currentIncome);
+    const score=(incomeImpact*balanceBonus*affordabilityBonus)/(Math.pow(payback+1,paybackWeight*.72));
+
+    return {f,cost,gain,payback,score,afford:state.money>=cost};
   }
 
   function smartChoice(affordableOnly=false){
-    const choices = facilities.map(f=>{
-      const p=price(f);
-      return {f,p,afford:state.money>=p,score:f.income/p};
-    });
-    const affordable = choices.filter(x=>x.afford);
-    const pool = affordableOnly ? affordable : (affordable.length ? affordable : choices);
-    return pool.sort((a,b)=>b.score-a.score)[0] || null;
+    let pool=unlockedFacilities().map(upgradeMetrics);
+    if(affordableOnly)pool=pool.filter(x=>x.afford);
+    if(!pool.length)return null;
+    return pool.sort((a,b)=>b.score-a.score)[0];
+  }
+
+  function reserveTarget(){
+    const next=smartChoice(false);
+    if(!next)return 0;
+    const stageReserve=[.08,.12,.18,.22,.25][progressionStage()];
+    return next.cost*Math.max(state.reserveRatio,stageReserve);
+  }
+
+  function canSmartBuy(choice){
+    if(!choice||!choice.afford)return false;
+    const reserve=reserveTarget();
+    const after=state.money-choice.cost;
+    if(income()<=0)return true;
+    if(choice.payback<45)return after>=0;
+    return after>=reserve;
   }
 
   function buyFacility(id,silent=false){
     const f=facilities.find(item=>item.id===id);
-    if(!f) return false;
+    if(!f||state.level<f.unlock)return false;
     const cost=price(f);
-    if(state.money + 1e-9 < cost) return false;
+    if(state.money+1e-9<cost)return false;
     state.money=Math.max(0,state.money-cost);
     state.owned[id]++;
-    addXp(8);
+    addXp(7+Math.floor(state.owned[id]/10));
     markDirty();
-    if(!silent) toast(f.name+' geliştirildi');
+    if(!silent)toast(f.name+' geliştirildi');
     renderAll();
     return true;
+  }
+
+  function missionData(){
+    const bought=Object.values(state.owned).reduce((a,b)=>a+b,0);
+    return [
+      {id:'tap100',name:'Enerji Ustası',desc:`${Math.min(state.taps,100)} / 100 dokunuş`,done:state.taps>=100,reward:5},
+      {id:'buy10',name:'İlk İmparatorluk',desc:`${Math.min(bought,10)} / 10 tesis`,done:bought>=10,reward:8},
+      {id:'earn100k',name:'Büyük Üretici',desc:`${format(Math.min(state.total,100000))} / 100K enerji`,done:state.total>=100000,reward:15}
+    ];
+  }
+
+  function collectMission(mission,silent=false){
+    if(!mission||!mission.done||state.missions[mission.id])return false;
+    state.missions[mission.id]=true;
+    state.gems+=mission.reward;
+    markDirty();
+    if(!silent)toast('+'+mission.reward+' kristal');
+    return true;
+  }
+
+  function collectDaily(silent=false){
+    const now=Date.now();
+    if(now-state.lastDaily<DAILY_COOLDOWN)return false;
+    const reward=10+Math.floor(state.level/5);
+    state.gems+=reward;
+    state.lastDaily=now;
+    markDirty();
+    if(!silent)toast('+'+reward+' günlük kristal');
+    return true;
+  }
+
+  function collectChest(silent=false){
+    const now=Date.now();
+    if(now-state.lastChest<CHEST_COOLDOWN)return false;
+    const reward=Math.max(50,Math.floor(baseIncome()*permanentMultiplier()*90+Math.random()*500));
+    const gemReward=Math.random()<.28?1+Math.floor(Math.random()*4):0;
+    state.money+=reward;
+    state.total+=reward;
+    state.gems+=gemReward;
+    state.lastChest=now;
+    markDirty();
+    if(!silent)toast('Sandık: +'+format(reward));
+    return {reward,gemReward};
+  }
+
+  function smartCollect(){
+    if(!state.managers.smartCollect)return false;
+    let collected=0;
+    for(const mission of missionData())if(collectMission(mission,true))collected++;
+    if(collectDaily(true))collected++;
+    if(collectChest(true))collected++;
+    if(collected){
+      toast(collected+' ödül otomatik toplandı');
+      saveState();
+      renderAll();
+      return true;
+    }
+    return false;
+  }
+
+  function smartUpgrade(){
+    if(!state.managers.autoBuy)return false;
+    const choice=smartChoice(true);
+    if(!canSmartBuy(choice))return false;
+    const bought=buyFacility(choice.f.id,true);
+    if(bought){
+      state.lastSmartAction=Date.now();
+      toast('AI: '+choice.f.name+' yükseltildi');
+      saveState();
+    }
+    return bought;
   }
 
   function toast(text){
@@ -275,26 +405,22 @@
     $('#sheetAction').onclick=()=>onAction?.();
   }
 
-  function closeSheet(){ refs.modal.classList.remove('show'); }
+  function closeSheet(){refs.modal.classList.remove('show')}
 
   function renderFacilities(){
     refs.upgradeList.innerHTML=facilities.map(f=>{
+      const locked=state.level<f.unlock;
       const cost=price(f);
-      return `<div class="card">
+      const metrics=upgradeMetrics(f);
+      return `<div class="card" style="${locked?'opacity:.45':''}">
         <div class="uicon">${f.icon}</div>
-        <div><h3>${f.name} · Lv.${state.owned[f.id]}</h3><p>+${format(f.income*activeMultiplier())}/sn</p></div>
-        <button class="buy" data-buy="${f.id}" ${state.money<cost?'disabled':''}>${format(cost)}</button>
+        <div>
+          <h3>${f.name} · Lv.${state.owned[f.id]}</h3>
+          <p>${locked?'Seviye '+f.unlock+' gerekli':'+'+format(metrics.gain)+'/sn · Geri dönüş '+Math.max(1,Math.round(metrics.payback))+' sn'}</p>
+        </div>
+        <button class="buy" data-buy="${f.id}" ${locked||state.money<cost?'disabled':''}>${locked?'Kilitli':format(cost)}</button>
       </div>`;
     }).join('');
-  }
-
-  function missionData(){
-    const bought=Object.values(state.owned).reduce((a,b)=>a+b,0);
-    return [
-      {id:'tap100',name:'Enerji Ustası',desc:`${Math.min(state.taps,100)} / 100 dokunuş`,done:state.taps>=100,reward:5},
-      {id:'buy10',name:'İlk İmparatorluk',desc:`${Math.min(bought,10)} / 10 tesis`,done:bought>=10,reward:8},
-      {id:'earn100k',name:'Büyük Üretici',desc:`${format(Math.min(state.total,100000))} / 100K enerji`,done:state.total>=100000,reward:15}
-    ];
   }
 
   function renderMissions(){
@@ -324,18 +450,18 @@
     refs.tapPower.textContent=format(tapPower());
     refs.xpBar.style.width=Math.min(100,state.xp/xpNeed()*100)+'%';
 
-    const choice=smartChoice();
+    const choice=smartChoice(false);
     if(choice){
-      refs.smartTitle.textContent=choice.afford ? choice.f.name+' öneriliyor' : format(choice.p-state.money)+' daha biriktir';
-      refs.smartText.textContent=choice.afford ? 'En iyi anlık fiyat/verim oranı.' : 'Sıradaki verimli yatırım.';
+      const wait=Math.max(0,choice.cost-state.money);
+      refs.smartTitle.textContent=choice.afford?choice.f.name+' öneriliyor':format(wait)+' daha biriktir';
+      refs.smartText.textContent=`${Math.max(1,Math.round(choice.payback))} sn geri dönüş · ${format(choice.gain)}/sn katkı`;
       refs.smartBuy.disabled=!choice.afford;
     }
 
     const boostLeft=Math.max(0,state.boostUntil-now);
-    refs.boostLabel.textContent=boostLeft>0 ? Math.ceil(boostLeft/1000)+' sn' : 'Boost';
-
+    refs.boostLabel.textContent=boostLeft>0?Math.ceil(boostLeft/1000)+' sn':'Boost';
     const chestLeft=Math.max(0,CHEST_COOLDOWN-(now-state.lastChest));
-    refs.chestLabel.textContent=chestLeft>0 ? Math.ceil(chestLeft/60000)+' dk' : 'Sandık';
+    refs.chestLabel.textContent=chestLeft>0?Math.ceil(chestLeft/60000)+' dk':'Sandık';
   }
 
   function renderAll(){
@@ -348,26 +474,17 @@
   function claimOfflineReward(){
     const now=Date.now();
     const elapsed=Math.max(0,Math.min(now-state.lastSeen,30*24*60*60*1000));
-    const capHours=state.managers.offline?8:2;
-    const seconds=Math.min(elapsed/1000,capHours*3600);
-
-    // Geçici boost çevrimdışı kazanca uygulanmaz.
-    const reward=baseIncome()*permanentMultiplier()*seconds;
-
-    // Yenileyerek ödülü tekrar alma açığını kapatmak için önce zamanı kaydet.
+    const seconds=Math.min(elapsed/1000,(state.managers.offline?8:2)*3600);
+    const efficiency=.82+Math.min(.16,state.prestige*.01);
+    const reward=baseIncome()*permanentMultiplier()*seconds*efficiency;
     state.lastSeen=now;
     localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-
     if(reward>=1){
       state.money+=reward;
       state.total+=reward;
       markDirty();
       saveState();
-      setTimeout(()=>openSheet(
-        'ÇEVRİMDIŞI KAZANÇ',
-        `${Math.floor(seconds/60)} dakika üretim devam etti.<br><br><b>+${format(reward)}</b> enerji`,
-        closeSheet,'Topla'
-      ),250);
+      setTimeout(()=>openSheet('ÇEVRİMDIŞI KAZANÇ',`${Math.floor(seconds/60)} dakika üretim.<br><br><b>+${format(reward)}</b> enerji`,closeSheet,'Topla'),250);
     }
   }
 
@@ -375,7 +492,6 @@
     const gain=tapPower();
     state.money+=gain;state.total+=gain;state.taps++;addXp(1);markDirty();
     renderTop();
-
     const float=document.createElement('div');
     float.className='float';float.textContent='+'+format(gain);
     float.style.left=(e.clientX-15)+'px';float.style.top=(e.clientY-10)+'px';
@@ -386,22 +502,19 @@
 
   refs.smartBuy.onclick=()=>{
     const choice=smartChoice(true);
-    if(choice) buyFacility(choice.f.id);
+    if(choice)buyFacility(choice.f.id);
   };
 
   refs.upgradeList.addEventListener('click',e=>{
     const button=e.target.closest('[data-buy]');
-    if(button) buyFacility(button.dataset.buy);
+    if(button)buyFacility(button.dataset.buy);
   });
 
   refs.missionList.addEventListener('click',e=>{
     const button=e.target.closest('[data-mission]');
     if(!button)return;
     const mission=missionData().find(m=>m.id===button.dataset.mission);
-    if(!mission||!mission.done||state.missions[mission.id])return;
-    state.missions[mission.id]=true;
-    state.gems+=mission.reward;
-    markDirty();toast('+'+mission.reward+' kristal');renderAll();saveState();
+    if(collectMission(mission)){renderAll();saveState()}
   });
 
   refs.managerList.addEventListener('click',e=>{
@@ -424,61 +537,47 @@
   });
 
   $('#boostBtn').onclick=()=>{
-    const now=Date.now();
-    const active=state.boostUntil>now;
-    openSheet('2X BOOST',
-      `${active?'Aktif boost süresine':'Üretime'} 2 dakika ekler.<br><br>Maliyet: <b>5 kristal</b>`,
-      ()=>{
-        if(state.gems<5){toast('Yeterli kristal yok');return}
-        state.gems-=5;
-        state.boostUntil=Math.max(Date.now(),state.boostUntil)+BOOST_DURATION;
-        markDirty();saveState();closeSheet();toast('2X boost aktif');renderAll();
-      },'Aktifleştir');
+    openSheet('2X BOOST','Üretime 2 dakika boyunca 2X güç verir.<br><br>Maliyet: <b>5 kristal</b>',()=>{
+      if(state.gems<5){toast('Yeterli kristal yok');return}
+      state.gems-=5;
+      state.boostUntil=Math.max(Date.now(),state.boostUntil)+BOOST_DURATION;
+      markDirty();saveState();closeSheet();toast('2X boost aktif');renderAll();
+    },'Aktifleştir');
   };
 
   $('#chestBtn').onclick=()=>{
-    const now=Date.now();
-    const remaining=CHEST_COOLDOWN-(now-state.lastChest);
+    const remaining=CHEST_COOLDOWN-(Date.now()-state.lastChest);
     if(remaining>0){toast(Math.ceil(remaining/60000)+' dakika sonra hazır');return}
-    const reward=Math.max(50,Math.floor(baseIncome()*permanentMultiplier()*90+Math.random()*500));
-    const gemReward=Math.random()<.28 ? 1+Math.floor(Math.random()*4) : 0;
-    state.money+=reward;state.total+=reward;state.gems+=gemReward;state.lastChest=now;
-    markDirty();saveState();renderAll();
-    openSheet('NEON SANDIK',`+<b>${format(reward)}</b> enerji${gemReward?'<br>+<b>'+gemReward+'</b> kristal':''}`,closeSheet,'Topla');
+    const result=collectChest(true);
+    if(!result)return;
+    saveState();renderAll();
+    openSheet('NEON SANDIK',`+<b>${format(result.reward)}</b> enerji${result.gemReward?'<br>+<b>'+result.gemReward+'</b> kristal':''}`,closeSheet,'Topla');
   };
 
   $('#prestigeBtn').onclick=()=>{
     const gain=Math.floor(Math.sqrt(state.total/1_000_000));
-    if(gain<1){
-      openSheet('PRESTİJ','Prestij için toplam <b>1M</b> enerji üretmelisin.',closeSheet,'Kapat');
-      return;
-    }
-    openSheet('PRESTİJ',`İlerleme sıfırlanır ve <b>${gain}</b> prestij puanı kazanırsın.<br>Kalıcı bonus: <b>+%${gain*15}</b>`,
-      ()=>{
-        const preserved={prestige:state.prestige+gain,gems:state.gems,managers:{...state.managers}};
-        state=structuredClone(defaults);
-        Object.assign(state,preserved);
-        state.lastSeen=Date.now();
-        markDirty();saveState();closeSheet();toast('Prestij tamamlandı');renderAll();
-      },'Prestij Yap');
+    if(gain<1){openSheet('PRESTİJ','Prestij için toplam <b>1M</b> enerji üretmelisin.',closeSheet,'Kapat');return}
+    openSheet('PRESTİJ',`İlerleme sıfırlanır ve <b>${gain}</b> prestij puanı kazanırsın.<br>Kalıcı bonus: <b>+%${gain*15}</b>`,()=>{
+      const preserved={prestige:state.prestige+gain,gems:state.gems,managers:{...state.managers}};
+      state=structuredClone(defaults);
+      Object.assign(state,preserved);
+      state.lastSeen=Date.now();
+      markDirty();saveState();closeSheet();toast('Prestij tamamlandı');renderAll();
+    },'Prestij Yap');
   };
 
   $('#dailyBtn').onclick=()=>{
-    const now=Date.now();
-    const remaining=DAILY_COOLDOWN-(now-state.lastDaily);
-    if(remaining>0){
-      const hours=Math.ceil(remaining/3600000);
-      toast(hours+' saat sonra hazır');
-      return;
-    }
-    const reward=10+Math.floor(state.level/5);
-    state.gems+=reward;state.lastDaily=now;
-    markDirty();saveState();toast('+'+reward+' günlük kristal');renderAll();
+    const remaining=DAILY_COOLDOWN-(Date.now()-state.lastDaily);
+    if(remaining>0){toast(Math.ceil(remaining/3600000)+' saat sonra hazır');return}
+    if(collectDaily()){saveState();renderAll()}
   };
 
   $('#settingsBtn').onclick=()=>openSheet(
-    'AYARLAR',
-    `Otomatik kayıt aktif.<br><br>Çevrimdışı sınır: <b>${state.managers.offline?'8':'2'} saat</b><br>Auto Buyer: <b>${state.managers.autoBuy?'Aktif':'Kapalı'}</b>`,
+    'AKILLI SİSTEMLER',
+    `Akıllı yükseltme: <b>${state.managers.autoBuy?'Aktif':'Kapalı'}</b><br>
+     Akıllı toplama: <b>${state.managers.smartCollect?'Aktif':'Kapalı'}</b><br>
+     Korunan bütçe: <b>%${Math.round(state.reserveRatio*100)}</b><br>
+     Çevrimdışı sınır: <b>${state.managers.offline?'8':'2'} saat</b>`,
     ()=>{
       if(confirm('Tüm ilerleme kalıcı olarak silinsin mi?')){
         localStorage.removeItem(SAVE_KEY);
@@ -495,16 +594,12 @@
 
     if(!document.hidden){
       const gain=income()*dt;
-      if(gain>0){
-        state.money+=gain;
-        state.total+=gain;
-        markDirty();
-      }
+      if(gain>0){state.money+=gain;state.total+=gain;markDirty()}
 
-      if(state.managers.autoBuy && nowPerf-lastAutoBuy>=5000){
-        lastAutoBuy=nowPerf;
-        const choice=smartChoice(true);
-        if(choice) buyFacility(choice.f.id,true);
+      if(nowPerf-lastAutoDecision>=AUTO_DECISION_INTERVAL){
+        lastAutoDecision=nowPerf;
+        smartCollect();
+        smartUpgrade();
       }
 
       if(nowPerf-lastUiUpdate>=250){
@@ -517,8 +612,9 @@
 
   document.addEventListener('visibilitychange',()=>{
     lastFrame=performance.now();
-    if(document.hidden) saveState();
+    if(document.hidden)saveState();
   });
+
   window.addEventListener('pagehide',saveState);
   setInterval(()=>{if(dirty)saveState();renderAll()},3000);
 
