@@ -1,569 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#080c16">
-  <title>NOVA — Idle Core</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Idle Fusion — Gölgelerin Çağı</title>
   <style>
-    :root{
-      --bg:#080c16;--panel:#101726;--panel2:#0c1220;
-      --line:rgba(255,255,255,.075);--text:#f7f9ff;--muted:#8591aa;
-      --cyan:#64e9ff;--blue:#7480ff;--purple:#a966ff;
-      --green:#58eba4;--gold:#ffd36a;--red:#ff718e;
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{
-      margin:0;min-height:100%;overflow-x:hidden;
-      background:
-        radial-gradient(circle at 15% -8%,rgba(116,128,255,.20),transparent 34%),
-        radial-gradient(circle at 100% 0,rgba(100,233,255,.11),transparent 28%),
-        linear-gradient(180deg,#0a1020,#070a12 72%);
-      color:var(--text);
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
-    }
-    button{font:inherit}
-    .app{width:min(100%,480px);margin:auto;min-height:100vh;padding:14px 13px 94px}
-    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .logo{font-size:19px;font-weight:950;letter-spacing:1.5px}
-    .top-actions{display:flex;gap:7px}
-    .icon-btn{
-      width:40px;height:40px;border-radius:13px;border:1px solid var(--line);
-      background:rgba(16,23,38,.9);color:white
-    }
-    .hero{
-      padding:17px;border:1px solid var(--line);border-radius:22px;
-      background:linear-gradient(145deg,rgba(100,233,255,.065),rgba(16,23,38,.96))
-    }
-    .hero-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}
-    .money{font-size:38px;font-weight:950;letter-spacing:-1.4px;margin:7px 0 3px;overflow-wrap:anywhere}
-    .rate{color:var(--green);font-weight:900;font-size:13px}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px}
-    .stat{padding:9px 7px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.022);text-align:center}
-    .stat b{display:block;font-size:12px}.stat span{color:var(--muted);font-size:8px}
-    .progress{height:7px;border-radius:999px;background:rgba(255,255,255,.055);overflow:hidden;margin-top:11px}
-    .progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple))}
-    .core-wrap{display:grid;place-items:center;padding:24px 0 18px;position:relative}
-    .core{
-      width:178px;height:178px;border:0;border-radius:50%;color:white;position:relative;
-      background:
-        radial-gradient(circle at 34% 26%,rgba(255,255,255,.82),rgba(100,233,255,.14) 9%,rgba(116,128,255,.24) 34%,#0c1728 72%),
-        conic-gradient(var(--cyan),var(--blue),var(--purple),var(--cyan));
-      box-shadow:0 0 0 8px rgba(255,255,255,.024),0 0 50px rgba(100,233,255,.17);
-      touch-action:manipulation
-    }
-    .core:active{transform:scale(.965)}
-    .core-in{
-      position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(255,255,255,.11);
-      background:radial-gradient(circle at 35% 29%,#18233b,#09101d 75%);
-      display:flex;flex-direction:column;align-items:center;justify-content:center
-    }
-    .core-in small{color:var(--muted);font-size:10px;letter-spacing:1.4px}
-    .core-in strong{font-size:29px;margin-top:5px}
-    .event-pill{
-      position:absolute;bottom:12px;padding:7px 10px;border-radius:999px;
-      border:1px solid rgba(255,211,106,.20);background:rgba(255,211,106,.08);
-      color:var(--gold);font-size:10px;font-weight:800;display:none
-    }
-    .event-pill.show{display:block}
-    .ai{
-      display:grid;grid-template-columns:40px 1fr auto;gap:9px;align-items:center;
-      padding:11px;border:1px solid rgba(100,233,255,.13);border-radius:16px;background:rgba(16,23,38,.84)
-    }
-    .ai-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(100,233,255,.075)}
-    .ai h3{margin:0 0 3px;font-size:12px}.ai p{margin:0;color:var(--muted);font-size:9px;line-height:1.35}
-    .ai button{
-      border:0;border-radius:10px;padding:8px 10px;font-weight:950;
-      background:linear-gradient(135deg,var(--cyan),#b7f7ff);color:#07121c
-    }
-    .section-head{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 9px}
-    .section-head h2{margin:0;font-size:15px}.section-head span{color:var(--cyan);font-size:10px}
-    .toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
-    .chip{
-      border:1px solid var(--line);border-radius:11px;padding:7px 10px;
-      background:rgba(255,255,255,.025);color:var(--muted);font-size:11px;font-weight:850
-    }
-    .chip.active{color:white;border-color:rgba(100,233,255,.26);background:rgba(100,233,255,.07)}
-    .list{display:grid;gap:8px}
-    .card{
-      display:grid;grid-template-columns:46px 1fr auto;gap:10px;align-items:center;
-      padding:10px;border:1px solid var(--line);border-radius:15px;background:rgba(16,23,38,.87)
-    }
-    .card.pick{border-color:rgba(100,233,255,.25);background:rgba(100,233,255,.045)}
-    .ico{
-      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;
-      background:linear-gradient(145deg,rgba(116,128,255,.21),rgba(100,233,255,.10))
-    }
-    .card h3{margin:0 0 3px;font-size:12px}.card p{margin:0;color:var(--muted);font-size:9px;line-height:1.35}
-    .buy{
-      min-width:78px;border:0;border-radius:10px;padding:8px 9px;
-      color:white;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple))
-    }
-    button:disabled{opacity:.3}
-    .system-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .system{
-      padding:11px;border:1px solid var(--line);border-radius:15px;background:rgba(16,23,38,.85)
-    }
-    .system-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .system h3{margin:0;font-size:12px}.system p{margin:7px 0 0;color:var(--muted);font-size:9px;line-height:1.35}
-    .switch{
-      border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.025);
-      color:var(--muted);font-size:9px;font-weight:900
-    }
-    .switch.on{color:white;border-color:rgba(88,235,164,.25);background:rgba(88,235,164,.08)}
-    .bottom{
-      position:fixed;left:50%;bottom:11px;transform:translateX(-50%);
-      width:min(calc(100% - 22px),458px);height:65px;border:1px solid var(--line);
-      border-radius:21px;background:rgba(8,13,24,.94);backdrop-filter:blur(18px);
-      display:grid;grid-template-columns:repeat(4,1fr);z-index:30
-    }
-    .nav{
-      border:0;background:none;color:var(--muted);display:flex;flex-direction:column;
-      align-items:center;justify-content:center;gap:3px;font-size:9px
-    }
-    .nav strong{font-size:18px}.nav.active{color:var(--cyan)}
-    .toast{
-      position:fixed;top:16px;left:50%;transform:translate(-50%,-140%);z-index:80;
-      max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-      border:1px solid var(--line);border-radius:13px;padding:10px 13px;background:#121a2d;font-size:11px;transition:.22s
-    }
-    .toast.show{transform:translate(-50%,0)}
-    .float{position:fixed;pointer-events:none;color:var(--cyan);font-weight:900;z-index:20;animation:up .65s ease-out forwards}
-    @keyframes up{to{transform:translateY(-62px);opacity:0}}
-    .modal{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(2,5,11,.78);z-index:70}
-    .modal.show{display:flex}
-    .sheet{width:min(100%,480px);padding:20px 17px 26px;border:1px solid var(--line);border-radius:26px 26px 0 0;background:#0d1424}
-    .sheet h2{margin-top:0;font-size:18px}.sheet p{color:var(--muted);line-height:1.55;font-size:13px}
-    .sheet button{width:100%;border:0;border-radius:13px;padding:12px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07101c}
+    :root{--bg:#070b14;--panel:#111827;--panel2:#182235;--line:#26344c;--text:#f8fafc;--muted:#94a3b8;--accent:#8b5cf6;--accent2:#22d3ee;--gold:#fbbf24;--danger:#fb7185;--ok:#34d399}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#182038 0,#070b14 42%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    button{font:inherit} .app{max-width:560px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 14px calc(90px + env(safe-area-inset-bottom))}
+    header{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 14px}.brand b{font-size:21px;letter-spacing:1.6px}.brand small{display:block;color:var(--muted);margin-top:3px}.resources{text-align:right;font-weight:800}.resources div:first-child{color:var(--gold)}.resources div:last-child{color:#67e8f9;margin-top:3px}
+    .notice{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.42);border-radius:14px;padding:11px 13px;margin-bottom:12px;color:#ddd6fe;font-size:14px;display:none}
+    .panel{background:rgba(17,24,39,.94);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:13px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted);font-size:13px}.title{font-weight:800;font-size:17px}.big{font-size:28px;font-weight:900}.badge{background:rgba(139,92,246,.18);color:#c4b5fd;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:800}
+    .enemy{text-align:center;padding:8px 0}.enemy-icon{width:112px;height:112px;border-radius:50%;margin:10px auto;background:radial-gradient(circle at 38% 34%,#fda4af,#9f1239 35%,#3f0718 72%);display:grid;place-items:center;font-size:48px;border:4px solid rgba(251,113,133,.25);box-shadow:0 0 45px rgba(244,63,94,.18)}
+    .bar{height:12px;background:#263246;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#fb7185,#f43f5e);transition:width .18s}.bar.gold>i{background:linear-gradient(90deg,#8b5cf6,#22d3ee)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:var(--panel2);border:1px solid var(--line);padding:11px;border-radius:14px;text-align:center}.stat b{display:block;font-size:17px;margin-top:3px}.hit{width:100%;border:0;border-radius:15px;padding:14px;background:linear-gradient(135deg,var(--accent),#6d28d9);color:white;font-weight:900;margin-top:14px;box-shadow:0 8px 24px rgba(109,40,217,.25)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.upgrade{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:12px;color:var(--text);text-align:left}.upgrade:disabled{opacity:.48}.upgrade b,.upgrade span{display:block}.upgrade span{color:var(--gold);font-size:13px;margin-top:7px}.full{grid-column:1/-1}
+    .gear{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:11px;margin-top:9px}.gear button,.small-btn{background:#334155;color:white;border:0;border-radius:10px;padding:8px 10px;font-weight:800}.rarity-Nadir{color:#60a5fa}.rarity-Epik{color:#c084fc}.rarity-Efsanevi{color:#fbbf24}
+    .quest{margin-top:10px}.primary,.danger{width:100%;border:0;border-radius:13px;padding:12px;font-weight:900;color:white;margin-top:10px;background:var(--accent)}.danger{background:#9f1239}.primary:disabled{opacity:.45}
+    .tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(560px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(8,13,24,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:10}.tab{border:0;background:transparent;color:var(--muted);padding:8px 2px;font-size:12px;font-weight:800}.tab.active{color:#c4b5fd}.tab strong{display:block;font-size:20px;margin-bottom:3px}.screen{display:none}.screen.active{display:block}
+    .toast{position:fixed;left:50%;top:80px;transform:translateX(-50%) translateY(-15px);background:#f8fafc;color:#111827;border-radius:99px;padding:9px 14px;font-size:13px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
 <body>
-<main class="app">
-  <div class="top">
-    <div class="logo">NOVA</div>
-    <div class="top-actions">
-      <button class="icon-btn" id="soundBtn">🔊</button>
-      <button class="icon-btn" id="settingsBtn">⚙️</button>
-    </div>
-  </div>
+<div class="app">
+  <header><div class="brand"><b>IDLE FUSION</b><small>Gölgelerin Çağı</small></div><div class="resources"><div>◉ <span id="gold">0</span></div><div>◆ <span id="crystals">0</span> · ✦ <span id="essence">0</span></div></div></header>
+  <div id="offlineNotice" class="notice"></div>
 
-  <section class="hero">
-    <div class="hero-top">
-      <span>ENERJİ</span>
-      <span id="phase">I</span>
-    </div>
-    <div class="money" id="money">0</div>
-    <div class="rate"><span id="perSecond">0</span>/sn</div>
+  <main>
+    <section class="screen active" data-screen="battle">
+      <div class="panel enemy"><div class="row"><span class="badge">BÖLÜM <span id="stage">1</span></span><span class="muted">Ödül: ◉ <span id="enemyReward">8</span></span></div><div class="enemy-icon">👹</div><div class="title">Gölge Muhafızı</div><div class="muted"><span id="enemyHpText"></span></div><div class="bar"><i id="enemyHpBar"></i></div><button class="hit" id="manualHit">⚔️ Güçlü Vuruş</button><div class="stats"><div class="stat"><span class="muted">Saldırı</span><b id="attack">0</b></div><div class="stat"><span class="muted">Hız</span><b id="speed">0</b></div><div class="stat"><span class="muted">Kritik</span><b id="crit">0</b></div></div></div>
+      <div class="panel"><div class="row"><div><div class="title">Yıldız Yeniden Doğuşu</div><div class="muted">Bölüm 20'den sonra kalıcı güç kazan.</div></div><span class="badge">+<span id="prestigeGain">0</span> öz</span></div><button id="prestige" class="primary">Yeniden Doğ</button></div>
+    </section>
 
-    <div class="stats">
-      <div class="stat"><b id="level">1</b><span>LVL</span></div>
-      <div class="stat"><b id="cores">0</b><span>CORE</span></div>
-      <div class="stat"><b id="efficiency">%100</b><span>VERİM</span></div>
-      <div class="stat"><b id="combo">x1</b><span>KOMBO</span></div>
-    </div>
+    <section class="screen" data-screen="hero">
+      <div class="panel"><div class="row"><div><div class="title">Kahraman</div><div class="muted">Seviye <span id="heroLevel">1</span></div></div><div class="big">⚔️</div></div><div class="grid" id="heroUpgrades"></div></div>
+      <div class="panel"><div class="title">Kuşanılan Ekipman</div><div id="equipped"></div></div>
+      <div class="panel"><div class="row"><div class="title">Envanter</div><span class="muted"><span id="invCount">0</span>/30</span></div><div id="inventory"></div></div>
+    </section>
 
-    <div class="progress"><div id="xpBar"></div></div>
-  </section>
+    <section class="screen" data-screen="town">
+      <div class="panel"><div class="title">Gölge Şehri</div><div class="muted">Binalar yeniden doğuşta korunur.</div><div class="grid" id="townUpgrades" style="margin-top:12px"></div></div>
+      <div class="panel"><div class="title">Pasif Gelir</div><div class="big" style="color:var(--gold)">◉ <span id="passive">0</span>/sn</div><div class="bar gold"><i style="width:100%"></i></div></div>
+    </section>
 
-  <div class="core-wrap">
-    <button class="core" id="coreBtn">
-      <span class="core-in">
-        <small>TOPLA</small>
-        <strong>+<span id="tapPower">1</span></strong>
-      </span>
-    </button>
-    <div class="event-pill" id="eventPill">⚡ 2X</div>
-  </div>
-
-  <section class="ai">
-    <div class="ai-icon">🧠</div>
-    <div>
-      <h3 id="aiTitle">Analiz</h3>
-      <p id="aiText">Hazırlanıyor</p>
-    </div>
-    <button id="aiAction">AL</button>
-  </section>
-
-  <div class="section-head">
-    <h2 id="viewTitle">Yapılar</h2>
-    <span id="viewHint">AI sıralama</span>
-  </div>
-
-  <div class="toolbar" id="toolbar">
-    <button class="chip active" data-buy="1">x1</button>
-    <button class="chip" data-buy="10">x10</button>
-    <button class="chip" data-buy="max">MAX</button>
-    <button class="chip active" id="autoChip">AUTO</button>
-  </div>
-
-  <section class="list" id="content"></section>
-</main>
-
-<nav class="bottom">
-  <button class="nav active" data-view="build"><strong>🏗️</strong>Yapılar</button>
-  <button class="nav" data-view="missions"><strong>🎯</strong>Görev</button>
-  <button class="nav" data-view="systems"><strong>🤖</strong>Sistem</button>
-  <button class="nav" data-view="core"><strong>✦</strong>Core</button>
-</nav>
-
+    <section class="screen" data-screen="quests">
+      <div class="panel"><div class="title">Av Görevi</div><div class="muted"><span id="questKills">0</span> / <span id="questTarget">12</span> düşman yen</div><div class="bar gold"><i id="questBar"></i></div><div class="quest muted">Ödül: ◆ 3 kristal + altın</div><button id="claimQuest" class="primary">Ödülü Al</button></div>
+      <div class="panel"><div class="title">İstatistikler</div><div class="gear"><span>Toplam yenilen düşman</span><b id="totalKills">0</b></div><div class="gear"><span>Tamamlanan görev</span><b id="questClaims">0</b></div><button id="reset" class="danger">Kaydı Sıfırla</button></div>
+    </section>
+  </main>
+</div>
+<nav class="tabs"><button class="tab active" data-tab="battle"><strong>⚔️</strong>Savaş</button><button class="tab" data-tab="hero"><strong>🧙</strong>Kahraman</button><button class="tab" data-tab="town"><strong>🏰</strong>Şehir</button><button class="tab" data-tab="quests"><strong>📜</strong>Görevler</button></nav>
 <div class="toast" id="toast"></div>
-<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-
 <script>
-(() => {
-  'use strict';
-
-  const SAVE_KEY='novaMaximumSave';
-  const OFFLINE_CAP=4*3600;
-  const buildings=[
-    {id:'cell',name:'Hücre',icon:'🔋',base:15,income:1,unlock:1},
-    {id:'pump',name:'Pompa',icon:'⚙️',base:115,income:8,unlock:2},
-    {id:'reactor',name:'Reaktör',icon:'⚛️',base:900,income:62,unlock:4},
-    {id:'grid',name:'Grid',icon:'🧠',base:7200,income:500,unlock:7},
-    {id:'void',name:'Void',icon:'🌌',base:59000,income:4200,unlock:11}
-  ];
-  const defaults={
-    money:0,total:0,level:1,xp:0,cores:0,
-    view:'build',buyMode:'1',auto:true,sound:true,battery:false,
-    smartCollect:true,smartBoost:true,combo:1,lastTap:0,eventUntil:0,
-    owned:{cell:0,pump:0,reactor:0,grid:0,void:0},
-    missions:{
-      tap:{tier:1,progress:0,target:100,reward:3},
-      buy:{tier:1,progress:0,target:10,reward:4},
-      earn:{tier:1,progress:0,target:5000,reward:5}
-    },
-    gems:0,lastSeen:Date.now(),lastDaily:0,lastChest:0
-  };
-
-  const $=s=>document.querySelector(s);
-  const refs={
-    money:$('#money'),perSecond:$('#perSecond'),level:$('#level'),cores:$('#cores'),
-    efficiency:$('#efficiency'),combo:$('#combo'),tapPower:$('#tapPower'),xpBar:$('#xpBar'),
-    phase:$('#phase'),eventPill:$('#eventPill'),aiTitle:$('#aiTitle'),aiText:$('#aiText'),
-    aiAction:$('#aiAction'),viewTitle:$('#viewTitle'),viewHint:$('#viewHint'),
-    toolbar:$('#toolbar'),autoChip:$('#autoChip'),content:$('#content'),
-    soundBtn:$('#soundBtn'),toast:$('#toast'),modal:$('#modal'),sheet:$('#sheet')
-  };
-
-  let state=load();
-  let lastFrame=performance.now();
-  let lastUi=0,lastAuto=0,lastSmart=0,modalOpen=false;
-
-  function n(v,f=0){const x=Number(v);return Number.isFinite(x)&&x>=0?x:f}
-  function load(){
-    try{
-      const r=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
-      if(!r)return structuredClone(defaults);
-      const s={
-        ...defaults,...r,
-        money:n(r.money),total:n(r.total),level:Math.max(1,Math.floor(n(r.level,1))),
-        xp:n(r.xp),cores:Math.floor(n(r.cores)),gems:Math.floor(n(r.gems)),
-        combo:Math.max(1,Math.min(5,n(r.combo,1))),eventUntil:n(r.eventUntil),
-        lastTap:n(r.lastTap),lastSeen:n(r.lastSeen,Date.now()),lastDaily:n(r.lastDaily),lastChest:n(r.lastChest),
-        buyMode:['1','10','max'].includes(r.buyMode)?r.buyMode:'1',
-        view:['build','missions','systems','core'].includes(r.view)?r.view:'build',
-        owned:{...defaults.owned,...(r.owned||{})},
-        missions:{...structuredClone(defaults.missions),...(r.missions||{})}
-      };
-      Object.keys(s.owned).forEach(k=>s.owned[k]=Math.floor(n(s.owned[k])));
-      return s;
-    }catch{return structuredClone(defaults)}
-  }
-  function save(){state.lastSeen=Date.now();localStorage.setItem(SAVE_KEY,JSON.stringify(state))}
-  function fmt(x){
-    x=n(x);
-    if(x<1000)return Math.floor(x).toLocaleString('tr-TR');
-    const u=['K','M','B','T','Qa','Qi'];let i=-1;
-    while(x>=1000&&i<u.length-1){x/=1000;i++}
-    return x.toLocaleString('tr-TR',{maximumFractionDigits:x<10?2:1})+u[i]
-  }
-  function phase(){
-    if(state.level<4)return {name:'I',mult:1};
-    if(state.level<8)return {name:'II',mult:1.08};
-    if(state.level<14)return {name:'III',mult:1.16};
-    return {name:'IV',mult:1.25}
-  }
-  function globalMult(){
-    let m=(1+state.cores*.2)*phase().mult;
-    if(Date.now()<state.eventUntil)m*=2;
-    return m
-  }
-  function efficiency(){
-    const a=buildings.filter(b=>state.level>=b.unlock).map(b=>state.owned[b.id]);
-    if(!a.length)return 1;
-    const spread=Math.max(...a)-Math.min(...a);
-    return Math.max(.84,1-Math.min(.16,spread*.007))
-  }
-  function income(){
-    return buildings.reduce((s,b)=>s+state.owned[b.id]*b.income,0)*globalMult()*efficiency()
-  }
-  function tapPower(){return Math.max(1,Math.floor((1+state.level*.42)*globalMult()*state.combo))}
-  function xpNeed(){return Math.floor(80*Math.pow(1.155,state.level-1))}
-  function addXp(v){
-    state.xp+=v;
-    let up=false;
-    while(state.xp>=xpNeed()){state.xp-=xpNeed();state.level++;up=true}
-    if(up)toast('LVL '+state.level)
-  }
-  function priceAt(b,l){return Math.max(1,Math.floor(b.base*Math.pow(1.133,l)))}
-  function totalPrice(b,c){
-    let s=0;
-    for(let i=0;i<c;i++)s+=priceAt(b,state.owned[b.id]+i);
-    return s
-  }
-  function maxAffordable(b){
-    let c=0,spent=0;
-    while(c<500){
-      const next=priceAt(b,state.owned[b.id]+c);
-      if(spent+next>state.money)break;
-      spent+=next;c++
-    }
-    return c
-  }
-  function qty(b){
-    if(state.buyMode==='1')return 1;
-    if(state.buyMode==='10')return 10;
-    return maxAffordable(b)
-  }
-  function available(){return buildings.filter(b=>state.level>=b.unlock)}
-  function metrics(b){
-    const q=state.buyMode==='max'?Math.max(1,Math.min(maxAffordable(b),10)):Number(state.buyMode);
-    const cost=totalPrice(b,q);
-    const gain=b.income*q*globalMult()*efficiency();
-    const payback=cost/Math.max(.01,gain);
-    const min=Math.min(...available().map(x=>state.owned[x.id]));
-    const balance=state.owned[b.id]===min?1.22:1;
-    const score=(gain/Math.max(1,cost))*balance/(1+payback/160);
-    return {b,q,cost,gain,payback,score,afford:state.money>=cost}
-  }
-  function choice(affordable=false){
-    let list=available().map(metrics);
-    if(affordable)list=list.filter(x=>x.afford);
-    return list.sort((a,b)=>b.score-a.score)[0]||null
-  }
-  function buy(id,count,silent=false){
-    const b=buildings.find(x=>x.id===id);
-    if(!b||state.level<b.unlock||count<1)return false;
-    const cost=totalPrice(b,count);
-    if(state.money<cost)return false;
-    state.money-=cost;state.owned[id]+=count;state.missions.buy.progress+=count;
-    addXp(5*count);save();if(!silent)toast(b.name+' x'+count);render();return true
-  }
-  function claimMission(id,silent=false){
-    const m=state.missions[id];
-    if(!m||m.progress<m.target)return false;
-    state.gems+=m.reward;m.tier++;
-    if(id==='tap'){m.progress=0;m.target=Math.floor(100*Math.pow(1.35,m.tier-1));m.reward=Math.floor(3*Math.pow(1.22,m.tier-1))}
-    if(id==='buy'){m.progress=0;m.target=Math.floor(10*Math.pow(1.38,m.tier-1));m.reward=Math.floor(4*Math.pow(1.22,m.tier-1))}
-    if(id==='earn'){m.progress=0;m.target=Math.floor(5000*Math.pow(1.55,m.tier-1));m.reward=Math.floor(5*Math.pow(1.24,m.tier-1))}
-    if(!silent)toast('+'+m.reward+' 💎');save();return true
-  }
-  function smartCollect(){
-    if(!state.smartCollect)return;
-    ['tap','buy','earn'].forEach(id=>claimMission(id,true));
-    const now=Date.now();
-    if(now-state.lastDaily>=86400000){state.gems+=5+Math.floor(state.level/5);state.lastDaily=now}
-    if(now-state.lastChest>=300000){
-      const r=Math.max(50,Math.floor(income()*75+Math.random()*400));
-      state.money+=r;state.total+=r;state.missions.earn.progress+=r;state.lastChest=now
-    }
-  }
-  function smartBoost(){
-    if(!state.smartBoost||Date.now()<state.eventUntil)return;
-    if(state.gems>=3&&income()>0&&state.money<choice(false)?.cost*.35){
-      state.gems-=3;state.eventUntil=Date.now()+60000
-    }
-  }
-  function smartAuto(){
-    if(!state.auto)return;
-    const c=choice(true);
-    if(c&&c.payback<=170)buy(c.b.id,c.q,true)
-  }
-  function prestigeGain(){return Math.floor(Math.sqrt(state.total/1_000_000))}
-  function toast(t){
-    refs.toast.textContent=t;refs.toast.classList.add('show');
-    clearTimeout(window.tt);window.tt=setTimeout(()=>refs.toast.classList.remove('show'),1300)
-  }
-  function openSheet(title,body,action,label='Tamam'){
-    modalOpen=true;refs.sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
-    refs.modal.classList.add('show');$('#sheetAction').onclick=()=>action?.()
-  }
-  function closeSheet(){modalOpen=false;refs.modal.classList.remove('show')}
-
-  function renderTop(){
-    refs.money.textContent=fmt(state.money);
-    refs.perSecond.textContent=fmt(income());
-    refs.level.textContent=state.level;
-    refs.cores.textContent=state.cores;
-    refs.efficiency.textContent='%'+Math.round(efficiency()*100);
-    refs.combo.textContent='x'+state.combo.toFixed(1);
-    refs.tapPower.textContent=fmt(tapPower());
-    refs.xpBar.style.width=Math.min(100,state.xp/xpNeed()*100)+'%';
-    refs.phase.textContent=phase().name;
-    refs.eventPill.classList.toggle('show',Date.now()<state.eventUntil);
-    if(Date.now()<state.eventUntil)refs.eventPill.textContent='⚡ '+Math.ceil((state.eventUntil-Date.now())/1000)+'s';
-    refs.soundBtn.textContent=state.sound?'🔊':'🔇';
-    refs.autoChip.textContent=state.auto?'AUTO':'MANUEL';
-    refs.autoChip.classList.toggle('active',state.auto);
-    document.querySelectorAll('[data-buy]').forEach(b=>b.classList.toggle('active',b.dataset.buy===state.buyMode));
-    document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.view===state.view))
-  }
-  function renderAI(){
-    const c=choice(false);
-    if(state.view==='core'){
-      const g=prestigeGain();
-      refs.aiTitle.textContent=g>0?'Core hazır':'Core kilitli';
-      refs.aiText.textContent=g>0?'+'+g+' kalıcı puan':'1M toplam enerji';
-      refs.aiAction.textContent='GÖR';refs.aiAction.disabled=false;return
-    }
-    if(state.view==='systems'){
-      refs.aiTitle.textContent=state.auto?'AI aktif':'AI kapalı';
-      refs.aiText.textContent=state.auto?'Yatırım + toplama + boost':'Kontrol sende';
-      refs.aiAction.textContent=state.auto?'KAPAT':'AÇ';refs.aiAction.disabled=false;return
-    }
-    if(!c){refs.aiTitle.textContent='Bekleniyor';refs.aiText.textContent='Yeni yapı aç';refs.aiAction.disabled=true;return}
-    refs.aiTitle.textContent=c.afford?c.b.name:fmt(c.cost-state.money)+' eksik';
-    refs.aiText.textContent='x'+c.q+' · '+Math.max(1,Math.round(c.payback))+'s · +'+fmt(c.gain)+'/sn';
-    refs.aiAction.textContent='AL';refs.aiAction.disabled=!c.afford
-  }
-  function renderBuild(){
-    refs.viewTitle.textContent='Yapılar';refs.viewHint.textContent='AI sıralama';refs.toolbar.style.display='flex';
-    const c=choice(false);
-    refs.content.innerHTML=buildings.map(b=>{
-      const locked=state.level<b.unlock,q=qty(b),display=state.buyMode==='max'?q:Number(state.buyMode);
-      const cost=locked||display<1?0:totalPrice(b,display),pick=c&&c.b.id===b.id;
-      return `<article class="card ${pick?'pick':''}" style="${locked?'opacity:.42':''}">
-        <div class="ico">${b.icon}</div>
-        <div><h3>${b.name} · ${state.owned[b.id]}</h3><p>${locked?'LVL '+b.unlock: '+'+fmt(b.income*globalMult()*efficiency())+'/sn · '+(state.buyMode==='max'?'MAX '+display:'x'+display)}</p></div>
-        <button class="buy" data-id="${b.id}" ${locked||display<1||state.money<cost?'disabled':''}>${locked?'Kilit':fmt(cost)}</button>
-      </article>`
-    }).join('')
-  }
-  function renderMissions(){
-    refs.viewTitle.textContent='Görevler';refs.viewHint.textContent=state.smartCollect?'Auto':'Manuel';refs.toolbar.style.display='none';
-    const names={tap:['👆','Dokun'],buy:['🏗️','Kur'],earn:['⚡','Üret']};
-    refs.content.innerHTML=Object.entries(state.missions).map(([id,m])=>`
-      <article class="card ${m.progress>=m.target?'pick':''}">
-        <div class="ico">${names[id][0]}</div>
-        <div><h3>${names[id][1]} · T${m.tier}</h3><p>${fmt(Math.min(m.progress,m.target))}/${fmt(m.target)} · ${m.reward} 💎</p></div>
-        <button class="buy" data-mission="${id}" ${m.progress<m.target?'disabled':''}>AL</button>
-      </article>`).join('')
-  }
-  function renderSystems(){
-    refs.viewTitle.textContent='Sistemler';refs.viewHint.textContent='Akıllı';refs.toolbar.style.display='none';
-    const items=[
-      ['auto','🤖','Yatırım',state.auto],
-      ['collect','🧲','Toplama',state.smartCollect],
-      ['boost','⚡','Boost',state.smartBoost],
-      ['battery','🔋','Pil',state.battery]
-    ];
-    refs.content.innerHTML=`<div class="system-grid">${items.map(([id,ic,nm,on])=>`
-      <article class="system">
-        <div class="system-top"><h3>${ic} ${nm}</h3><button class="switch ${on?'on':''}" data-system="${id}">${on?'AÇIK':'KAPALI'}</button></div>
-        <p>${id==='auto'?'En iyi yatırımı alır':id==='collect'?'Görev ve ödülleri toplar':id==='boost'?'Doğru anda 2X açar':'Daha az güncelleme'}</p>
-      </article>`).join('')}</div>`
-  }
-  function renderCore(){
-    refs.viewTitle.textContent='Core';refs.viewHint.textContent='Kalıcı';refs.toolbar.style.display='none';
-    const g=prestigeGain();
-    refs.content.innerHTML=`
-      <article class="card pick"><div class="ico">✦</div><div><h3>${state.cores} Core</h3><p>Her biri +%20</p></div><button class="buy" disabled>x${(1+state.cores*.2).toFixed(1)}</button></article>
-      <article class="card"><div class="ico">🚀</div><div><h3>Sıçrama</h3><p>${g>0?'+'+g+' Core':'1M toplam enerji'}</p></div><button class="buy" id="prestigeBtn" ${g<1?'disabled':''}>${g>0?'SIÇRA':'KİLİT'}</button></article>`
-  }
-  function render(){
-    renderTop();renderAI();
-    if(state.view==='build')renderBuild();
-    if(state.view==='missions')renderMissions();
-    if(state.view==='systems')renderSystems();
-    if(state.view==='core')renderCore()
-  }
-
-  $('#coreBtn').addEventListener('pointerdown',e=>{
-    const now=Date.now();
-    state.combo=now-state.lastTap<900?Math.min(5,state.combo+.15):1;
-    state.lastTap=now;
-    const gain=tapPower();
-    state.money+=gain;state.total+=gain;state.missions.tap.progress++;state.missions.earn.progress+=gain;addXp(1);
-    refs.money.textContent=fmt(state.money);refs.combo.textContent='x'+state.combo.toFixed(1);
-    const f=document.createElement('div');f.className='float';f.textContent='+'+fmt(gain);
-    f.style.left=(e.clientX-14)+'px';f.style.top=(e.clientY-10)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),650);
-    navigator.vibrate?.(6)
-  });
-
-  refs.aiAction.addEventListener('click',()=>{
-    if(state.view==='systems'){state.auto=!state.auto;save();render();return}
-    if(state.view==='core'){state.view='core';save();render();return}
-    const c=choice(true);if(c)buy(c.b.id,c.q)
-  });
-
-  refs.toolbar.addEventListener('click',e=>{
-    const b=e.target.closest('[data-buy]');
-    if(b){state.buyMode=b.dataset.buy;save();render();return}
-    if(e.target.closest('#autoChip')){state.auto=!state.auto;save();render()}
-  });
-
-  refs.content.addEventListener('click',e=>{
-    const b=e.target.closest('[data-id]');
-    if(b){const x=buildings.find(z=>z.id===b.dataset.id);if(x){const q=qty(x);if(q>0)buy(x.id,q)}return}
-    const m=e.target.closest('[data-mission]');
-    if(m){if(claimMission(m.dataset.mission)){save();render()}return}
-    const s=e.target.closest('[data-system]');
-    if(s){
-      const map={auto:'auto',collect:'smartCollect',boost:'smartBoost',battery:'battery'};
-      state[map[s.dataset.system]]=!state[map[s.dataset.system]];save();render();return
-    }
-    if(e.target.closest('#prestigeBtn')){
-      const g=prestigeGain();if(g<1)return;
-      openSheet('Core','İlerleme sıfırlanır.<br><br><b>+'+g+' Core</b>',()=>{
-        const cores=state.cores+g,sound=state.sound,battery=state.battery;
-        state=structuredClone(defaults);state.cores=cores;state.sound=sound;state.battery=battery;state.lastSeen=Date.now();
-        save();closeSheet();render();toast('+'+g+' Core')
-      },'Sıçra')
-    }
-  });
-
-  document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>{
-    state.view=b.dataset.view;save();render()
-  }));
-
-  refs.soundBtn.addEventListener('click',()=>{state.sound=!state.sound;save();renderTop()});
-  $('#settingsBtn').addEventListener('click',()=>openSheet(
-    'NOVA',
-    `AUTO: <b>${state.auto?'Açık':'Kapalı'}</b><br>Toplama: <b>${state.smartCollect?'Açık':'Kapalı'}</b><br>Boost: <b>${state.smartBoost?'Açık':'Kapalı'}</b><br>Pil: <b>${state.battery?'Açık':'Kapalı'}</b><br>💎 <b>${state.gems}</b>`,
-    closeSheet,'Tamam'
-  ));
-  refs.modal.addEventListener('click',e=>{if(e.target===refs.modal)closeSheet()});
-
-  function offline(){
-    const now=Date.now(),sec=Math.min(Math.max(0,(now-state.lastSeen)/1000),OFFLINE_CAP);
-    const reward=income()*sec*.8;
-    state.lastSeen=now;localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-    if(reward>=1){
-      state.money+=reward;state.total+=reward;state.missions.earn.progress+=reward;save();
-      setTimeout(()=>openSheet('Offline','+'+fmt(reward),closeSheet,'Topla'),220)
-    }
-  }
-
-  function loop(now){
-    const dt=Math.min(.25,Math.max(0,(now-lastFrame)/1000));lastFrame=now;
-    if(!document.hidden){
-      if(Date.now()-state.lastTap>1000)state.combo=Math.max(1,state.combo-dt*.8);
-      const gain=income()*dt;
-      if(gain>0){state.money+=gain;state.total+=gain;state.missions.earn.progress+=gain}
-      const aiGap=state.battery?5000:2800;
-      if(now-lastAuto>=aiGap){lastAuto=now;smartAuto()}
-      if(now-lastSmart>=4000){lastSmart=now;smartCollect();smartBoost()}
-      const uiGap=state.battery?800:250;
-      if(now-lastUi>=uiGap){lastUi=now;renderTop();renderAI()}
-    }
-    requestAnimationFrame(loop)
-  }
-
-  document.addEventListener('visibilitychange',()=>{lastFrame=performance.now();if(document.hidden)save()});
-  window.addEventListener('pagehide',save);
-  setInterval(()=>{save();if(!modalOpen)render()},3500);
-
-  offline();render();requestAnimationFrame(loop)
+(()=>{
+const KEY='idle-fusion-web-save-v1';
+const initial=()=>({gold:75,crystals:5,essence:0,stage:1,enemyHp:40,heroLevel:1,attackLevel:1,speedLevel:1,critLevel:1,townLevel:1,mineLevel:1,forgeLevel:1,totalKills:0,questKills:0,questClaims:0,inventory:[],equipped:{},lastSeen:Date.now()});
+let s=initial();
+const $=id=>document.getElementById(id), compact=n=>n<1e3?Math.floor(n):n<1e6?(n/1e3).toFixed(1)+'K':n<1e9?(n/1e6).toFixed(1)+'M':(n/1e9).toFixed(1)+'B';
+const maxHp=st=>Math.floor(40*Math.pow(1.16,st-1)), reward=st=>Math.floor(8*Math.pow(1.11,st-1));
+const calc=()=>{const gp=Object.values(s.equipped).reduce((a,g)=>a+(g?.power||0),0);return{attack:Math.floor((8+s.heroLevel*3+s.attackLevel*4+gp)*(1+s.essence*.08)),speed:.65+s.speedLevel*.08,crit:Math.min(.5,.04+s.critLevel*.012),passive:s.mineLevel*(1+s.townLevel*.35),heroCost:Math.floor(55*Math.pow(1.22,s.heroLevel-1)),attackCost:Math.floor(40*Math.pow(1.25,s.attackLevel-1)),speedCost:Math.floor(70*Math.pow(1.28,s.speedLevel-1)),critCost:Math.floor(85*Math.pow(1.3,s.critLevel-1)),mineCost:Math.floor(120*Math.pow(1.5,s.mineLevel-1)),forgeCost:Math.floor(160*Math.pow(1.55,s.forgeLevel-1)),townCost:Math.floor(250*Math.pow(1.65,s.townLevel-1)),questTarget:12+s.questClaims*5,prestigeGain:Math.floor(s.stage/20)}};
+function gear(stage){const slots=['silah','zırh','tılsım'],slot=slots[Math.floor(Math.random()*3)],r=Math.random(),rarity=r>.985?'Efsanevi':r>.92?'Epik':r>.68?'Nadir':'Sıradan',mult={Sıradan:1,Nadir:1.8,Epik:3.2,Efsanevi:6}[rarity],names={silah:['Gölgeli Kılıç','Yıldız Mızrağı','Kızıl Balta'],zırh:['Muhafız Zırhı','Ay Dokuması','Titan Plakası'],tılsım:['Rün Çekirdeği','Zaman Mührü','Ejder Gözü']}[slot];return{id:Date.now()+'-'+Math.random(),name:names[Math.floor(Math.random()*names.length)],slot,rarity,power:Math.max(2,Math.floor((stage+3)*mult))}}
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1400)}
+function save(){s.lastSeen=Date.now();localStorage.setItem(KEY,JSON.stringify(s))}
+function load(){try{const raw=localStorage.getItem(KEY);if(!raw)return;const p=JSON.parse(raw),sec=Math.min(28800,Math.max(0,(Date.now()-p.lastSeen)/1000)),gain=Math.floor(sec*p.mineLevel*(1+p.townLevel*.35));s={...initial(),...p,gold:p.gold+gain,lastSeen:Date.now()};if(gain>0){$('offlineNotice').style.display='block';$('offlineNotice').textContent=Math.floor(sec/60)+' dk çevrimdışı: +'+compact(gain)+' altın'}}catch(e){s=initial()}}
+function spend(cost,fn){if(s.gold<cost){toast('Yetersiz altın');return}s.gold-=cost;fn();render();save()}
+function itemButton(label,level,cost,fn,full=false){const b=document.createElement('button');b.className='upgrade'+(full?' full':'');b.disabled=s.gold<cost;b.innerHTML='<b>'+label+' · Sv. '+level+'</b><span>◉ '+compact(cost)+'</span>';b.addEventListener('click',()=>spend(cost,fn));return b}
+function render(){const c=calc();$('gold').textContent=compact(s.gold);$('crystals').textContent=s.crystals;$('essence').textContent=s.essence;$('stage').textContent=s.stage;$('enemyReward').textContent=compact(reward(s.stage));$('enemyHpText').textContent=compact(Math.max(0,s.enemyHp))+' / '+compact(maxHp(s.stage));$('enemyHpBar').style.width=Math.max(0,s.enemyHp/maxHp(s.stage)*100)+'%';$('attack').textContent=compact(c.attack);$('speed').textContent=c.speed.toFixed(2)+'/sn';$('crit').textContent=Math.round(c.crit*100)+'%';$('prestigeGain').textContent=c.prestigeGain;$('prestige').disabled=c.prestigeGain<1;$('heroLevel').textContent=s.heroLevel;$('passive').textContent=c.passive.toFixed(1);$('questKills').textContent=s.questKills;$('questTarget').textContent=c.questTarget;$('questBar').style.width=Math.min(100,s.questKills/c.questTarget*100)+'%';$('claimQuest').disabled=s.questKills<c.questTarget;$('totalKills').textContent=s.totalKills;$('questClaims').textContent=s.questClaims;
+const hu=$('heroUpgrades');hu.innerHTML='';hu.append(itemButton('Kahraman',s.heroLevel,c.heroCost,()=>s.heroLevel++));hu.append(itemButton('Saldırı',s.attackLevel,c.attackCost,()=>s.attackLevel++));hu.append(itemButton('Hız',s.speedLevel,c.speedCost,()=>s.speedLevel++));hu.append(itemButton('Kritik',s.critLevel,c.critCost,()=>s.critLevel++));
+const tu=$('townUpgrades');tu.innerHTML='';tu.append(itemButton('Maden',s.mineLevel,c.mineCost,()=>s.mineLevel++));tu.append(itemButton('Demirhane',s.forgeLevel,c.forgeCost,()=>s.forgeLevel++));tu.append(itemButton('Şehir Merkezi',s.townLevel,c.townCost,()=>s.townLevel++,true));
+const eq=$('equipped');eq.innerHTML='';['silah','zırh','tılsım'].forEach(slot=>{const g=s.equipped[slot],d=document.createElement('div');d.className='gear';d.innerHTML='<span><b>'+slot.toUpperCase()+'</b><br><small class="muted">'+(g?g.name+' · +'+g.power:'Boş')+'</small></span><b class="rarity-'+(g?.rarity||'')+'">'+(g?.rarity||'—')+'</b>';eq.append(d)});
+$('invCount').textContent=s.inventory.length;const inv=$('inventory');inv.innerHTML=s.inventory.length?'':'<p class="muted">Düşmanlardan ekipman düşebilir.</p>';s.inventory.forEach(g=>{const d=document.createElement('div');d.className='gear';d.innerHTML='<span><b class="rarity-'+g.rarity+'">'+g.name+'</b><br><small class="muted">'+g.slot+' · +'+g.power+' güç</small></span>';const b=document.createElement('button');b.textContent='Kuşan';b.addEventListener('click',()=>{const old=s.equipped[g.slot];if(old)s.inventory.push(old);s.equipped[g.slot]=g;s.inventory=s.inventory.filter(x=>x.id!==g.id).slice(0,30);render();save()});d.append(b);inv.append(d)})}
+function damage(amount){s.enemyHp-=amount;if(s.enemyHp<=0){const old=s.stage;s.gold+=reward(old);s.stage++;s.enemyHp=maxHp(s.stage);s.totalKills++;s.questKills++;if(Math.random()<Math.min(.34,.08+s.forgeLevel*.015)){s.inventory.unshift(gear(old));s.inventory=s.inventory.slice(0,30);toast('Yeni ekipman düştü!')}}}
+$('manualHit').addEventListener('click',()=>{damage(calc().attack*2);render()});$('claimQuest').addEventListener('click',()=>{const c=calc();if(s.questKills<c.questTarget)return;s.questKills-=c.questTarget;s.questClaims++;s.crystals+=3;s.gold+=c.questTarget*20;toast('Görev ödülü alındı');render();save()});$('prestige').addEventListener('click',()=>{const gain=calc().prestigeGain;if(gain<1)return;if(confirm(gain+' öz kazanıp savaş ilerlemesini sıfırlamak istiyor musun?')){const keep={essence:s.essence+gain,crystals:s.crystals,townLevel:s.townLevel,mineLevel:s.mineLevel,forgeLevel:s.forgeLevel,inventory:s.inventory,equipped:s.equipped};s={...initial(),...keep};render();save()}});$('reset').addEventListener('click',()=>{if(confirm('Tüm ilerleme silinsin mi?')){localStorage.removeItem(KEY);s=initial();render()}});
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===b.dataset.tab))}));
+load();render();let acc=0;setInterval(()=>{const c=calc();acc+=.25;damage(c.attack*.25*(Math.random()<c.crit*c.speed*.25?2:1));s.gold+=c.passive*.25;if(acc>=4){save();acc=0}render()},250);window.addEventListener('beforeunload',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
 })();
 </script>
 </body>
