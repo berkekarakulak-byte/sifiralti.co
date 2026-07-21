@@ -3,276 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080b14">
-<title>Idle Fusion — Stabil Sürüm</title>
+<title>Idle Fusion v5</title>
 <style>
-:root{--bg:#070a12;--panel:#111827;--panel2:#182235;--line:#2b3850;--text:#f8fafc;--muted:#9aa8bd;--accent:#8b5cf6;--gold:#fbbf24;--red:#fb7185;--green:#34d399}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button{font:inherit;touch-action:manipulation}.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:84px;background:linear-gradient(#0d1322,#070a12)}
-header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 14px 12px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line)}.brand{font-weight:900}.brand small{display:block;color:var(--muted);font-size:11px}.wallet{text-align:right;font-weight:800}.wallet .gold{color:var(--gold)}
-.notice{display:none;margin:10px 14px;padding:10px 12px;border:1px solid #155e75;background:#083344;border-radius:12px;color:#cffafe;font-size:13px}
-.screen{display:none}.screen.active{display:block}.battle{padding:14px;background:radial-gradient(circle at 50% 25%,#2d2058 0,transparent 36%),linear-gradient(#151d33,#0b1020)}.stage{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:900}.pill{padding:7px 10px;border:1px solid #35415d;border-radius:999px;background:#0a1020}.arena{height:250px;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 18px;position:relative}.unit{text-align:center;width:125px}.sprite{font-size:78px;filter:drop-shadow(0 14px 12px #0008);user-select:none}.enemy.hit .sprite{animation:hit .18s ease-out}.hero.attack .sprite{animation:attack .22s ease-out}@keyframes hit{50%{transform:translateX(10px);filter:brightness(1.8)}}@keyframes attack{50%{transform:translateX(12px) rotate(5deg)}}.name{font-weight:900}.sub{color:var(--muted);font-size:12px}.damage{position:absolute;right:70px;top:75px;font-size:23px;font-weight:900;opacity:0}.damage.show{animation:float .55s ease-out}@keyframes float{0%{opacity:0;transform:translateY(10px)}25%{opacity:1}100%{opacity:0;transform:translateY(-28px)}}
-.panel{background:rgba(9,14,27,.88);border:1px solid var(--line);border-radius:16px;padding:12px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.bar{height:10px;background:#28334a;border-radius:999px;overflow:hidden;margin-top:7px}.bar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ef4444,#fb7185);transition:width .12s linear}.tap{width:100%;margin-top:11px;padding:14px;border:0;border-radius:13px;background:var(--accent);color:#fff;font-weight:900}.tap:active{transform:scale(.985)}
-.section{padding:14px}.title{font-size:17px;font-weight:900}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px}.stat{text-align:center}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{display:block;margin-top:4px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.upgrade{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--text);padding:11px;text-align:left}.upgrade b,.upgrade span,.upgrade small{display:block}.upgrade small{color:var(--muted);margin-top:4px}.upgrade span{color:var(--gold);font-weight:900;margin-top:8px}.upgrade:disabled{opacity:.45}.full{grid-column:1/-1}.gear{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;margin-top:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}.gear button{border:0;border-radius:9px;background:#334155;color:white;padding:8px 10px;font-weight:800}.primary,.danger{width:100%;margin-top:10px;padding:12px;border:0;border-radius:12px;color:white;font-weight:900;background:var(--accent)}.primary:disabled{opacity:.45}.danger{background:#9f1239}.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:#070a12f2;border-top:1px solid var(--line);z-index:20}.tab{border:0;background:transparent;color:var(--muted);padding:6px 2px;font-size:11px;font-weight:800}.tab strong{display:block;font-size:19px}.tab.active{color:#c4b5fd}.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%) translateY(-10px);opacity:0;pointer-events:none;padding:9px 13px;border-radius:999px;background:#f8fafc;color:#111827;font-size:12px;font-weight:900;transition:.2s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+:root{--bg:#080b13;--panel:#111827;--panel2:#182235;--line:#2c3950;--txt:#f8fafc;--muted:#9ca3af;--accent:#7c3aed;--gold:#fbbf24;--red:#fb7185;--green:#34d399}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,sans-serif}button{font:inherit;touch-action:manipulation}.app{max-width:560px;margin:auto;min-height:100vh;padding-bottom:78px}.top{position:sticky;top:0;z-index:5;background:#080b13ee;border-bottom:1px solid var(--line);padding:12px 14px;display:flex;justify-content:space-between}.brand{font-weight:900}.wallet{text-align:right;font-size:13px}.gold{color:var(--gold)}.screen{display:none;padding:14px}.screen.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.muted{color:var(--muted);font-size:12px}.arena{min-height:240px;border-radius:16px;background:radial-gradient(circle at 50% 20%,#372064,transparent 45%),#10182a;display:flex;align-items:flex-end;justify-content:space-around;padding:24px 12px;margin-bottom:10px;position:relative}.unit{text-align:center;width:42%}.sprite{font-size:74px;user-select:none}.hit{animation:hit .16s ease}.attack{animation:atk .18s ease}@keyframes hit{50%{transform:translateX(10px);filter:brightness(1.8)}}@keyframes atk{50%{transform:translateX(14px)}}.bar{height:10px;background:#29364d;border-radius:999px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;width:100%;transition:width .12s linear}.enemyhp{background:var(--red)}.herohp{background:var(--green)}.mana{background:#38bdf8}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{text-align:center;background:var(--panel2);padding:8px;border-radius:10px}.stat small{display:block;color:var(--muted)}.btn{border:0;border-radius:11px;padding:11px;color:white;font-weight:800;background:#334155}.btn.primary{background:var(--accent)}.btn.danger{background:#9f1239}.btn:disabled{opacity:.4}.btn.full{width:100%}.upgrade{text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:white;padding:10px}.upgrade b,.upgrade small,.upgrade span{display:block}.upgrade small{color:var(--muted);margin:3px 0}.upgrade span{color:var(--gold)}.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);display:grid;grid-template-columns:repeat(6,1fr);background:#080b13f5;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}.tab{border:0;background:transparent;color:var(--muted);padding:8px 2px;font-size:9px}.tab strong{display:block;font-size:18px}.tab.active{color:#c4b5fd}.list{display:grid;gap:8px}.item{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}.notice{display:none;margin:10px 14px 0;background:#083344;color:#cffafe;border:1px solid #155e75;border-radius:12px;padding:10px;font-size:13px}.notice.show{display:block}.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:white;color:#111;padding:8px 12px;border-radius:999px;opacity:0;pointer-events:none;transition:.2s;z-index:20}.toast.show{opacity:1}.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.class-btn.active{outline:2px solid var(--accent)}
+@media(max-width:380px){.sprite{font-size:60px}.stats{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="brand">IDLE FUSION<small>Stabil çekirdek v3</small></div><div class="wallet"><div class="gold">◉ <span id="gold">0</span></div><div>◆ <span id="gems">0</span> · ✦ <span id="essence">0</span></div></div></header>
+<header class="top"><div class="brand">IDLE FUSION <small class="muted">Stabil v5</small></div><div class="wallet"><div class="gold">◉ <span id="gold">0</span></div><div>◆ <span id="gems">0</span> · ✦ <span id="essence">0</span> · 🔑 <span id="keys">0</span></div></div></header>
 <div id="notice" class="notice"></div>
 <main>
 <section class="screen active" data-screen="battle">
-  <div class="battle">
-    <div class="stage"><span class="pill">Bölüm <span id="stage">1</span></span><span id="waveType" class="pill">Normal</span></div>
-    <div class="arena">
-      <div id="hero" class="unit hero"><div class="sprite">🧙‍♂️</div><div class="name">Rift Avcısı</div><div class="sub">Sv. <span id="heroLevel">1</span></div></div>
-      <div id="damage" class="damage">-0</div>
-      <div id="enemy" class="unit enemy"><div id="enemySprite" class="sprite">👹</div><div id="enemyName" class="name">Gölge Muhafızı</div><div class="sub">Güç <span id="enemyPower">1</span></div></div>
-    </div>
-    <div class="panel">
-      <div class="row"><b id="enemyTitle">Gölge Muhafızı</b><b style="color:var(--gold)">+◉ <span id="reward">0</span></b></div>
-      <div class="row sub" style="margin-top:7px"><span>Can</span><span id="hpText">0 / 0</span></div>
-      <div class="bar"><i id="hpBar"></i></div>
-      <button id="manual" class="tap" type="button">⚔️ Güçlü Vuruş</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="stats"><div class="stat"><span>SALDIRI</span><b id="attack">0</b></div><div class="stat"><span>HIZ</span><b id="speed">0</b></div><div class="stat"><span>KRİTİK</span><b id="crit">0</b></div></div>
-    <div class="title" style="margin-top:15px">Geliştirmeler</div><div id="upgrades" class="grid"></div>
-    <div class="card" style="margin-top:10px"><b>Yeniden Doğuş</b><div class="sub">Bölüm 20 ve sonrasında kalıcı öz kazan.</div><button id="prestige" class="primary" type="button">+0 öz kazan</button></div>
-  </div>
+<div class="row card"><b><span id="zone">Karanlık Orman</span> · Bölüm <span id="stage">1</span></b><span id="battleType">Normal</span></div>
+<div class="arena"><div id="heroUnit" class="unit"><div id="heroSprite" class="sprite">🛡️</div><b id="heroName">Savaşçı</b><div class="muted">Sv. <span id="heroLevel">1</span></div></div><div id="enemyUnit" class="unit"><div id="enemySprite" class="sprite">👹</div><b id="enemyName">Gölge Yaratığı</b><div class="muted">Güç <span id="enemyPower">1</span></div></div></div>
+<div class="card"><div class="row"><b>Düşman</b><span class="gold">+◉ <span id="reward">0</span></span></div><div class="row muted"><span>Can</span><span id="enemyHpText"></span></div><div class="bar"><i id="enemyHpBar" class="enemyhp"></i></div><div class="row muted" style="margin-top:8px"><span>Kahraman</span><span id="heroHpText"></span></div><div class="bar"><i id="heroHpBar" class="herohp"></i></div><div class="row muted" style="margin-top:8px"><span>Mana</span><span id="manaText"></span></div><div class="bar"><i id="manaBar" class="mana"></i></div><div class="grid" style="margin-top:10px"><button id="manual" class="btn primary">⚔️ Güçlü Vuruş</button><button id="skill" class="btn">✨ Yetenek</button></div></div>
+<div class="stats"><div class="stat"><small>Saldırı</small><b id="attack">0</b></div><div class="stat"><small>Hız</small><b id="speed">0</b></div><div class="stat"><small>Kritik</small><b id="crit">0</b></div><div class="stat"><small>Savunma</small><b id="defense">0</b></div></div>
+<h3>Geliştirmeler</h3><div id="upgrades" class="grid"></div>
 </section>
-<section class="screen" data-screen="gear"><div class="section"><div class="title">Ekipman</div><div class="card" style="margin-top:10px"><b>Kuşanılan</b><div id="equipped"></div></div><div class="card" style="margin-top:10px"><div class="row"><b>Çanta</b><span class="sub"><span id="inventoryCount">0</span>/20</span></div><div id="inventory"></div></div></div></section>
-<section class="screen" data-screen="town"><div class="section"><div class="title">Şehir</div><div class="sub">Şehir seviyeleri yeniden doğuşta korunur.</div><div id="townUpgrades" class="grid"></div><div class="card" style="margin-top:10px"><span class="sub">Pasif gelir</span><div style="font-size:28px;font-weight:900;color:var(--gold)">◉ <span id="passive">0</span>/sn</div></div></div></section>
-<section class="screen" data-screen="quests"><div class="section"><div class="title">Görevler</div><div class="card" style="margin-top:10px"><div class="row"><b>Av görevi</b><span>◆ 3</span></div><div class="row sub" style="margin-top:8px"><span><span id="questKills">0</span>/<span id="questTarget">10</span> düşman</span></div><div class="bar"><i id="questBar" style="background:linear-gradient(90deg,var(--accent),#22d3ee)"></i></div><button id="claim" class="primary" type="button">Ödülü Al</button></div><div class="card" style="margin-top:10px"><div class="row"><span>Toplam düşman</span><b id="totalKills">0</b></div><div class="row" style="margin-top:8px"><span>Tamamlanan görev</span><b id="questClaims">0</b></div><button id="reset" class="danger" type="button">Kaydı Sıfırla</button></div></div></section>
+<section class="screen" data-screen="hero"><h2>Kahraman</h2><div id="classes" class="class-grid"></div><div class="card" style="margin-top:10px"><b id="classSkill"></b><p id="classDesc" class="muted"></p></div><h3>Kalıcı Yetenekler</h3><div id="talents" class="grid"></div></section>
+<section class="screen" data-screen="gear"><h2>Ekipman</h2><button id="openChest" class="btn primary full">🔑 Sandık Aç</button><button id="equipBest" class="btn full" style="margin-top:8px">En İyiyi Kuşan</button><h3>Kuşanılanlar</h3><div id="equipped" class="list"></div><h3>Çanta <span class="muted" id="inventoryCount"></span></h3><div id="inventory" class="list"></div></section>
+<section class="screen" data-screen="town"><h2>Şehir ve Idle</h2><div class="card"><div class="row"><span>Pasif gelir</span><b><span id="passive">0</span>/sn</b></div><div class="row"><span>Çevrimdışı süre</span><b><span id="offlineHours">8</span> saat</b></div></div><div id="townUpgrades" class="grid"></div></section>
+<section class="screen" data-screen="quests"><h2>Görevler</h2><div id="quests" class="list"></div><h2>Başarımlar</h2><div id="achievements" class="list"></div></section>
+<section class="screen" data-screen="prestige"><h2>Prestige</h2><div class="card"><p>En yüksek bölüm: <b id="bestStage">1</b></p><p>Kazanılacak öz: <b>✦ <span id="prestigeGain">0</span></b></p><button id="prestige" class="btn primary full">Yeniden Doğ</button></div><div class="card"><p>Toplam öldürme: <b id="totalKills">0</b></p><p>Prestige: <b id="prestigeCount">0</b></p></div><button id="reset" class="btn danger full">Kaydı Sıfırla</button></section>
 </main>
-</div>
-<nav class="tabs"><button class="tab active" data-tab="battle" type="button"><strong>⚔️</strong>SAVAŞ</button><button class="tab" data-tab="gear" type="button"><strong>🎒</strong>EKİPMAN</button><button class="tab" data-tab="town" type="button"><strong>🏰</strong>ŞEHİR</button><button class="tab" data-tab="quests" type="button"><strong>📜</strong>GÖREV</button></nav>
-<div id="toast" class="toast"></div>
+<nav class="tabs"><button class="tab active" data-tab="battle"><strong>⚔️</strong>Savaş</button><button class="tab" data-tab="hero"><strong>🧙</strong>Kahraman</button><button class="tab" data-tab="gear"><strong>🎒</strong>Eşya</button><button class="tab" data-tab="town"><strong>🏰</strong>Şehir</button><button class="tab" data-tab="quests"><strong>📜</strong>Görev</button><button class="tab" data-tab="prestige"><strong>✨</strong>Prestige</button></nav>
+</div><div id="toast" class="toast"></div>
 <script>
-'use strict';
-(() => {
-  const SAVE_KEY = 'idle-fusion-stable-v3';
-  const $ = id => document.getElementById(id);
-  const enemyTypes = [
-    ['Gölge Muhafızı','👹'],['Rift Kurdu','🐺'],['Taş Golem','🗿'],['Ayaz Cadısı','🧙‍♀️'],['Boşluk Ejderi','🐉']
-  ];
-  const freshState = () => ({
-    gold:100,gems:5,essence:0,stage:1,enemyHp:null,heroLevel:1,attackLevel:1,speedLevel:1,critLevel:1,
-    mineLevel:1,forgeLevel:1,townLevel:1,totalKills:0,questKills:0,questClaims:0,inventory:[],equipped:{},lastSeen:Date.now()
-  });
-  let state = freshState();
-  let attackAccumulator = 0;
-  let passiveAccumulator = 0;
-  let lastFrame = performance.now();
-  let lastHudRender = 0;
-  let toastTimer = null;
-
-  const number = (value, fallback=0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
-  const compact = n => {
-    n = Math.max(0, number(n));
-    if (n < 1000) return Math.floor(n).toString();
-    if (n < 1e6) return (n/1e3).toFixed(1)+'K';
-    if (n < 1e9) return (n/1e6).toFixed(1)+'M';
-    return (n/1e9).toFixed(1)+'B';
-  };
-  const maxHp = stage => Math.floor(45 * Math.pow(1.14, stage-1) * (stage%10===0 ? 3 : 1));
-  const reward = stage => Math.floor(10 * Math.pow(1.10, stage-1) * (stage%10===0 ? 3 : 1));
-  const stats = () => {
-    const gear = Object.values(state.equipped).reduce((sum,item) => sum + (item?.power || 0), 0);
-    return {
-      attack: Math.floor((10 + state.heroLevel*3 + state.attackLevel*5 + gear) * (1 + state.essence*0.08)),
-      speed: Math.min(5, 0.7 + state.speedLevel*0.09),
-      crit: Math.min(0.5, 0.05 + state.critLevel*0.012),
-      passive: state.mineLevel * (1 + state.townLevel*0.35),
-      heroCost: Math.floor(55*Math.pow(1.20,state.heroLevel-1)),
-      attackCost: Math.floor(40*Math.pow(1.23,state.attackLevel-1)),
-      speedCost: Math.floor(70*Math.pow(1.25,state.speedLevel-1)),
-      critCost: Math.floor(90*Math.pow(1.27,state.critLevel-1)),
-      mineCost: Math.floor(125*Math.pow(1.45,state.mineLevel-1)),
-      forgeCost: Math.floor(165*Math.pow(1.48,state.forgeLevel-1)),
-      townCost: Math.floor(250*Math.pow(1.55,state.townLevel-1)),
-      questTarget: 10 + state.questClaims*5,
-      prestigeGain: Math.floor(state.stage/20)
-    };
-  };
-
-  function normalize(raw) {
-    const base = freshState();
-    if (!raw || typeof raw !== 'object') return base;
-    const out = {...base, ...raw};
-    const numericKeys = ['gold','gems','essence','stage','heroLevel','attackLevel','speedLevel','critLevel','mineLevel','forgeLevel','townLevel','totalKills','questKills','questClaims','lastSeen'];
-    numericKeys.forEach(k => out[k] = Math.max(k==='stage'||k.endsWith('Level') ? 1 : 0, number(out[k], base[k])));
-    out.inventory = Array.isArray(out.inventory) ? out.inventory.filter(Boolean).slice(0,20) : [];
-    out.equipped = out.equipped && typeof out.equipped === 'object' ? out.equipped : {};
-    out.enemyHp = number(out.enemyHp, maxHp(out.stage));
-    if (out.enemyHp <= 0 || out.enemyHp > maxHp(out.stage)) out.enemyHp = maxHp(out.stage);
-    return out;
-  }
-
-  function save() {
-    try { state.lastSeen = Date.now(); localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (_) {}
-  }
-  function load() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
-      state = normalize(raw);
-      const elapsed = Math.min(28800, Math.max(0, (Date.now()-state.lastSeen)/1000));
-      const gain = Math.floor(elapsed * stats().passive);
-      if (gain > 0) {
-        state.gold += gain;
-        $('notice').style.display = 'block';
-        $('notice').textContent = 'Çevrimdışı kazanç: +'+compact(gain)+' altın';
-      }
-      state.lastSeen = Date.now();
-    } catch (_) { state = freshState(); }
-  }
-  function toast(text) {
-    clearTimeout(toastTimer);
-    $('toast').textContent = text;
-    $('toast').classList.add('show');
-    toastTimer = setTimeout(() => $('toast').classList.remove('show'), 1200);
-  }
-  function enemyInfo() {
-    const type = enemyTypes[Math.floor((state.stage-1)/5)%enemyTypes.length];
-    const boss = state.stage%10===0;
-    return {name:(boss?'Kadim ':'')+type[0],sprite:(boss?'👑':'')+type[1],boss};
-  }
-  function hitFx(amount, isCrit) {
-    $('hero').classList.remove('attack'); $('enemy').classList.remove('hit'); $('damage').classList.remove('show');
-    void $('hero').offsetWidth;
-    $('hero').classList.add('attack'); $('enemy').classList.add('hit');
-    $('damage').textContent = (isCrit?'KRİTİK ':'')+'-'+compact(amount);
-    $('damage').classList.add('show');
-  }
-  function makeGear(stage) {
-    const slots=['silah','zırh','tılsım'];
-    const slot=slots[Math.floor(Math.random()*slots.length)];
-    const roll=Math.random();
-    const rarity=roll>.985?'Efsanevi':roll>.92?'Epik':roll>.68?'Nadir':'Sıradan';
-    const mult={Sıradan:1,Nadir:1.8,Epik:3.2,Efsanevi:6}[rarity];
-    const names={silah:['Rift Kılıcı','Yıldız Mızrağı','Kızıl Balta'],zırh:['Muhafız Zırhı','Ay Dokuması','Titan Plakası'],tılsım:['Rün Çekirdeği','Zaman Mührü','Ejder Gözü']}[slot];
-    return {id:crypto?.randomUUID?.() || (Date.now()+'-'+Math.random()),name:names[Math.floor(Math.random()*names.length)],slot,rarity,power:Math.max(2,Math.floor((stage+3)*mult))};
-  }
-  function defeatEnemy() {
-    const defeatedStage = state.stage;
-    state.gold += reward(defeatedStage);
-    state.totalKills += 1;
-    state.questKills += 1;
-    state.stage += 1;
-    state.enemyHp = maxHp(state.stage);
-    if (state.inventory.length < 20 && Math.random() < Math.min(.35,.08+state.forgeLevel*.016)) {
-      state.inventory.unshift(makeGear(defeatedStage));
-      toast('Yeni ekipman düştü!');
-      renderGear();
-    }
-  }
-  function dealDamage(base, show=true) {
-    const c=stats();
-    const crit=Math.random()<c.crit;
-    const amount=Math.max(1,Math.floor(base*(crit?2:1)));
-    state.enemyHp -= amount;
-    if (show) hitFx(amount,crit);
-    while (state.enemyHp <= 0) defeatEnemy();
-    renderHud();
-  }
-  function spend(cost, action) {
-    if (state.gold < cost) return toast('Yetersiz altın');
-    state.gold -= cost; action(); save(); renderAll();
-  }
-  function upgradeButton(label,desc,level,cost,onClick,full=false) {
-    const b=document.createElement('button');
-    b.type='button'; b.className='upgrade'+(full?' full':''); b.disabled=state.gold<cost;
-    b.innerHTML=`<b>${label} · Sv. ${level}</b><small>${desc}</small><span>◉ ${compact(cost)}</span>`;
-    b.addEventListener('click',()=>spend(cost,onClick));
-    return b;
-  }
-  function renderHud() {
-    const c=stats(), e=enemyInfo(), hp=maxHp(state.stage);
-    $('gold').textContent=compact(state.gold); $('gems').textContent=compact(state.gems); $('essence').textContent=compact(state.essence);
-    $('stage').textContent=state.stage; $('waveType').textContent=e.boss?'BOSS':'Normal'; $('heroLevel').textContent=state.heroLevel;
-    $('enemySprite').textContent=e.sprite; $('enemyName').textContent=e.name; $('enemyTitle').textContent=e.name; $('enemyPower').textContent=state.stage;
-    $('reward').textContent=compact(reward(state.stage)); $('hpText').textContent=compact(state.enemyHp)+' / '+compact(hp); $('hpBar').style.width=Math.max(0,Math.min(100,state.enemyHp/hp*100))+'%';
-    $('attack').textContent=compact(c.attack); $('speed').textContent=c.speed.toFixed(2)+'/sn'; $('crit').textContent=Math.round(c.crit*100)+'%';
-    $('passive').textContent=c.passive.toFixed(1); $('questKills').textContent=state.questKills; $('questTarget').textContent=c.questTarget;
-    $('questBar').style.width=Math.min(100,state.questKills/c.questTarget*100)+'%'; $('claim').disabled=state.questKills<c.questTarget;
-    $('totalKills').textContent=state.totalKills; $('questClaims').textContent=state.questClaims;
-    $('prestige').textContent='+'+c.prestigeGain+' öz kazan'; $('prestige').disabled=c.prestigeGain<1;
-  }
-  function renderUpgrades() {
-    const c=stats(), box=$('upgrades'); box.replaceChildren();
-    box.append(
-      upgradeButton('Kahraman','Tüm gücü artırır',state.heroLevel,c.heroCost,()=>state.heroLevel++),
-      upgradeButton('Saldırı','Vuruş hasarı',state.attackLevel,c.attackCost,()=>state.attackLevel++),
-      upgradeButton('Hız','Otomatik saldırı',state.speedLevel,c.speedCost,()=>state.speedLevel++),
-      upgradeButton('Kritik','Çifte hasar şansı',state.critLevel,c.critCost,()=>state.critLevel++)
-    );
-    const town=$('townUpgrades'); town.replaceChildren();
-    town.append(
-      upgradeButton('Maden','Pasif altın',state.mineLevel,c.mineCost,()=>state.mineLevel++),
-      upgradeButton('Demirhane','Eşya düşme şansı',state.forgeLevel,c.forgeCost,()=>state.forgeLevel++),
-      upgradeButton('Şehir Merkezi','Pasif geliri artırır',state.townLevel,c.townCost,()=>state.townLevel++,true)
-    );
-  }
-  function renderGear() {
-    const equipped=$('equipped'); equipped.replaceChildren();
-    ['silah','zırh','tılsım'].forEach(slot=>{
-      const item=state.equipped[slot]; const row=document.createElement('div'); row.className='gear';
-      row.innerHTML=`<span><b>${slot.toUpperCase()}</b><br><small class="sub">${item?item.name+' · +'+item.power+' güç':'Boş'}</small></span><b>${item?item.rarity:'—'}</b>`;
-      equipped.append(row);
-    });
-    $('inventoryCount').textContent=state.inventory.length;
-    const inv=$('inventory'); inv.replaceChildren();
-    if (!state.inventory.length) { const p=document.createElement('p'); p.className='sub'; p.textContent='Henüz ekipman düşmedi.'; inv.append(p); return; }
-    state.inventory.forEach(item=>{
-      const row=document.createElement('div'); row.className='gear';
-      row.innerHTML=`<span><b>${item.name}</b><br><small class="sub">${item.slot} · ${item.rarity} · +${item.power} güç</small></span>`;
-      const btn=document.createElement('button'); btn.type='button'; btn.textContent='Kuşan';
-      btn.addEventListener('click',()=>{
-        const old=state.equipped[item.slot];
-        state.inventory=state.inventory.filter(x=>x.id!==item.id);
-        if (old && state.inventory.length<20) state.inventory.push(old);
-        state.equipped[item.slot]=item;
-        save(); renderAll();
-      });
-      row.append(btn); inv.append(row);
-    });
-  }
-  function renderAll(){renderHud();renderUpgrades();renderGear();}
-
-  $('manual').addEventListener('click',()=>dealDamage(stats().attack*2.5,true));
-  $('claim').addEventListener('click',()=>{
-    const c=stats(); if(state.questKills<c.questTarget)return;
-    state.questKills-=c.questTarget; state.questClaims++; state.gems+=3; state.gold+=c.questTarget*20;
-    toast('Görev tamamlandı'); save(); renderAll();
-  });
-  $('prestige').addEventListener('click',()=>{
-    const gain=stats().prestigeGain; if(gain<1)return;
-    if(!confirm(gain+' öz kazanıp savaş ilerlemesini sıfırlamak istiyor musun?'))return;
-    const keep={gems:state.gems,essence:state.essence+gain,mineLevel:state.mineLevel,forgeLevel:state.forgeLevel,townLevel:state.townLevel,inventory:state.inventory,equipped:state.equipped};
-    state={...freshState(),...keep}; state.enemyHp=maxHp(1); save(); renderAll();
-  });
-  $('reset').addEventListener('click',()=>{
-    if(!confirm('Tüm ilerleme silinsin mi?'))return;
-    try{localStorage.removeItem(SAVE_KEY)}catch(_){} state=freshState(); state.enemyHp=maxHp(1); renderAll();
-  });
-  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===tab));
-    document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===tab.dataset.tab));
-  }));
-
-  function gameLoop(now){
-    const dt=Math.min(.25,(now-lastFrame)/1000); lastFrame=now;
-    const c=stats(); attackAccumulator+=dt*c.speed; passiveAccumulator+=dt*c.passive;
-    if(attackAccumulator>=1){ const hits=Math.floor(attackAccumulator); attackAccumulator-=hits; for(let i=0;i<hits;i++) dealDamage(c.attack,i===hits-1); }
-    if(passiveAccumulator>=1){ const add=Math.floor(passiveAccumulator); state.gold+=add; passiveAccumulator-=add; }
-    if(now-lastHudRender>250){renderHud();lastHudRender=now;}
-    requestAnimationFrame(gameLoop);
-  }
-
-  load(); if(state.enemyHp==null) state.enemyHp=maxHp(state.stage); renderAll(); save();
-  setInterval(save,5000); window.addEventListener('beforeunload',save); document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
-  requestAnimationFrame(gameLoop);
+(()=>{'use strict';
+const $=id=>document.getElementById(id), SAVE='idleFusionStableV5';
+const CLASSES={warrior:{name:'Savaşçı',sprite:'🛡️',atk:1,hp:1.35,def:1.25,skill:'Kalkan Darbesi',desc:'Yüksek can ve savunma. Yetenek 3 kat hasar verir.'},archer:{name:'Okçu',sprite:'🏹',atk:1.15,hp:.9,def:.9,skill:'Ok Yağmuru',desc:'Daha hızlı saldırır. Yetenek 4 hızlı vuruş yapar.'},mage:{name:'Büyücü',sprite:'🧙',atk:1.3,hp:.78,def:.8,skill:'Rift Patlaması',desc:'Yüksek hasar. Yetenek 5 kat büyü hasarı verir.'}};
+const SLOTS=['silah','zırh','kask','yüzük','kolye'], ZONES=[['Karanlık Orman','👹'],['Kristal Mağara','🦂'],['Kızıl Çöl','🐍'],['Buz Diyarı','🧊'],['Rift Kalesi','👿']];
+const fresh=()=>({version:5,gold:100,gems:0,essence:0,keys:2,classId:'warrior',stage:1,bestStage:1,totalKills:0,prestigeCount:0,heroLevel:1,attackLevel:1,speedLevel:1,critLevel:1,defenseLevel:1,mineLevel:1,forgeLevel:1,townLevel:1,offlineLevel:0,heroHp:1,enemyHp:1,mana:100,inventory:[],equipped:{silah:null,zırh:null,kask:null,yüzük:null,kolye:null},talents:{power:0,income:0,vitality:0},quests:{kills:0,boss:0,gear:0},claimed:{kills:0,boss:0,gear:0},achievements:{},lastSeen:Date.now()});
+let state=fresh(), last=performance.now(), atkTimer=0, enemyTimer=0, passiveTimer=0, saveTimer=0, skillCd=0;
+function safeNum(v,d=0){v=Number(v);return Number.isFinite(v)?v:d} function compact(n){n=Math.max(0,Math.floor(safeNum(n)));if(n<1e3)return String(n);if(n<1e6)return(n/1e3).toFixed(1)+'K';if(n<1e9)return(n/1e6).toFixed(1)+'M';return(n/1e9).toFixed(1)+'B'}
+function normalize(raw){const d=fresh(), s={...d,...(raw&&typeof raw==='object'?raw:{})};s.classId=CLASSES[s.classId]?s.classId:'warrior';for(const k of ['gold','gems','essence','keys','stage','bestStage','totalKills','prestigeCount','heroLevel','attackLevel','speedLevel','critLevel','defenseLevel','mineLevel','forgeLevel','townLevel','offlineLevel','heroHp','enemyHp','mana','lastSeen'])s[k]=safeNum(s[k],d[k]);s.inventory=Array.isArray(s.inventory)?s.inventory.filter(x=>x&&typeof x==='object').slice(0,30):[];s.equipped={...d.equipped,...(s.equipped||{})};s.talents={...d.talents,...(s.talents||{})};s.quests={...d.quests,...(s.quests||{})};s.claimed={...d.claimed,...(s.claimed||{})};s.achievements={...(s.achievements||{})};return s}
+function stats(){const c=CLASSES[state.classId], gear=Object.values(state.equipped).filter(Boolean).reduce((a,x)=>a+safeNum(x.power),0), powerBonus=1+state.talents.power*.05+state.essence*.02;return{atk:Math.floor((8+state.heroLevel*3+state.attackLevel*4+gear*.7)*c.atk*powerBonus),hp:Math.floor((80+state.heroLevel*20+state.defenseLevel*14+gear*.4)*c.hp*(1+state.talents.vitality*.08)),def:Math.floor((2+state.defenseLevel*2+gear*.18)*c.def*(1+state.talents.vitality*.08)),speed:Math.min(4,.7+state.speedLevel*.06+(state.classId==='archer'?.2:0)),crit:Math.min(.55,.05+state.critLevel*.012),passive:(state.mineLevel*1.2)*(1+state.townLevel*.12)*(1+state.talents.income*.08),offlineHours:8+state.offlineLevel*2,prestigeGain:Math.floor(Math.max(0,state.bestStage-20)/10),costs:{hero:Math.floor(40*Math.pow(1.32,state.heroLevel-1)),attack:Math.floor(32*Math.pow(1.3,state.attackLevel-1)),speed:Math.floor(45*Math.pow(1.35,state.speedLevel-1)),crit:Math.floor(55*Math.pow(1.38,state.critLevel-1)),defense:Math.floor(38*Math.pow(1.31,state.defenseLevel-1)),mine:Math.floor(100*Math.pow(1.45,state.mineLevel-1)),forge:Math.floor(130*Math.pow(1.48,state.forgeLevel-1)),town:Math.floor(180*Math.pow(1.5,state.townLevel-1)),offline:Math.floor(220*Math.pow(1.55,state.offlineLevel))}}}
+function boss(){return state.stage%10===0} function enemyMax(){return Math.floor((35+state.stage*16)*Math.pow(1.085,state.stage-1)*(boss()?4:1))} function reward(){return Math.floor((9+state.stage*3)*(boss()?5:1))} function zone(){return ZONES[Math.min(ZONES.length-1,Math.floor((state.stage-1)/20))]}
+function save(){try{state.lastSeen=Date.now();localStorage.setItem(SAVE,JSON.stringify(state))}catch(e){showNotice('Kayıt yazılamadı: '+e.message)}}
+function load(){try{const raw=localStorage.getItem(SAVE);state=normalize(raw?JSON.parse(raw):null)}catch(e){state=fresh();showNotice('Bozuk kayıt temizlendi.')}const s=stats();state.heroHp=Math.min(s.hp,state.heroHp>1?state.heroHp:s.hp);state.enemyHp=Math.min(enemyMax(),state.enemyHp>1?state.enemyHp:enemyMax());const elapsed=Math.min(s.offlineHours*3600,Math.max(0,(Date.now()-state.lastSeen)/1000));if(elapsed>10){const gain=Math.floor(elapsed*s.passive);state.gold+=gain;showNotice(`${Math.floor(elapsed/60)} dakika çevrimdışı: +${compact(gain)} altın`)}state.lastSeen=Date.now()}
+function showNotice(t){$('notice').textContent=t;$('notice').classList.add('show')} function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),1200)}
+function animate(id,cls){const e=$(id);e.classList.remove(cls);void e.offsetWidth;e.classList.add(cls);setTimeout(()=>e.classList.remove(cls),220)}
+function damageEnemy(amount,manual=false){if(state.enemyHp<=0)return;const s=stats(), crit=Math.random()<s.crit;state.enemyHp-=Math.max(1,Math.floor(amount*(crit?2:1)));animate('heroUnit','attack');animate('enemyUnit','hit');state.mana=Math.min(100,state.mana+(manual?8:2));if(state.enemyHp<=0)win()}
+function damageHero(){if(state.heroHp<=0)return;const s=stats(), raw=Math.floor((6+state.stage*2.3)*(boss()?1.5:1));state.heroHp-=Math.max(1,raw-s.def);animate('heroUnit','hit');if(state.heroHp<=0){state.heroHp=s.hp;state.enemyHp=enemyMax();state.gold=Math.floor(state.gold*.97);toast('Yenildin: %3 altın kaybettin')}}
+function win(){const wasBoss=boss();state.gold+=reward();state.totalKills++;state.quests.kills++;if(wasBoss){state.quests.boss++;state.keys++;}if(Math.random()<Math.min(.35,.08+state.forgeLevel*.015))dropGear();state.stage++;state.bestStage=Math.max(state.bestStage,state.stage);state.enemyHp=enemyMax();state.heroHp=Math.min(stats().hp,state.heroHp+Math.floor(stats().hp*.18));}
+function makeGear(){const slot=SLOTS[Math.floor(Math.random()*SLOTS.length)], roll=Math.random(), rarity=roll>.97?'Efsanevi':roll>.82?'Epik':roll>.55?'Nadir':'Sıradan', mult={Sıradan:1,Nadir:1.5,Epik:2.2,Efsanevi:3.5}[rarity];return{id:Date.now()+'-'+Math.random().toString(16).slice(2),slot,rarity,name:`${rarity} ${slot}`,power:Math.max(2,Math.floor((state.bestStage+5)*mult))}}
+function dropGear(){if(state.inventory.length>=30)return;state.inventory.unshift(makeGear());state.quests.gear++}
+function spend(cost,fn){if(state.gold<cost){toast('Altın yetersiz');return}state.gold-=cost;fn();save();renderAll()}
+function upgradeButton(name,desc,level,cost,fn){const b=document.createElement('button');b.className='upgrade';b.type='button';b.disabled=state.gold<cost;b.innerHTML=`<b>${name} · Sv. ${level}</b><small>${desc}</small><span>◉ ${compact(cost)}</span>`;b.addEventListener('click',()=>spend(cost,fn));return b}
+function renderHud(){const s=stats(),z=zone(),em=enemyMax();$('gold').textContent=compact(state.gold);$('gems').textContent=compact(state.gems);$('essence').textContent=compact(state.essence);$('keys').textContent=compact(state.keys);$('zone').textContent=z[0];$('stage').textContent=state.stage;$('battleType').textContent=boss()?'BOSS':'Normal';$('heroSprite').textContent=CLASSES[state.classId].sprite;$('heroName').textContent=CLASSES[state.classId].name;$('heroLevel').textContent=state.heroLevel;$('enemySprite').textContent=(boss()?'👑':'')+z[1];$('enemyName').textContent=(boss()?'Kadim ':'')+z[0]+' Yaratığı';$('enemyPower').textContent=state.stage;$('reward').textContent=compact(reward());$('enemyHpText').textContent=`${compact(state.enemyHp)} / ${compact(em)}`;$('enemyHpBar').style.width=Math.max(0,state.enemyHp/em*100)+'%';$('heroHpText').textContent=`${compact(state.heroHp)} / ${compact(s.hp)}`;$('heroHpBar').style.width=Math.max(0,state.heroHp/s.hp*100)+'%';$('manaText').textContent=Math.floor(state.mana)+' / 100';$('manaBar').style.width=Math.max(0,state.mana)+'%';$('attack').textContent=compact(s.atk);$('speed').textContent=s.speed.toFixed(2);$('crit').textContent=Math.round(s.crit*100)+'%';$('defense').textContent=compact(s.def);$('skill').textContent=skillCd>0?`${CLASSES[state.classId].skill} ${skillCd.toFixed(1)}`:CLASSES[state.classId].skill;$('skill').disabled=skillCd>0||state.mana<40;$('passive').textContent=s.passive.toFixed(1);$('offlineHours').textContent=s.offlineHours;$('bestStage').textContent=state.bestStage;$('prestigeGain').textContent=s.prestigeGain;$('prestige').disabled=s.prestigeGain<1;$('totalKills').textContent=state.totalKills;$('prestigeCount').textContent=state.prestigeCount}
+function renderUpgrades(){const s=stats(),u=$('upgrades');u.replaceChildren(upgradeButton('Kahraman','Can ve saldırı',state.heroLevel,s.costs.hero,()=>{state.heroLevel++;state.heroHp=stats().hp}),upgradeButton('Saldırı','Temel hasar',state.attackLevel,s.costs.attack,()=>state.attackLevel++),upgradeButton('Hız','Otomatik saldırı',state.speedLevel,s.costs.speed,()=>state.speedLevel++),upgradeButton('Kritik','Kritik şansı',state.critLevel,s.costs.crit,()=>state.critLevel++),upgradeButton('Savunma','Alınan hasarı azaltır',state.defenseLevel,s.costs.defense,()=>{state.defenseLevel++;state.heroHp=stats().hp}));const t=$('townUpgrades');t.replaceChildren(upgradeButton('Maden','Pasif altın',state.mineLevel,s.costs.mine,()=>state.mineLevel++),upgradeButton('Demirhane','Eşya şansı',state.forgeLevel,s.costs.forge,()=>state.forgeLevel++),upgradeButton('Şehir','Pasif çarpan',state.townLevel,s.costs.town,()=>state.townLevel++),upgradeButton('Han','Offline +2 saat',state.offlineLevel,s.costs.offline,()=>state.offlineLevel++))}
+function renderClasses(){const box=$('classes');box.replaceChildren();Object.entries(CLASSES).forEach(([id,c])=>{const b=document.createElement('button');b.type='button';b.className='btn class-btn'+(id===state.classId?' active':'');b.innerHTML=`<div style="font-size:30px">${c.sprite}</div>${c.name}`;b.addEventListener('click',()=>{state.classId=id;state.heroHp=stats().hp;save();renderAll()});box.append(b)});const c=CLASSES[state.classId];$('classSkill').textContent=c.skill;$('classDesc').textContent=c.desc;const talents=$('talents');talents.replaceChildren();[['power','Rift Gücü','Saldırı +%5'],['income','Tüccar Ruhu','Pasif gelir +%8'],['vitality','Kadim Beden','Can/savunma +%8']].forEach(([id,n,d])=>{const cost=state.talents[id]+1,b=document.createElement('button');b.className='upgrade';b.disabled=state.essence<cost;b.innerHTML=`<b>${n} · Sv. ${state.talents[id]}</b><small>${d}</small><span>✦ ${cost}</span>`;b.addEventListener('click',()=>{if(state.essence<cost)return;state.essence-=cost;state.talents[id]++;state.heroHp=stats().hp;save();renderAll()});talents.append(b)})}
+function renderGear(){const eq=$('equipped');eq.replaceChildren();SLOTS.forEach(slot=>{const i=state.equipped[slot],d=document.createElement('div');d.className='item';d.innerHTML=`<span><b>${slot.toUpperCase()}</b><br><small class="muted">${i?`${i.name} · +${i.power}`:'Boş'}</small></span>`;eq.append(d)});$('inventoryCount').textContent=`${state.inventory.length}/30`;const inv=$('inventory');inv.replaceChildren();if(!state.inventory.length){inv.innerHTML='<div class="muted">Çanta boş.</div>';return}state.inventory.forEach(i=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<span><b>${i.name}</b><br><small class="muted">${i.rarity} · +${i.power}</small></span>`;const b=document.createElement('button');b.className='btn';b.textContent='Kuşan';b.addEventListener('click',()=>equip(i.id));d.append(b);inv.append(d)})}
+function equip(id){const i=state.inventory.find(x=>x.id===id);if(!i)return;const old=state.equipped[i.slot];state.inventory=state.inventory.filter(x=>x.id!==id);if(old)state.inventory.push(old);state.equipped[i.slot]=i;save();renderAll()}
+function renderQuests(){const box=$('quests');box.replaceChildren();[['kills','Avcı',20,3],['boss','Boss Avcısı',2,5],['gear','Koleksiyoncu',5,2]].forEach(([id,n,base,rewardGem])=>{const target=base+state.claimed[id]*base,val=state.quests[id],d=document.createElement('div');d.className='item';d.innerHTML=`<span><b>${n}</b><br><small class="muted">${val}/${target}</small></span>`;const b=document.createElement('button');b.className='btn';b.textContent=`◆ ${rewardGem}`;b.disabled=val<target;b.addEventListener('click',()=>{if(state.quests[id]<target)return;state.quests[id]-=target;state.claimed[id]++;state.gems+=rewardGem;save();renderAll()});d.append(b);box.append(d)});const a=$('achievements');a.replaceChildren();[['kill100','100 düşman',state.totalKills>=100,5],['stage50','Bölüm 50',state.bestStage>=50,8],['prestige1','İlk prestige',state.prestigeCount>=1,10]].forEach(([id,n,done,r])=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<b>${n}</b>`;const b=document.createElement('button');b.className='btn';b.textContent=state.achievements[id]?'Alındı':`◆ ${r}`;b.disabled=!done||state.achievements[id];b.addEventListener('click',()=>{if(!done||state.achievements[id])return;state.achievements[id]=true;state.gems+=r;save();renderAll()});d.append(b);a.append(d)})}
+function renderAll(){renderHud();renderUpgrades();renderClasses();renderGear();renderQuests()}
+$('manual').addEventListener('click',()=>damageEnemy(stats().atk*1.7,true));$('skill').addEventListener('click',()=>{if(skillCd>0||state.mana<40)return;state.mana-=40;skillCd=7;const a=stats().atk;if(state.classId==='archer'){for(let i=0;i<4;i++)setTimeout(()=>damageEnemy(a*.9,true),i*90)}else damageEnemy(a*(state.classId==='mage'?5:3),true)});$('openChest').addEventListener('click',()=>{if(state.keys<1)return toast('Anahtar yok');if(state.inventory.length>27)return toast('Çantada 3 boş yer gerekli');state.keys--;for(let i=0;i<3;i++){state.inventory.unshift(makeGear());state.quests.gear++}save();renderAll();toast('Sandık açıldı')});$('equipBest').addEventListener('click',()=>{SLOTS.forEach(slot=>{const all=[...state.inventory.filter(x=>x.slot===slot),...(state.equipped[slot]?[state.equipped[slot]]:[])].sort((a,b)=>b.power-a.power);if(!all[0])return;const best=all[0],old=state.equipped[slot];state.inventory=state.inventory.filter(x=>x.id!==best.id);if(old&&old.id!==best.id)state.inventory.push(old);state.equipped[slot]=best});save();renderAll();toast('En iyiler kuşanıldı')});$('prestige').addEventListener('click',()=>{const g=stats().prestigeGain;if(g<1)return;state.essence+=g;state.prestigeCount++;Object.assign(state,{stage:1,heroLevel:1,attackLevel:1,speedLevel:1,critLevel:1,defenseLevel:1,mana:100});state.heroHp=stats().hp;state.enemyHp=enemyMax();save();renderAll();toast(`+${g} öz`)});$('reset').addEventListener('click',()=>{if(!confirm('Tüm kayıt silinsin mi?'))return;localStorage.removeItem(SAVE);state=fresh();state.heroHp=stats().hp;state.enemyHp=enemyMax();save();renderAll()});document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===tab));document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===tab.dataset.tab))}));
+function loop(now){const dt=Math.min(.1,(now-last)/1000);last=now;const s=stats();atkTimer+=dt*s.speed;enemyTimer+=dt*(boss()?.65:.45);passiveTimer+=dt*s.passive;saveTimer+=dt;skillCd=Math.max(0,skillCd-dt);while(atkTimer>=1){atkTimer-=1;damageEnemy(s.atk)}while(enemyTimer>=1){enemyTimer-=1;damageHero()}if(passiveTimer>=1){const n=Math.floor(passiveTimer);state.gold+=n;passiveTimer-=n}state.mana=Math.min(100,state.mana+dt*3);renderHud();if(saveTimer>=5){saveTimer=0;save()}requestAnimationFrame(loop)}
+load();renderAll();window.__IDLE_FUSION_TEST__={stats,enemyMax,reward,state};requestAnimationFrame(loop);
 })();
 </script>
-</body>
-</html>
+</body></html>
