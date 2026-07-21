@@ -4,64 +4,173 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#070a13">
-  <title>Neon Idle: Stable Edition</title>
+  <title>Neon Idle: Smart Evolution</title>
   <style>
     :root{
-      --bg:#070a13;--panel:#111827;--line:rgba(255,255,255,.08);
-      --text:#f8faff;--muted:#8d98b3;--cyan:#55e7ff;
-      --blue:#6677ff;--purple:#a45cff;--green:#52eda0;--gold:#ffd166
+      --bg:#070a13;
+      --panel:#101726;
+      --panel2:#0d1320;
+      --line:rgba(255,255,255,.08);
+      --text:#f8faff;
+      --muted:#909ab4;
+      --cyan:#59e8ff;
+      --blue:#6c78ff;
+      --purple:#aa60ff;
+      --green:#53eda1;
+      --gold:#ffd166;
+      --red:#ff6b88;
+      --shadow:0 18px 50px rgba(0,0,0,.38);
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;min-height:100%;background:
-      radial-gradient(circle at 15% -10%,rgba(102,119,255,.22),transparent 35%),
-      radial-gradient(circle at 95% 5%,rgba(164,92,255,.16),transparent 30%),
-      linear-gradient(180deg,#09101f,#060912 68%,#05070d);
-      color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-    button{font:inherit}.app{max-width:480px;margin:auto;min-height:100vh;padding:16px 14px 108px}
+    html,body{
+      margin:0;min-height:100%;
+      background:
+        radial-gradient(circle at 15% -10%,rgba(108,120,255,.22),transparent 35%),
+        radial-gradient(circle at 95% 5%,rgba(170,96,255,.16),transparent 30%),
+        linear-gradient(180deg,#09101f,#060912 68%,#05070d);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
+    }
+    body{overflow-x:hidden}
+    button{font:inherit}
+    .app{max-width:480px;margin:0 auto;min-height:100vh;padding:16px 14px 108px}
     .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-    .brand h1{margin:0;font-size:18px;letter-spacing:.8px}.brand small{color:var(--muted)}
-    .top-actions{display:flex;gap:8px}.icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(17,24,39,.85);color:white}
-    .hero{padding:20px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,rgba(85,231,255,.08),rgba(17,24,39,.94));box-shadow:0 20px 60px rgba(0,0,0,.38)}
+    .brand h1{margin:0;font-size:18px;letter-spacing:.8px}
+    .brand small{color:var(--muted)}
+    .top-actions{display:flex;gap:8px}
+    .icon-btn{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(16,23,38,.88);color:white
+    }
+    .hero{
+      padding:20px;border:1px solid var(--line);border-radius:25px;
+      background:linear-gradient(145deg,rgba(89,232,255,.08),rgba(16,23,38,.95));
+      box-shadow:var(--shadow)
+    }
     .label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.3px}
     .money{font-size:39px;font-weight:900;margin:8px 0 4px;letter-spacing:-1.3px;overflow-wrap:anywhere}
-    .rate{color:var(--green);font-weight:900;font-size:14px}.hero-row{display:flex;gap:9px;margin-top:16px}
+    .rate{color:var(--green);font-weight:900;font-size:14px}
+    .hero-row{display:flex;gap:9px;margin-top:16px}
     .mini{flex:1;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
     .mini b{display:block;font-size:13px}.mini span{color:var(--muted);font-size:9px}
     .progress{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:10px}
     .progress div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));transition:width .2s}
-    .tap-area{display:grid;place-items:center;padding:28px 0 22px}
-    .tap{width:180px;height:180px;border-radius:50%;border:0;color:white;position:relative;background:
-      radial-gradient(circle at 35% 28%,rgba(255,255,255,.78),rgba(85,231,255,.12) 10%,rgba(102,119,255,.2) 35%,#0a1020 70%),
-      conic-gradient(var(--cyan),var(--blue),var(--purple),var(--cyan));
-      box-shadow:0 0 0 9px rgba(255,255,255,.025),0 0 55px rgba(85,231,255,.2);touch-action:manipulation}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .chip{
+      padding:8px 10px;border-radius:999px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03);font-size:11px;color:var(--muted)
+    }
+    .chip.active{color:white;border-color:rgba(89,232,255,.28);background:rgba(89,232,255,.08)}
+    .tap-area{display:grid;place-items:center;padding:24px 0 18px}
+    .tap{
+      width:182px;height:182px;border-radius:50%;border:0;color:white;position:relative;
+      background:
+        radial-gradient(circle at 35% 28%,rgba(255,255,255,.78),rgba(89,232,255,.12) 10%,rgba(108,120,255,.22) 35%,#0a1020 70%),
+        conic-gradient(var(--cyan),var(--blue),var(--purple),var(--cyan));
+      box-shadow:0 0 0 9px rgba(255,255,255,.025),0 0 55px rgba(89,232,255,.2);
+      touch-action:manipulation
+    }
     .tap:active{transform:scale(.96)}
-    .tap-inner{position:absolute;inset:15px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#18233e,#0a1020 72%);border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .tap-inner small{color:var(--muted);letter-spacing:1.2px}.tap-inner strong{font-size:30px;margin-top:6px}
-    .smart{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:13px;border:1px solid rgba(85,231,255,.16);border-radius:18px;background:linear-gradient(135deg,rgba(85,231,255,.07),rgba(102,119,255,.08))}
-    .smart-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(85,231,255,.1);font-size:21px}
-    .smart h3{margin:0 0 4px;font-size:13px}.smart p{margin:0;color:var(--muted);font-size:11px}
-    .smart button,.claim{border:0;border-radius:11px;padding:9px 11px;font-weight:900;background:linear-gradient(135deg,var(--cyan),#a0f4ff);color:#07101c}
-    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 10px}
-    .tab{border:1px solid var(--line);border-radius:13px;padding:10px;background:rgba(17,24,39,.75);color:var(--muted);font-weight:800;font-size:12px}
-    .tab.active{color:white;background:linear-gradient(135deg,rgba(102,119,255,.2),rgba(164,92,255,.16))}
-    .panel{display:none}.panel.active{display:block}.list{display:grid;gap:9px}
-    .card{display:grid;grid-template-columns:50px 1fr auto;gap:11px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:17px;background:rgba(17,24,39,.88)}
-    .uicon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-size:22px;background:linear-gradient(145deg,rgba(102,119,255,.24),rgba(164,92,255,.18))}
-    .card h3{margin:0 0 4px;font-size:13px}.card p{margin:0;color:var(--muted);font-size:10px}
-    .buy{min-width:77px;border:0;border-radius:11px;padding:9px 10px;color:white;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple))}
+    .tap-inner{
+      position:absolute;inset:15px;border-radius:50%;
+      background:radial-gradient(circle at 35% 30%,#18233e,#0a1020 72%);
+      border:1px solid rgba(255,255,255,.12);
+      display:flex;flex-direction:column;align-items:center;justify-content:center
+    }
+    .tap-inner small{color:var(--muted);letter-spacing:1.2px}
+    .tap-inner strong{font-size:30px;margin-top:6px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 10px}
+    .section-head h2{font-size:16px;margin:0}
+    .section-head span{font-size:11px;color:var(--cyan)}
+    .smart{
+      display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;
+      padding:13px;border:1px solid rgba(89,232,255,.16);border-radius:18px;
+      background:linear-gradient(135deg,rgba(89,232,255,.07),rgba(108,120,255,.08))
+    }
+    .smart-icon{
+      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+      background:rgba(89,232,255,.1);font-size:21px
+    }
+    .smart h3{margin:0 0 4px;font-size:13px}
+    .smart p{margin:0;color:var(--muted);font-size:11px;line-height:1.35}
+    .smart button,.claim,.buy,.dev-btn{
+      border:0;border-radius:11px;padding:9px 11px;font-weight:900
+    }
+    .smart button,.claim{background:linear-gradient(135deg,var(--cyan),#a0f4ff);color:#07101c}
+    .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 10px}
+    .tab{
+      border:1px solid var(--line);border-radius:13px;padding:10px;
+      background:rgba(16,23,38,.75);color:var(--muted);font-weight:800;font-size:12px
+    }
+    .tab.active{color:white;background:linear-gradient(135deg,rgba(108,120,255,.2),rgba(170,96,255,.16))}
+    .panel{display:none}.panel.active{display:block}
+    .list{display:grid;gap:9px}
+    .card{
+      display:grid;grid-template-columns:50px 1fr auto;gap:11px;align-items:center;
+      padding:12px;border:1px solid var(--line);border-radius:17px;background:rgba(16,23,38,.88)
+    }
+    .uicon{
+      width:50px;height:50px;border-radius:15px;display:grid;place-items:center;
+      font-size:22px;background:linear-gradient(145deg,rgba(108,120,255,.24),rgba(170,96,255,.18))
+    }
+    .card h3{margin:0 0 4px;font-size:13px}
+    .card p{margin:0;color:var(--muted);font-size:10px;line-height:1.35}
+    .buy{min-width:84px;color:white;background:linear-gradient(135deg,var(--blue),var(--purple))}
     button:disabled{opacity:.32}
-    .bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),456px);height:70px;border:1px solid var(--line);border-radius:23px;background:rgba(8,13,25,.94);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);z-index:30}
-    .nav{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-size:10px}.nav strong{font-size:20px}
-    .toast{position:fixed;top:18px;left:50%;transform:translate(-50%,-140%);z-index:80;background:#121a2d;border:1px solid var(--line);border-radius:14px;padding:11px 15px;white-space:nowrap;font-size:12px;transition:.25s;max-width:calc(100% - 30px);overflow:hidden;text-overflow:ellipsis}.toast.show{transform:translate(-50%,0)}
-    .float{position:fixed;pointer-events:none;color:var(--cyan);font-weight:900;z-index:20;animation:up .7s ease-out forwards}@keyframes up{to{transform:translateY(-65px);opacity:0}}
-    .modal{position:fixed;inset:0;background:rgba(2,5,11,.78);display:none;align-items:flex-end;justify-content:center;z-index:70}.modal.show{display:flex}
-    .sheet{width:min(100%,480px);background:#0d1424;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 18px 28px}.sheet h2{margin-top:0}.sheet p{color:var(--muted);line-height:1.55}.sheet button{width:100%;border:0;border-radius:14px;padding:13px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07101c}
+    .buy-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .mode-btn{
+      border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);
+      padding:9px 12px;border-radius:12px;font-weight:800
+    }
+    .mode-btn.active{color:white;background:rgba(89,232,255,.08);border-color:rgba(89,232,255,.28)}
+    .toggle-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .toggle-card{
+      padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(16,23,38,.82)
+    }
+    .toggle-card h3{margin:0 0 6px;font-size:13px}
+    .toggle-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.4}
+    .toggle-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .switch{
+      border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);
+      padding:8px 12px;border-radius:999px;font-size:11px;font-weight:800
+    }
+    .switch.active{background:rgba(89,232,255,.08);border-color:rgba(89,232,255,.28);color:white}
+    .dev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .dev-btn{background:linear-gradient(135deg,#1b2640,#25345f);color:white}
+    .bottom-nav{
+      position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+      width:min(calc(100% - 24px),456px);height:70px;border:1px solid var(--line);
+      border-radius:23px;background:rgba(8,13,25,.94);backdrop-filter:blur(18px);
+      display:grid;grid-template-columns:repeat(4,1fr);z-index:30
+    }
+    .nav{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-size:10px}
+    .nav strong{font-size:20px}
+    .toast{
+      position:fixed;top:18px;left:50%;transform:translate(-50%,-140%);z-index:80;
+      background:#121a2d;border:1px solid var(--line);border-radius:14px;padding:11px 15px;
+      white-space:nowrap;font-size:12px;transition:.25s;max-width:calc(100% - 30px);
+      overflow:hidden;text-overflow:ellipsis
+    }
+    .toast.show{transform:translate(-50%,0)}
+    .float{position:fixed;pointer-events:none;color:var(--cyan);font-weight:900;z-index:20;animation:up .7s ease-out forwards}
+    @keyframes up{to{transform:translateY(-65px);opacity:0}}
+    .modal{
+      position:fixed;inset:0;background:rgba(2,5,11,.78);display:none;align-items:flex-end;
+      justify-content:center;z-index:70
+    }
+    .modal.show{display:flex}
+    .sheet{
+      width:min(100%,480px);background:#0d1424;border:1px solid var(--line);
+      border-radius:28px 28px 0 0;padding:22px 18px 28px
+    }
+    .sheet h2{margin-top:0}.sheet p{color:var(--muted);line-height:1.55}
+    .sheet button{width:100%;border:0;border-radius:14px;padding:13px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07101c}
   </style>
 </head>
 <body>
 <main class="app">
   <div class="topbar">
-    <div class="brand"><h1>NEON IDLE</h1><small>STABLE EDITION</small></div>
+    <div class="brand"><h1>NEON IDLE</h1><small>SMART EVOLUTION</small></div>
     <div class="top-actions">
       <button class="icon-btn" id="dailyBtn" aria-label="Günlük ödül">🎁</button>
       <button class="icon-btn" id="settingsBtn" aria-label="Ayarlar">⚙️</button>
@@ -78,6 +187,12 @@
       <div class="mini"><b id="gems">0</b><span>KRİSTAL</span></div>
     </div>
     <div class="progress"><div id="xpBar"></div></div>
+    <div class="chips">
+      <div class="chip" id="batteryChip">Pil Tasarrufu: Kapalı</div>
+      <div class="chip" id="autoBuyChip">AI Yükseltme: Kapalı</div>
+      <div class="chip" id="collectChip">AI Toplama: Kapalı</div>
+      <div class="chip" id="buyModeChip">Satın Alma: x1</div>
+    </div>
   </section>
 
   <div class="tap-area">
@@ -88,19 +203,77 @@
 
   <div class="smart">
     <div class="smart-icon">🧠</div>
-    <div><h3 id="smartTitle">Akıllı analiz</h3><p id="smartText">En verimli yatırım hesaplanıyor.</p></div>
+    <div>
+      <h3 id="smartTitle">Akıllı analiz</h3>
+      <p id="smartText">Sistem, en verimli yatırım ve toplama durumunu hesaplıyor.</p>
+    </div>
     <button id="smartBuy">AL</button>
   </div>
 
   <div class="tabs">
     <button class="tab active" data-tab="factory">Tesisler</button>
     <button class="tab" data-tab="missions">Görevler</button>
-    <button class="tab" data-tab="managers">Yöneticiler</button>
+    <button class="tab" data-tab="systems">Sistemler</button>
+    <button class="tab" data-tab="lab">Lab</button>
   </div>
 
-  <section class="panel active" id="factory"><div class="list" id="upgradeList"></div></section>
-  <section class="panel" id="missions"><div class="list" id="missionList"></div></section>
-  <section class="panel" id="managers"><div class="list" id="managerList"></div></section>
+  <section class="panel active" id="factory">
+    <div class="section-head"><h2>Satın Alma Modu</h2><span>Hızlı Kontrol</span></div>
+    <div class="buy-modes" id="buyModes">
+      <button class="mode-btn active" data-mode="1">x1</button>
+      <button class="mode-btn" data-mode="10">x10</button>
+      <button class="mode-btn" data-mode="max">MAX</button>
+    </div>
+    <div class="list" id="upgradeList"></div>
+  </section>
+
+  <section class="panel" id="missions">
+    <div class="section-head"><h2>Yenilenen Görevler</h2><span>Döngüsel Ödüller</span></div>
+    <div class="list" id="missionList"></div>
+  </section>
+
+  <section class="panel" id="systems">
+    <div class="section-head"><h2>Akıllı Sistemler</h2><span>AI & Performans</span></div>
+    <div class="toggle-grid">
+      <div class="toggle-card">
+        <h3>Akıllı Yükseltme</h3>
+        <p>Yatırımları fiyat, katkı, geri dönüş süresi ve rezerv bütçeye göre yapar.</p>
+        <div class="toggle-row"><span id="autoBuyStatus">Kilitli</span><button class="switch" id="toggleAutoBuy">Kapalı</button></div>
+      </div>
+      <div class="toggle-card">
+        <h3>Akıllı Toplama</h3>
+        <p>Görev, günlük ödül ve sandığı sessiz biçimde toplar. Bildirimler kısılmıştır.</p>
+        <div class="toggle-row"><span id="smartCollectStatus">Kilitli</span><button class="switch" id="toggleCollect">Kapalı</button></div>
+      </div>
+      <div class="toggle-card">
+        <h3>Pil Tasarrufu</h3>
+        <p>Arayüz güncellemelerini azaltır, daha hafif çalışır.</p>
+        <div class="toggle-row"><span id="batteryStatus">Standart</span><button class="switch" id="toggleBattery">Kapalı</button></div>
+      </div>
+      <div class="toggle-card">
+        <h3>Ekonomi Koruması</h3>
+        <p>Akıllı sistem tüm enerjiyi harcamaz, rezerv bırakır.</p>
+        <div class="toggle-row"><span id="reserveInfo">%18 Rezerv</span><button class="switch active" id="cycleReserve">Değiştir</button></div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>Yönetici Kilitleri</h2><span>Kristal ile açılır</span></div>
+    <div class="list" id="managerList"></div>
+  </section>
+
+  <section class="panel" id="lab">
+    <div class="section-head"><h2>Denge Test Paneli</h2><span>Geliştirici Araçları</span></div>
+    <div class="dev-grid">
+      <button class="dev-btn" data-dev="money1k">+1K Enerji</button>
+      <button class="dev-btn" data-dev="money100k">+100K Enerji</button>
+      <button class="dev-btn" data-dev="gems10">+10 Kristal</button>
+      <button class="dev-btn" data-dev="offline1h">+1 Saat Offline</button>
+      <button class="dev-btn" data-dev="levelUp">+1 Seviye</button>
+      <button class="dev-btn" data-dev="boost">2X Boost</button>
+      <button class="dev-btn" data-dev="smartStep">AI Adımı</button>
+      <button class="dev-btn" data-dev="resetRun">Koşuyu Sıfırla</button>
+    </div>
+  </section>
 </main>
 
 <nav class="bottom-nav">
@@ -117,11 +290,10 @@
 (() => {
   'use strict';
 
-  const SAVE_KEY = 'neonAscensionSave';
+  const SAVE_KEY = 'neonSmartEvolutionSave';
   const CHEST_COOLDOWN = 5 * 60 * 1000;
   const DAILY_COOLDOWN = 24 * 60 * 60 * 1000;
   const BOOST_DURATION = 2 * 60 * 1000;
-  const AUTO_DECISION_INTERVAL = 2500;
 
   const facilities = [
     {id:'drone',name:'Nano Drone',icon:'🛸',base:15,income:1,unlock:1},
@@ -133,28 +305,42 @@
   ];
 
   const managers = [
-    {id:'autoBuy',name:'Akıllı Yükseltme',icon:'🤖',cost:20,desc:'Bütçe ve geri dönüş süresine göre en iyi tesisi otomatik alır.'},
-    {id:'smartCollect',name:'Akıllı Toplama',icon:'🧲',cost:25,desc:'Hazır görevleri, günlük ödülü ve sandığı otomatik toplar.'},
-    {id:'overclock',name:'Overclock AI',icon:'⚡',cost:35,desc:'Kalıcı olarak üretimi %25 artırır.'},
-    {id:'offline',name:'Offline Director',icon:'🌙',cost:50,desc:'Çevrimdışı sınırı 2 saatten 8 saate çıkarır.'}
+    {id:'autoBuy',name:'Akıllı Yükseltme',icon:'🤖',cost:20,desc:'Otomatik yükseltme sistemini açar.'},
+    {id:'smartCollect',name:'Akıllı Toplama',icon:'🧲',cost:25,desc:'Sessiz otomatik toplama sistemini açar.'},
+    {id:'overclock',name:'Overclock AI',icon:'⚡',cost:35,desc:'Kalıcı üretim +%25.'},
+    {id:'offline',name:'Offline Director',icon:'🌙',cost:50,desc:'Çevrimdışı sınırı 8 saate çıkarır.'}
   ];
 
   const defaults = {
-    version:3,money:0,total:0,taps:0,level:1,xp:0,gems:0,prestige:0,
+    version:4,
+    money:0,total:0,taps:0,level:1,xp:0,gems:0,prestige:0,
     owned:{drone:0,lab:0,reactor:0,network:0,station:0,singularity:0},
     managers:{autoBuy:false,smartCollect:false,overclock:false,offline:false},
-    missions:{tap100:false,buy10:false,earn100k:false},
+    automation:{autoBuyEnabled:false,smartCollectEnabled:false,batterySaver:false},
+    missionState:{
+      tap:{tier:1,target:100,progress:0,reward:5,claimed:false},
+      buy:{tier:1,target:10,progress:0,reward:8,claimed:false},
+      earn:{tier:1,target:100000,progress:0,reward:15,claimed:false}
+    },
+    buyMode:'1',
+    reserveRatio:.18,
     boostUntil:0,lastChest:0,lastDaily:0,lastSeen:Date.now(),
-    smartMode:'balanced',reserveRatio:.18,lastSmartAction:0
+    lastSmartCollectToast:0,lastSmartAction:0
   };
 
   const $ = s => document.querySelector(s);
   const refs = {
-    money:$('#money'),perSec:$('#perSec'),level:$('#level'),multiplier:$('#multiplier'),
-    gems:$('#gems'),tapPower:$('#tapPower'),xpBar:$('#xpBar'),smartTitle:$('#smartTitle'),
-    smartText:$('#smartText'),smartBuy:$('#smartBuy'),upgradeList:$('#upgradeList'),
-    missionList:$('#missionList'),managerList:$('#managerList'),toast:$('#toast'),
-    modal:$('#modal'),sheet:$('#sheet'),boostLabel:$('#boostLabel'),chestLabel:$('#chestLabel')
+    money:$('#money'), perSec:$('#perSec'), level:$('#level'), multiplier:$('#multiplier'),
+    gems:$('#gems'), tapPower:$('#tapPower'), xpBar:$('#xpBar'),
+    smartTitle:$('#smartTitle'), smartText:$('#smartText'), smartBuy:$('#smartBuy'),
+    upgradeList:$('#upgradeList'), missionList:$('#missionList'), managerList:$('#managerList'),
+    toast:$('#toast'), modal:$('#modal'), sheet:$('#sheet'),
+    boostLabel:$('#boostLabel'), chestLabel:$('#chestLabel'),
+    batteryChip:$('#batteryChip'), autoBuyChip:$('#autoBuyChip'), collectChip:$('#collectChip'),
+    buyModeChip:$('#buyModeChip'), autoBuyStatus:$('#autoBuyStatus'),
+    smartCollectStatus:$('#smartCollectStatus'), batteryStatus:$('#batteryStatus'),
+    reserveInfo:$('#reserveInfo'), toggleAutoBuy:$('#toggleAutoBuy'),
+    toggleCollect:$('#toggleCollect'), toggleBattery:$('#toggleBattery')
   };
 
   let state = loadState();
@@ -163,28 +349,56 @@
   let lastUiUpdate = 0;
   let lastAutoDecision = 0;
 
-  function finite(value,fallback=0){
-    const n=Number(value);
-    return Number.isFinite(n)&&n>=0?n:fallback;
+  function finite(value, fallback=0){
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : fallback;
+  }
+
+  function mergeMissionState(raw){
+    const base = structuredClone(defaults.missionState);
+    if (!raw || typeof raw !== 'object') return base;
+    for (const key of Object.keys(base)){
+      if (!raw[key]) continue;
+      base[key] = {
+        tier: Math.max(1, Math.floor(finite(raw[key].tier, base[key].tier))),
+        target: Math.max(1, Math.floor(finite(raw[key].target, base[key].target))),
+        progress: Math.max(0, finite(raw[key].progress, base[key].progress)),
+        reward: Math.max(1, Math.floor(finite(raw[key].reward, base[key].reward))),
+        claimed: !!raw[key].claimed
+      };
+    }
+    return base;
   }
 
   function loadState(){
     try{
-      const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
-      if(!raw)return structuredClone(defaults);
-      const safe={
-        ...defaults,...raw,
-        money:finite(raw.money),total:finite(raw.total),taps:Math.floor(finite(raw.taps)),
-        level:Math.max(1,Math.floor(finite(raw.level,1))),xp:finite(raw.xp),
-        gems:Math.floor(finite(raw.gems)),prestige:Math.floor(finite(raw.prestige)),
-        boostUntil:finite(raw.boostUntil),lastChest:finite(raw.lastChest),
-        lastDaily:finite(raw.lastDaily),lastSeen:finite(raw.lastSeen,Date.now()),
-        reserveRatio:Math.min(.5,Math.max(.05,finite(raw.reserveRatio,.18))),
-        owned:{...defaults.owned,...(raw.owned||{})},
-        managers:{...defaults.managers,...(raw.managers||{})},
-        missions:{...defaults.missions,...(raw.missions||{})}
+      const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+      if(!raw) return structuredClone(defaults);
+      const safe = {
+        ...defaults, ...raw,
+        money: finite(raw.money),
+        total: finite(raw.total),
+        taps: Math.floor(finite(raw.taps)),
+        level: Math.max(1, Math.floor(finite(raw.level, 1))),
+        xp: finite(raw.xp),
+        gems: Math.floor(finite(raw.gems)),
+        prestige: Math.floor(finite(raw.prestige)),
+        reserveRatio: Math.min(.5, Math.max(.05, finite(raw.reserveRatio, .18))),
+        buyMode: ['1','10','max'].includes(raw.buyMode) ? raw.buyMode : '1',
+        boostUntil: finite(raw.boostUntil),
+        lastChest: finite(raw.lastChest),
+        lastDaily: finite(raw.lastDaily),
+        lastSeen: finite(raw.lastSeen, Date.now()),
+        lastSmartCollectToast: finite(raw.lastSmartCollectToast),
+        lastSmartAction: finite(raw.lastSmartAction),
+        owned: {...defaults.owned, ...(raw.owned || {})},
+        managers: {...defaults.managers, ...(raw.managers || {})},
+        automation: {...defaults.automation, ...(raw.automation || {})},
+        missionState: mergeMissionState(raw.missionState)
       };
-      for(const key of Object.keys(safe.owned))safe.owned[key]=Math.floor(finite(safe.owned[key]));
+      for(const key of Object.keys(safe.owned)){
+        safe.owned[key] = Math.floor(finite(safe.owned[key]));
+      }
       return safe;
     }catch{
       return structuredClone(defaults);
@@ -193,185 +407,281 @@
 
   function saveState(){
     try{
-      state.lastSeen=Date.now();
-      localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-      dirty=false;
+      state.lastSeen = Date.now();
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+      dirty = false;
     }catch{
       toast('Kayıt oluşturulamadı');
     }
   }
 
-  function markDirty(){dirty=true}
+  function markDirty(){ dirty = true; }
 
   function format(n){
-    n=finite(n);
-    if(n<1000)return Math.floor(n).toLocaleString('tr-TR');
-    const units=['K','M','B','T','Qa','Qi','Sx','Sp'];
-    let i=-1;
-    while(n>=1000&&i<units.length-1){n/=1000;i++}
-    return n.toLocaleString('tr-TR',{maximumFractionDigits:n<10?2:1})+units[i];
+    n = finite(n);
+    if(n < 1000) return Math.floor(n).toLocaleString('tr-TR');
+    const units = ['K','M','B','T','Qa','Qi','Sx','Sp'];
+    let i = -1;
+    while(n >= 1000 && i < units.length - 1){ n /= 1000; i++; }
+    return n.toLocaleString('tr-TR', {maximumFractionDigits:n < 10 ? 2 : 1}) + units[i];
   }
 
-  function progressionStage(){
-    if(state.level<5)return 0;
-    if(state.level<10)return 1;
-    if(state.level<18)return 2;
-    if(state.level<30)return 3;
+  function stage(){
+    if(state.level < 5) return 0;
+    if(state.level < 10) return 1;
+    if(state.level < 18) return 2;
+    if(state.level < 30) return 3;
     return 4;
   }
 
   function permanentMultiplier(){
-    return 1+state.prestige*.15+(state.managers.overclock?.25:0);
+    return 1 + state.prestige * .15 + (state.managers.overclock ? .25 : 0);
   }
 
   function activeMultiplier(now=Date.now()){
-    return permanentMultiplier()*(now<state.boostUntil?2:1);
+    return permanentMultiplier() * (now < state.boostUntil ? 2 : 1);
+  }
+
+  function synergyMultiplier(facilityId){
+    const o = state.owned;
+    switch(facilityId){
+      case 'drone': return 1;
+      case 'lab': return 1 + Math.floor(o.drone / 10) * .05;
+      case 'reactor': return 1 + Math.floor(o.lab / 10) * .06;
+      case 'network': return 1 + Math.floor(o.reactor / 10) * .07;
+      case 'station': return 1 + Math.floor(o.network / 10) * .08;
+      case 'singularity': return 1 + Math.floor(o.station / 10) * .10;
+      default: return 1;
+    }
+  }
+
+  function facilityUnitIncome(f){
+    return f.income * synergyMultiplier(f.id);
   }
 
   function baseIncome(){
-    return facilities.reduce((sum,f)=>sum+state.owned[f.id]*f.income,0);
+    return facilities.reduce((sum, f) => sum + state.owned[f.id] * facilityUnitIncome(f), 0);
   }
 
-  function income(now=Date.now()){return baseIncome()*activeMultiplier(now)}
-  function tapPower(){return Math.max(1,Math.floor((1+state.level*.32)*activeMultiplier()))}
-  function xpNeed(){return Math.floor(90*Math.pow(1.17,state.level-1))}
+  function income(now=Date.now()){
+    return baseIncome() * activeMultiplier(now);
+  }
+
+  function tapPower(){
+    return Math.max(1, Math.floor((1 + state.level * .32 + state.prestige * .15) * activeMultiplier()));
+  }
+
+  function xpNeed(){
+    return Math.floor(90 * Math.pow(1.17, state.level - 1));
+  }
 
   function adaptiveGrowth(f){
-    const level=state.owned[f.id];
-    const stage=progressionStage();
-    const earlyRelief=level<10?.965:1;
-    const lateControl=1+Math.max(0,stage-2)*.008;
-    return 1.135*earlyRelief*lateControl;
+    const level = state.owned[f.id];
+    const s = stage();
+    const earlyRelief = level < 10 ? .965 : 1;
+    const lateControl = 1 + Math.max(0, s - 2) * .008;
+    return 1.135 * earlyRelief * lateControl;
   }
 
-  function price(f){
-    const level=state.owned[f.id];
-    const milestoneTax=1+Math.floor(level/25)*.055;
-    return Math.max(1,Math.floor(f.base*Math.pow(adaptiveGrowth(f),level)*milestoneTax));
-  }
-
-  function addXp(amount){
-    state.xp+=finite(amount);
-    let leveled=false;
-    while(state.xp>=xpNeed()&&state.level<10000){
-      state.xp-=xpNeed();
-      state.level++;
-      leveled=true;
+  function price(f, quantity=1){
+    let owned = state.owned[f.id];
+    let total = 0;
+    for(let i=0;i<quantity;i++){
+      const growth = adaptiveGrowth(f);
+      const milestoneTax = 1 + Math.floor((owned + i) / 25) * .055;
+      total += Math.max(1, Math.floor(f.base * Math.pow(growth, owned + i) * milestoneTax));
     }
-    if(leveled)toast('Seviye '+state.level);
+    return total;
+  }
+
+  function maxAffordable(f){
+    if(state.money < price(f,1)) return 0;
+    let count = 0;
+    let remaining = state.money;
+    while(count < 500){
+      const cost = price(f, count + 1) - price(f, count);
+      if(remaining + 1e-9 < cost) break;
+      remaining -= cost;
+      count++;
+    }
+    return count;
+  }
+
+  function buyCountForMode(f){
+    if(state.buyMode === '1') return 1;
+    if(state.buyMode === '10') return 10;
+    return Math.max(1, maxAffordable(f));
   }
 
   function unlockedFacilities(){
-    return facilities.filter(f=>state.level>=f.unlock);
-  }
-
-  function upgradeMetrics(f){
-    const cost=price(f);
-    const gain=f.income*activeMultiplier();
-    const currentIncome=Math.max(.1,income());
-    const payback=cost/Math.max(.01,gain);
-    const affordability=state.money/cost;
-    const levelGap=Math.max(0,Math.max(...facilities.map(x=>state.owned[x.id]))-state.owned[f.id]);
-    const balanceBonus=1+Math.min(.35,levelGap*.025);
-    const stage=progressionStage();
-
-    // Erken oyunda hızlı ilerleme, orta oyunda verim, ileri oyunda dengeli dağılım.
-    const paybackWeight=stage<2?1.15:stage===2?1.3:1.45;
-    const affordabilityBonus=Math.min(1.35,.85+affordability*.22);
-    const incomeImpact=1+Math.min(.6,gain/currentIncome);
-    const score=(incomeImpact*balanceBonus*affordabilityBonus)/(Math.pow(payback+1,paybackWeight*.72));
-
-    return {f,cost,gain,payback,score,afford:state.money>=cost};
-  }
-
-  function smartChoice(affordableOnly=false){
-    let pool=unlockedFacilities().map(upgradeMetrics);
-    if(affordableOnly)pool=pool.filter(x=>x.afford);
-    if(!pool.length)return null;
-    return pool.sort((a,b)=>b.score-a.score)[0];
+    return facilities.filter(f => state.level >= f.unlock);
   }
 
   function reserveTarget(){
-    const next=smartChoice(false);
-    if(!next)return 0;
-    const stageReserve=[.08,.12,.18,.22,.25][progressionStage()];
-    return next.cost*Math.max(state.reserveRatio,stageReserve);
+    const stageReserve = [.08,.12,.18,.22,.25][stage()];
+    return Math.max(state.reserveRatio, stageReserve);
+  }
+
+  function upgradeMetrics(f){
+    const count = state.buyMode === '1' ? 1 : (state.buyMode === '10' ? 10 : Math.max(1, Math.min(maxAffordable(f), 10)));
+    const cost = price(f, count);
+    const gain = facilityUnitIncome(f) * count * activeMultiplier();
+    const currentIncome = Math.max(.1, income());
+    const payback = cost / Math.max(.01, gain);
+    const affordability = state.money / Math.max(1, cost);
+    const maxOwned = Math.max(...facilities.map(x => state.owned[x.id]));
+    const levelGap = Math.max(0, maxOwned - state.owned[f.id]);
+    const balanceBonus = 1 + Math.min(.35, levelGap * .025);
+    const s = stage();
+    const paybackWeight = s < 2 ? 1.15 : s === 2 ? 1.3 : 1.45;
+    const affordabilityBonus = Math.min(1.35, .85 + affordability * .22);
+    const incomeImpact = 1 + Math.min(.6, gain / currentIncome);
+    const synergyBoost = synergyMultiplier(f.id);
+    const score = (incomeImpact * balanceBonus * affordabilityBonus * synergyBoost) / (Math.pow(payback + 1, paybackWeight * .72));
+    return {f, cost, gain, payback, count, score, afford: state.money >= cost, synergyBoost};
+  }
+
+  function smartChoice(affordableOnly=false){
+    let pool = unlockedFacilities().map(upgradeMetrics);
+    if(affordableOnly) pool = pool.filter(x => x.afford);
+    if(!pool.length) return null;
+    return pool.sort((a,b) => b.score - a.score)[0];
   }
 
   function canSmartBuy(choice){
-    if(!choice||!choice.afford)return false;
-    const reserve=reserveTarget();
-    const after=state.money-choice.cost;
-    if(income()<=0)return true;
-    if(choice.payback<45)return after>=0;
-    return after>=reserve;
+    if(!choice || !choice.afford) return false;
+    const reserve = choice.cost * reserveTarget();
+    const after = state.money - choice.cost;
+    if(income() <= 0) return true;
+    if(choice.payback < 45) return after >= 0;
+    return after >= reserve;
   }
 
-  function buyFacility(id,silent=false){
-    const f=facilities.find(item=>item.id===id);
-    if(!f||state.level<f.unlock)return false;
-    const cost=price(f);
-    if(state.money+1e-9<cost)return false;
-    state.money=Math.max(0,state.money-cost);
-    state.owned[id]++;
-    addXp(7+Math.floor(state.owned[id]/10));
+  function buyFacility(id, quantity, silent=false){
+    const f = facilities.find(item => item.id === id);
+    if(!f || state.level < f.unlock) return false;
+    const amount = Math.max(1, quantity || buyCountForMode(f));
+    const affordable = state.buyMode === 'max' && !quantity ? maxAffordable(f) : amount;
+    const count = Math.max(1, Math.min(affordable, amount));
+    const cost = price(f, count);
+    if(state.money + 1e-9 < cost) return false;
+    state.money = Math.max(0, state.money - cost);
+    state.owned[id] += count;
+    state.missionState.buy.progress += count;
+    addXp(7 * count + Math.floor(state.owned[id] / 10));
     markDirty();
-    if(!silent)toast(f.name+' geliştirildi');
+    if(!silent) toast(f.name + ' x' + count + ' geliştirildi');
     renderAll();
     return true;
   }
 
+  function addXp(amount){
+    state.xp += finite(amount);
+    let leveled = false;
+    while(state.xp >= xpNeed() && state.level < 10000){
+      state.xp -= xpNeed();
+      state.level++;
+      leveled = true;
+    }
+    if(leveled) toast('Seviye ' + state.level);
+  }
+
+  function buildMission(type){
+    const m = state.missionState[type];
+    const tier = m.tier;
+    if(type === 'tap'){
+      m.target = Math.floor(100 * Math.pow(1.35, tier - 1));
+      m.reward = Math.max(5, Math.floor(5 * Math.pow(1.25, tier - 1)));
+      m.progress = 0;
+      m.claimed = false;
+    }
+    if(type === 'buy'){
+      m.target = Math.floor(10 * Math.pow(1.4, tier - 1));
+      m.reward = Math.max(8, Math.floor(8 * Math.pow(1.25, tier - 1)));
+      m.progress = 0;
+      m.claimed = false;
+    }
+    if(type === 'earn'){
+      m.target = Math.floor(100000 * Math.pow(1.55, tier - 1));
+      m.reward = Math.max(15, Math.floor(15 * Math.pow(1.28, tier - 1)));
+      m.progress = 0;
+      m.claimed = false;
+    }
+  }
+
+  function syncMissionProgress(){
+    state.missionState.tap.progress = Math.min(state.missionState.tap.target, state.missionState.tap.progress);
+    state.missionState.buy.progress = Math.min(state.missionState.buy.target, state.missionState.buy.progress);
+    state.missionState.earn.progress = Math.min(state.missionState.earn.target, state.missionState.earn.progress);
+  }
+
   function missionData(){
-    const bought=Object.values(state.owned).reduce((a,b)=>a+b,0);
+    const t = state.missionState.tap;
+    const b = state.missionState.buy;
+    const e = state.missionState.earn;
     return [
-      {id:'tap100',name:'Enerji Ustası',desc:`${Math.min(state.taps,100)} / 100 dokunuş`,done:state.taps>=100,reward:5},
-      {id:'buy10',name:'İlk İmparatorluk',desc:`${Math.min(bought,10)} / 10 tesis`,done:bought>=10,reward:8},
-      {id:'earn100k',name:'Büyük Üretici',desc:`${format(Math.min(state.total,100000))} / 100K enerji`,done:state.total>=100000,reward:15}
+      {id:'tap', name:'Dokunma Serisi', desc:`${Math.floor(Math.min(t.progress,t.target))} / ${format(t.target)} dokunuş · Kademe ${t.tier}`, done:t.progress >= t.target, reward:t.reward},
+      {id:'buy', name:'Tesis Genişletme', desc:`${Math.floor(Math.min(b.progress,b.target))} / ${format(b.target)} tesis · Kademe ${b.tier}`, done:b.progress >= b.target, reward:b.reward},
+      {id:'earn', name:'Büyük Üretim', desc:`${format(Math.min(e.progress,e.target))} / ${format(e.target)} enerji · Kademe ${e.tier}`, done:e.progress >= e.target, reward:e.reward}
     ];
   }
 
-  function collectMission(mission,silent=false){
-    if(!mission||!mission.done||state.missions[mission.id])return false;
-    state.missions[mission.id]=true;
-    state.gems+=mission.reward;
+  function claimMission(id, silent=false){
+    const mission = state.missionState[id];
+    if(!mission || mission.progress < mission.target || mission.claimed) return false;
+    state.gems += mission.reward;
+    mission.claimed = true;
+    mission.tier++;
+    buildMission(id);
     markDirty();
-    if(!silent)toast('+'+mission.reward+' kristal');
+    if(!silent) toast('Görev tamamlandı: +' + mission.reward + ' kristal');
     return true;
   }
 
   function collectDaily(silent=false){
-    const now=Date.now();
-    if(now-state.lastDaily<DAILY_COOLDOWN)return false;
-    const reward=10+Math.floor(state.level/5);
-    state.gems+=reward;
-    state.lastDaily=now;
+    const now = Date.now();
+    if(now - state.lastDaily < DAILY_COOLDOWN) return false;
+    const reward = 10 + Math.floor(state.level / 5);
+    state.gems += reward;
+    state.lastDaily = now;
     markDirty();
-    if(!silent)toast('+'+reward+' günlük kristal');
+    if(!silent) toast('+' + reward + ' günlük kristal');
     return true;
   }
 
   function collectChest(silent=false){
-    const now=Date.now();
-    if(now-state.lastChest<CHEST_COOLDOWN)return false;
-    const reward=Math.max(50,Math.floor(baseIncome()*permanentMultiplier()*90+Math.random()*500));
-    const gemReward=Math.random()<.28?1+Math.floor(Math.random()*4):0;
-    state.money+=reward;
-    state.total+=reward;
-    state.gems+=gemReward;
-    state.lastChest=now;
+    const now = Date.now();
+    if(now - state.lastChest < CHEST_COOLDOWN) return false;
+    const reward = Math.max(50, Math.floor(baseIncome() * permanentMultiplier() * 90 + Math.random() * 500));
+    const gemReward = Math.random() < .28 ? 1 + Math.floor(Math.random() * 4) : 0;
+    state.money += reward;
+    state.total += reward;
+    state.gems += gemReward;
+    state.missionState.earn.progress += reward;
+    state.lastChest = now;
     markDirty();
-    if(!silent)toast('Sandık: +'+format(reward));
-    return {reward,gemReward};
+    if(!silent) toast('Sandık: +' + format(reward));
+    return {reward, gemReward};
+  }
+
+  function maybeSmartCollectToast(count){
+    const now = Date.now();
+    if(count > 0 && now - state.lastSmartCollectToast > 25000){
+      state.lastSmartCollectToast = now;
+      toast('AI toplama: ' + count + ' ödül alındı');
+    }
   }
 
   function smartCollect(){
-    if(!state.managers.smartCollect)return false;
-    let collected=0;
-    for(const mission of missionData())if(collectMission(mission,true))collected++;
-    if(collectDaily(true))collected++;
-    if(collectChest(true))collected++;
+    if(!state.managers.smartCollect || !state.automation.smartCollectEnabled) return false;
+    let collected = 0;
+    for(const mission of missionData()){
+      if(claimMission(mission.id, true)) collected++;
+    }
+    if(collectDaily(true)) collected++;
+    if(collectChest(true)) collected++;
     if(collected){
-      toast(collected+' ödül otomatik toplandı');
+      maybeSmartCollectToast(collected);
       saveState();
       renderAll();
       return true;
@@ -380,91 +690,152 @@
   }
 
   function smartUpgrade(){
-    if(!state.managers.autoBuy)return false;
-    const choice=smartChoice(true);
-    if(!canSmartBuy(choice))return false;
-    const bought=buyFacility(choice.f.id,true);
+    if(!state.managers.autoBuy || !state.automation.autoBuyEnabled) return false;
+    const choice = smartChoice(true);
+    if(!canSmartBuy(choice)) return false;
+    const bought = buyFacility(choice.f.id, choice.count, true);
     if(bought){
-      state.lastSmartAction=Date.now();
-      toast('AI: '+choice.f.name+' yükseltildi');
+      state.lastSmartAction = Date.now();
+      toast('AI: ' + choice.f.name + ' x' + choice.count);
       saveState();
     }
     return bought;
   }
 
+  function formatDuration(ms){
+    if(ms <= 0) return 'Hazır';
+    const sec = Math.ceil(ms / 1000);
+    if(sec < 60) return sec + ' sn';
+    const min = Math.ceil(sec / 60);
+    if(min < 60) return min + ' dk';
+    return Math.ceil(min / 60) + ' sa';
+  }
+
+  function prestigeGainEstimate(){
+    const totalPart = Math.sqrt(state.total / 1000000);
+    const incomePart = Math.log10(Math.max(1, income())) * .85;
+    return Math.max(0, Math.floor(totalPart + incomePart - .5));
+  }
+
+  function nextPrestigeTarget(){
+    const next = state.prestige + 1;
+    return Math.floor(Math.pow(next + .5, 2) * 1000000);
+  }
+
   function toast(text){
-    refs.toast.textContent=String(text);
+    refs.toast.textContent = String(text);
     refs.toast.classList.add('show');
     clearTimeout(window.__toastTimer);
-    window.__toastTimer=setTimeout(()=>refs.toast.classList.remove('show'),1600);
+    window.__toastTimer = setTimeout(() => refs.toast.classList.remove('show'), 1600);
   }
 
-  function openSheet(title,body,onAction,label='Tamam'){
-    refs.sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
+  function openSheet(title, body, onAction, label='Tamam'){
+    refs.sheet.innerHTML = `<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
     refs.modal.classList.add('show');
-    $('#sheetAction').onclick=()=>onAction?.();
+    $('#sheetAction').onclick = () => onAction?.();
   }
 
-  function closeSheet(){refs.modal.classList.remove('show')}
+  function closeSheet(){ refs.modal.classList.remove('show'); }
+
+  function updateChips(){
+    refs.batteryChip.textContent = 'Pil Tasarrufu: ' + (state.automation.batterySaver ? 'Açık' : 'Kapalı');
+    refs.autoBuyChip.textContent = 'AI Yükseltme: ' + (state.managers.autoBuy && state.automation.autoBuyEnabled ? 'Açık' : 'Kapalı');
+    refs.collectChip.textContent = 'AI Toplama: ' + (state.managers.smartCollect && state.automation.smartCollectEnabled ? 'Açık' : 'Kapalı');
+    refs.buyModeChip.textContent = 'Satın Alma: ' + (state.buyMode === 'max' ? 'MAX' : 'x' + state.buyMode);
+    refs.batteryChip.classList.toggle('active', state.automation.batterySaver);
+    refs.autoBuyChip.classList.toggle('active', state.managers.autoBuy && state.automation.autoBuyEnabled);
+    refs.collectChip.classList.toggle('active', state.managers.smartCollect && state.automation.smartCollectEnabled);
+    refs.buyModeChip.classList.add('active');
+
+    refs.autoBuyStatus.textContent = state.managers.autoBuy ? 'Açık/Kapalı kontrolü hazır' : 'Önce yönetici satın al';
+    refs.smartCollectStatus.textContent = state.managers.smartCollect ? 'Açık/Kapalı kontrolü hazır' : 'Önce yönetici satın al';
+    refs.batteryStatus.textContent = state.automation.batterySaver ? 'Ekonomik mod' : 'Standart';
+    refs.reserveInfo.textContent = '%' + Math.round(state.reserveRatio * 100) + ' Rezerv';
+
+    refs.toggleAutoBuy.textContent = state.automation.autoBuyEnabled ? 'Açık' : 'Kapalı';
+    refs.toggleCollect.textContent = state.automation.smartCollectEnabled ? 'Açık' : 'Kapalı';
+    refs.toggleBattery.textContent = state.automation.batterySaver ? 'Açık' : 'Kapalı';
+
+    refs.toggleAutoBuy.classList.toggle('active', state.automation.autoBuyEnabled);
+    refs.toggleCollect.classList.toggle('active', state.automation.smartCollectEnabled);
+    refs.toggleBattery.classList.toggle('active', state.automation.batterySaver);
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === state.buyMode);
+    });
+  }
 
   function renderFacilities(){
-    refs.upgradeList.innerHTML=facilities.map(f=>{
-      const locked=state.level<f.unlock;
-      const cost=price(f);
-      const metrics=upgradeMetrics(f);
-      return `<div class="card" style="${locked?'opacity:.45':''}">
+    refs.upgradeList.innerHTML = facilities.map(f => {
+      const locked = state.level < f.unlock;
+      const modeCount = buyCountForMode(f);
+      const count = state.buyMode === 'max' ? Math.max(1, modeCount) : modeCount;
+      const cost = locked ? 0 : price(f, count);
+      const unitIncome = facilityUnitIncome(f) * activeMultiplier();
+      const synergy = Math.round((synergyMultiplier(f.id) - 1) * 100);
+      return `<div class="card" style="${locked ? 'opacity:.45' : ''}">
         <div class="uicon">${f.icon}</div>
         <div>
           <h3>${f.name} · Lv.${state.owned[f.id]}</h3>
-          <p>${locked?'Seviye '+f.unlock+' gerekli':'+'+format(metrics.gain)+'/sn · Geri dönüş '+Math.max(1,Math.round(metrics.payback))+' sn'}</p>
+          <p>${locked ? 'Seviye ' + f.unlock + ' gerekli' : '+' + format(unitIncome) + '/sn birim · Sinerji %' + synergy + ' · Alım ' + (state.buyMode === 'max' ? 'MAX ' + modeCount : 'x' + count)}</p>
         </div>
-        <button class="buy" data-buy="${f.id}" ${locked||state.money<cost?'disabled':''}>${locked?'Kilitli':format(cost)}</button>
+        <button class="buy" data-buy="${f.id}" ${locked || modeCount < 1 || state.money < cost ? 'disabled' : ''}>${locked ? 'Kilitli' : format(cost)}</button>
       </div>`;
     }).join('');
   }
 
   function renderMissions(){
-    refs.missionList.innerHTML=missionData().map(m=>`
+    refs.missionList.innerHTML = missionData().map(m => `
       <div class="card">
         <div class="uicon">🎯</div>
-        <div><h3>${m.name}</h3><p>${m.desc} · ${m.reward} 💎</p></div>
-        <button class="claim" data-mission="${m.id}" ${!m.done||state.missions[m.id]?'disabled':''}>${state.missions[m.id]?'Alındı':'Al'}</button>
-      </div>`).join('');
+        <div><h3>${m.name}</h3><p>${m.desc} · Ödül ${m.reward} 💎 · Tamamlanınca yeni kademe açılır</p></div>
+        <button class="claim" data-mission="${m.id}" ${!m.done ? 'disabled' : ''}>Al</button>
+      </div>
+    `).join('');
   }
 
   function renderManagers(){
-    refs.managerList.innerHTML=managers.map(m=>`
+    refs.managerList.innerHTML = managers.map(m => `
       <div class="card">
         <div class="uicon">${m.icon}</div>
         <div><h3>${m.name}</h3><p>${m.desc}</p></div>
-        <button class="buy" data-manager="${m.id}" ${state.managers[m.id]||state.gems<m.cost?'disabled':''}>${state.managers[m.id]?'Aktif':m.cost+' 💎'}</button>
-      </div>`).join('');
+        <button class="buy" data-manager="${m.id}" ${state.managers[m.id] || state.gems < m.cost ? 'disabled' : ''}>${state.managers[m.id] ? 'Aktif' : m.cost + ' 💎'}</button>
+      </div>
+    `).join('');
   }
 
   function renderTop(now=Date.now()){
-    refs.money.textContent=format(state.money);
-    refs.perSec.textContent=format(income(now));
-    refs.level.textContent=state.level;
-    refs.multiplier.textContent='x'+activeMultiplier(now).toFixed(2);
-    refs.gems.textContent=state.gems;
-    refs.tapPower.textContent=format(tapPower());
-    refs.xpBar.style.width=Math.min(100,state.xp/xpNeed()*100)+'%';
+    refs.money.textContent = format(state.money);
+    refs.perSec.textContent = format(income(now));
+    refs.level.textContent = state.level;
+    refs.multiplier.textContent = 'x' + activeMultiplier(now).toFixed(2);
+    refs.gems.textContent = state.gems;
+    refs.tapPower.textContent = format(tapPower());
+    refs.xpBar.style.width = Math.min(100, state.xp / xpNeed() * 100) + '%';
 
-    const choice=smartChoice(false);
+    const choice = smartChoice(false);
     if(choice){
-      const wait=Math.max(0,choice.cost-state.money);
-      refs.smartTitle.textContent=choice.afford?choice.f.name+' öneriliyor':format(wait)+' daha biriktir';
-      refs.smartText.textContent=`${Math.max(1,Math.round(choice.payback))} sn geri dönüş · ${format(choice.gain)}/sn katkı`;
-      refs.smartBuy.disabled=!choice.afford;
+      const wait = Math.max(0, choice.cost - state.money);
+      const reservePercent = Math.round(reserveTarget() * 100);
+      refs.smartTitle.textContent = choice.afford ? choice.f.name + ' öneriliyor' : format(wait) + ' daha gerekli';
+      refs.smartText.textContent =
+        `AI sebebi: ${choice.count} adet, ${Math.max(1, Math.round(choice.payback))} sn geri dönüş, +${format(choice.gain)}/sn katkı, rezerv %${reservePercent}, sinerji x${choice.synergyBoost.toFixed(2)}.`;
+      refs.smartBuy.disabled = !choice.afford;
+    }else{
+      refs.smartTitle.textContent = 'Yatırım bekleniyor';
+      refs.smartText.textContent = 'Yeni tesisler açıldıkça akıllı analiz güncellenecek.';
+      refs.smartBuy.disabled = true;
     }
 
-    const boostLeft=Math.max(0,state.boostUntil-now);
-    refs.boostLabel.textContent=boostLeft>0?Math.ceil(boostLeft/1000)+' sn':'Boost';
-    const chestLeft=Math.max(0,CHEST_COOLDOWN-(now-state.lastChest));
-    refs.chestLabel.textContent=chestLeft>0?Math.ceil(chestLeft/60000)+' dk':'Sandık';
+    const boostLeft = Math.max(0, state.boostUntil - now);
+    refs.boostLabel.textContent = boostLeft > 0 ? formatDuration(boostLeft) : 'Boost';
+    const chestLeft = Math.max(0, CHEST_COOLDOWN - (now - state.lastChest));
+    refs.chestLabel.textContent = chestLeft > 0 ? formatDuration(chestLeft) : 'Sandık';
+    updateChips();
   }
 
   function renderAll(){
+    syncMissionProgress();
     renderTop();
     renderFacilities();
     renderMissions();
@@ -472,151 +843,284 @@
   }
 
   function claimOfflineReward(){
-    const now=Date.now();
-    const elapsed=Math.max(0,Math.min(now-state.lastSeen,30*24*60*60*1000));
-    const seconds=Math.min(elapsed/1000,(state.managers.offline?8:2)*3600);
-    const efficiency=.82+Math.min(.16,state.prestige*.01);
-    const reward=baseIncome()*permanentMultiplier()*seconds*efficiency;
-    state.lastSeen=now;
-    localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-    if(reward>=1){
-      state.money+=reward;
-      state.total+=reward;
+    const now = Date.now();
+    const elapsed = Math.max(0, Math.min(now - state.lastSeen, 30 * 24 * 60 * 60 * 1000));
+    const seconds = Math.min(elapsed / 1000, (state.managers.offline ? 8 : 2) * 3600);
+    const efficiency = .82 + Math.min(.16, state.prestige * .01);
+    const reward = baseIncome() * permanentMultiplier() * seconds * efficiency;
+
+    state.lastSeen = now;
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+
+    if(reward >= 1){
+      state.money += reward;
+      state.total += reward;
+      state.missionState.earn.progress += reward;
       markDirty();
       saveState();
-      setTimeout(()=>openSheet('ÇEVRİMDIŞI KAZANÇ',`${Math.floor(seconds/60)} dakika üretim.<br><br><b>+${format(reward)}</b> enerji`,closeSheet,'Topla'),250);
+      setTimeout(() => openSheet(
+        'ÇEVRİMDIŞI KAZANÇ',
+        `${Math.floor(seconds / 60)} dakika üretim devam etti.<br><br><b>+${format(reward)}</b> enerji`,
+        closeSheet,
+        'Topla'
+      ), 250);
     }
   }
 
-  $('#tapBtn').addEventListener('pointerdown',e=>{
-    const gain=tapPower();
-    state.money+=gain;state.total+=gain;state.taps++;addXp(1);markDirty();
+  function manualTap(clientX, clientY){
+    const gain = tapPower();
+    state.money += gain;
+    state.total += gain;
+    state.taps++;
+    state.missionState.tap.progress++;
+    state.missionState.earn.progress += gain;
+    addXp(1);
+    markDirty();
     renderTop();
-    const float=document.createElement('div');
-    float.className='float';float.textContent='+'+format(gain);
-    float.style.left=(e.clientX-15)+'px';float.style.top=(e.clientY-10)+'px';
-    document.body.appendChild(float);
-    setTimeout(()=>float.remove(),720);
-    navigator.vibrate?.(8);
-  });
 
-  refs.smartBuy.onclick=()=>{
-    const choice=smartChoice(true);
-    if(choice)buyFacility(choice.f.id);
+    const float = document.createElement('div');
+    float.className = 'float';
+    float.textContent = '+' + format(gain);
+    float.style.left = (clientX - 15) + 'px';
+    float.style.top = (clientY - 10) + 'px';
+    document.body.appendChild(float);
+    setTimeout(() => float.remove(), 720);
+    navigator.vibrate?.(8);
+  }
+
+  $('#tapBtn').addEventListener('pointerdown', e => manualTap(e.clientX, e.clientY));
+
+  refs.smartBuy.onclick = () => {
+    const choice = smartChoice(true);
+    if(choice) buyFacility(choice.f.id, choice.count);
   };
 
-  refs.upgradeList.addEventListener('click',e=>{
-    const button=e.target.closest('[data-buy]');
-    if(button)buyFacility(button.dataset.buy);
+  refs.upgradeList.addEventListener('click', e => {
+    const button = e.target.closest('[data-buy]');
+    if(!button) return;
+    const f = facilities.find(x => x.id === button.dataset.buy);
+    if(!f) return;
+    const count = buyCountForMode(f);
+    buyFacility(f.id, count);
   });
 
-  refs.missionList.addEventListener('click',e=>{
-    const button=e.target.closest('[data-mission]');
-    if(!button)return;
-    const mission=missionData().find(m=>m.id===button.dataset.mission);
-    if(collectMission(mission)){renderAll();saveState()}
+  refs.missionList.addEventListener('click', e => {
+    const button = e.target.closest('[data-mission]');
+    if(!button) return;
+    if(claimMission(button.dataset.mission)){
+      saveState();
+      renderAll();
+    }
   });
 
-  refs.managerList.addEventListener('click',e=>{
-    const button=e.target.closest('[data-manager]');
-    if(!button)return;
-    const manager=managers.find(m=>m.id===button.dataset.manager);
-    if(!manager||state.managers[manager.id]||state.gems<manager.cost)return;
-    state.gems-=manager.cost;
-    state.managers[manager.id]=true;
-    markDirty();toast(manager.name+' aktif');renderAll();saveState();
+  refs.managerList.addEventListener('click', e => {
+    const button = e.target.closest('[data-manager]');
+    if(!button) return;
+    const manager = managers.find(m => m.id === button.dataset.manager);
+    if(!manager || state.managers[manager.id] || state.gems < manager.cost) return;
+    state.gems -= manager.cost;
+    state.managers[manager.id] = true;
+    if(manager.id === 'autoBuy') state.automation.autoBuyEnabled = true;
+    if(manager.id === 'smartCollect') state.automation.smartCollectEnabled = true;
+    markDirty();
+    toast(manager.name + ' aktif');
+    renderAll();
+    saveState();
   });
 
-  document.querySelectorAll('.tab').forEach(button=>{
-    button.onclick=()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(button => {
+    button.onclick = () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
       button.classList.add('active');
       document.getElementById(button.dataset.tab)?.classList.add('active');
     };
   });
 
-  $('#boostBtn').onclick=()=>{
-    openSheet('2X BOOST','Üretime 2 dakika boyunca 2X güç verir.<br><br>Maliyet: <b>5 kristal</b>',()=>{
-      if(state.gems<5){toast('Yeterli kristal yok');return}
-      state.gems-=5;
-      state.boostUntil=Math.max(Date.now(),state.boostUntil)+BOOST_DURATION;
-      markDirty();saveState();closeSheet();toast('2X boost aktif');renderAll();
+  document.getElementById('buyModes').addEventListener('click', e => {
+    const button = e.target.closest('[data-mode]');
+    if(!button) return;
+    state.buyMode = button.dataset.mode;
+    markDirty();
+    renderAll();
+    saveState();
+  });
+
+  refs.toggleAutoBuy.onclick = () => {
+    if(!state.managers.autoBuy){ toast('Önce Akıllı Yükseltme yöneticisini al'); return; }
+    state.automation.autoBuyEnabled = !state.automation.autoBuyEnabled;
+    markDirty();
+    renderAll();
+    saveState();
+  };
+
+  refs.toggleCollect.onclick = () => {
+    if(!state.managers.smartCollect){ toast('Önce Akıllı Toplama yöneticisini al'); return; }
+    state.automation.smartCollectEnabled = !state.automation.smartCollectEnabled;
+    markDirty();
+    renderAll();
+    saveState();
+  };
+
+  refs.toggleBattery.onclick = () => {
+    state.automation.batterySaver = !state.automation.batterySaver;
+    markDirty();
+    renderAll();
+    saveState();
+  };
+
+  document.getElementById('cycleReserve').onclick = () => {
+    const steps = [.10,.18,.25,.35];
+    const index = steps.findIndex(x => Math.abs(x - state.reserveRatio) < .001);
+    state.reserveRatio = steps[(index + 1) % steps.length];
+    markDirty();
+    renderAll();
+    saveState();
+  };
+
+  $('#boostBtn').onclick = () => {
+    openSheet('2X BOOST','Üretime 2 dakika boyunca 2X güç verir.<br><br>Maliyet: <b>5 kristal</b>',() => {
+      if(state.gems < 5){ toast('Yeterli kristal yok'); return; }
+      state.gems -= 5;
+      state.boostUntil = Math.max(Date.now(), state.boostUntil) + BOOST_DURATION;
+      markDirty();
+      saveState();
+      closeSheet();
+      toast('2X boost aktif');
+      renderAll();
     },'Aktifleştir');
   };
 
-  $('#chestBtn').onclick=()=>{
-    const remaining=CHEST_COOLDOWN-(Date.now()-state.lastChest);
-    if(remaining>0){toast(Math.ceil(remaining/60000)+' dakika sonra hazır');return}
-    const result=collectChest(true);
-    if(!result)return;
-    saveState();renderAll();
-    openSheet('NEON SANDIK',`+<b>${format(result.reward)}</b> enerji${result.gemReward?'<br>+<b>'+result.gemReward+'</b> kristal':''}`,closeSheet,'Topla');
+  $('#chestBtn').onclick = () => {
+    const remaining = CHEST_COOLDOWN - (Date.now() - state.lastChest);
+    if(remaining > 0){ toast(formatDuration(remaining) + ' sonra hazır'); return; }
+    const result = collectChest(true);
+    if(!result) return;
+    saveState();
+    renderAll();
+    openSheet('NEON SANDIK',`+<b>${format(result.reward)}</b> enerji${result.gemReward ? '<br>+<b>' + result.gemReward + '</b> kristal' : ''}`,closeSheet,'Topla');
   };
 
-  $('#prestigeBtn').onclick=()=>{
-    const gain=Math.floor(Math.sqrt(state.total/1_000_000));
-    if(gain<1){openSheet('PRESTİJ','Prestij için toplam <b>1M</b> enerji üretmelisin.',closeSheet,'Kapat');return}
-    openSheet('PRESTİJ',`İlerleme sıfırlanır ve <b>${gain}</b> prestij puanı kazanırsın.<br>Kalıcı bonus: <b>+%${gain*15}</b>`,()=>{
-      const preserved={prestige:state.prestige+gain,gems:state.gems,managers:{...state.managers}};
-      state=structuredClone(defaults);
-      Object.assign(state,preserved);
-      state.lastSeen=Date.now();
-      markDirty();saveState();closeSheet();toast('Prestij tamamlandı');renderAll();
-    },'Prestij Yap');
+  $('#prestigeBtn').onclick = () => {
+    const gain = prestigeGainEstimate();
+    const nextTarget = nextPrestigeTarget();
+    if(gain < 1){
+      openSheet('PRESTİJ',`Prestij için biraz daha güçlenmelisin.<br><br>Mevcut üretim: <b>${format(income())}/sn</b><br>Toplam enerji: <b>${format(state.total)}</b><br>Sonraki ana hedef: <b>${format(nextTarget)}</b> toplam enerji`,closeSheet,'Kapat');
+      return;
+    }
+    openSheet('PRESTİJ',
+      `Toplam enerji ve mevcut üretim hızına göre <b>${gain}</b> prestij puanı kazanacaksın.<br><br>
+       Kalıcı bonus: <b>+%${gain * 15}</b><br>
+       Mevcut üretim: <b>${format(income())}/sn</b><br>
+       Toplam enerji: <b>${format(state.total)}</b>`,
+      () => {
+        const preserved = {
+          prestige: state.prestige + gain,
+          gems: state.gems,
+          managers: {...state.managers},
+          automation: {...state.automation}
+        };
+        state = structuredClone(defaults);
+        Object.assign(state, preserved);
+        state.lastSeen = Date.now();
+        markDirty();
+        saveState();
+        closeSheet();
+        toast('Prestij tamamlandı');
+        renderAll();
+      },'Prestij Yap');
   };
 
-  $('#dailyBtn').onclick=()=>{
-    const remaining=DAILY_COOLDOWN-(Date.now()-state.lastDaily);
-    if(remaining>0){toast(Math.ceil(remaining/3600000)+' saat sonra hazır');return}
-    if(collectDaily()){saveState();renderAll()}
+  $('#dailyBtn').onclick = () => {
+    const remaining = DAILY_COOLDOWN - (Date.now() - state.lastDaily);
+    if(remaining > 0){ toast(formatDuration(remaining) + ' sonra hazır'); return; }
+    if(collectDaily()){
+      saveState();
+      renderAll();
+    }
   };
 
-  $('#settingsBtn').onclick=()=>openSheet(
-    'AKILLI SİSTEMLER',
-    `Akıllı yükseltme: <b>${state.managers.autoBuy?'Aktif':'Kapalı'}</b><br>
-     Akıllı toplama: <b>${state.managers.smartCollect?'Aktif':'Kapalı'}</b><br>
-     Korunan bütçe: <b>%${Math.round(state.reserveRatio*100)}</b><br>
-     Çevrimdışı sınır: <b>${state.managers.offline?'8':'2'} saat</b>`,
-    ()=>{
-      if(confirm('Tüm ilerleme kalıcı olarak silinsin mi?')){
-        localStorage.removeItem(SAVE_KEY);
-        location.reload();
-      }
-    },'Kaydı Sıfırla'
+  $('#settingsBtn').onclick = () => openSheet(
+    'SİSTEM BİLGİSİ',
+    `Akıllı yükseltme: <b>${state.managers.autoBuy ? (state.automation.autoBuyEnabled ? 'Açık' : 'Kapalı') : 'Kilitli'}</b><br>
+     Akıllı toplama: <b>${state.managers.smartCollect ? (state.automation.smartCollectEnabled ? 'Açık' : 'Kapalı') : 'Kilitli'}</b><br>
+     Pil tasarrufu: <b>${state.automation.batterySaver ? 'Açık' : 'Kapalı'}</b><br>
+     Satın alma modu: <b>${state.buyMode === 'max' ? 'MAX' : 'x' + state.buyMode}</b><br>
+     Rezerv bütçe: <b>%${Math.round(state.reserveRatio * 100)}</b><br>
+     Prestij tahmini: <b>${prestigeGainEstimate()}</b> puan`,
+    closeSheet,
+    'Tamam'
   );
 
-  refs.modal.addEventListener('click',e=>{if(e.target===refs.modal)closeSheet()});
+  refs.modal.addEventListener('click', e => {
+    if(e.target === refs.modal) closeSheet();
+  });
+
+  document.querySelector('#lab .dev-grid').addEventListener('click', e => {
+    const button = e.target.closest('[data-dev]');
+    if(!button) return;
+    const type = button.dataset.dev;
+    if(type === 'money1k'){ state.money += 1000; state.total += 1000; state.missionState.earn.progress += 1000; toast('+1K enerji'); }
+    if(type === 'money100k'){ state.money += 100000; state.total += 100000; state.missionState.earn.progress += 100000; toast('+100K enerji'); }
+    if(type === 'gems10'){ state.gems += 10; toast('+10 kristal'); }
+    if(type === 'offline1h'){
+      const reward = baseIncome() * permanentMultiplier() * 3600 * .82;
+      state.money += reward; state.total += reward; state.missionState.earn.progress += reward; toast('+1 saat offline simülasyonu');
+    }
+    if(type === 'levelUp'){ state.level += 1; toast('+1 seviye'); }
+    if(type === 'boost'){ state.boostUntil = Math.max(Date.now(), state.boostUntil) + BOOST_DURATION; toast('2X boost'); }
+    if(type === 'smartStep'){ smartCollect(); smartUpgrade(); toast('AI adımı çalıştı'); }
+    if(type === 'resetRun'){
+      const preserved = {prestige:state.prestige,gems:state.gems,managers:{...state.managers},automation:{...state.automation}};
+      state = structuredClone(defaults);
+      Object.assign(state,preserved);
+      toast('Koşu sıfırlandı');
+    }
+    markDirty();
+    renderAll();
+    saveState();
+  });
 
   function gameLoop(nowPerf){
-    const dt=Math.min(.25,Math.max(0,(nowPerf-lastFrame)/1000));
-    lastFrame=nowPerf;
+    const dt = Math.min(.25, Math.max(0, (nowPerf - lastFrame) / 1000));
+    lastFrame = nowPerf;
 
     if(!document.hidden){
-      const gain=income()*dt;
-      if(gain>0){state.money+=gain;state.total+=gain;markDirty()}
+      const gain = income() * dt;
+      if(gain > 0){
+        state.money += gain;
+        state.total += gain;
+        state.missionState.earn.progress += gain;
+        markDirty();
+      }
 
-      if(nowPerf-lastAutoDecision>=AUTO_DECISION_INTERVAL){
-        lastAutoDecision=nowPerf;
+      const autoInterval = state.automation.batterySaver ? 4500 : 2500;
+      if(nowPerf - lastAutoDecision >= autoInterval){
+        lastAutoDecision = nowPerf;
         smartCollect();
         smartUpgrade();
       }
 
-      if(nowPerf-lastUiUpdate>=250){
-        lastUiUpdate=nowPerf;
+      const uiInterval = state.automation.batterySaver ? 700 : 250;
+      if(nowPerf - lastUiUpdate >= uiInterval){
+        lastUiUpdate = nowPerf;
         renderTop();
       }
     }
+
     requestAnimationFrame(gameLoop);
   }
 
-  document.addEventListener('visibilitychange',()=>{
-    lastFrame=performance.now();
-    if(document.hidden)saveState();
+  document.addEventListener('visibilitychange', () => {
+    lastFrame = performance.now();
+    if(document.hidden) saveState();
   });
 
-  window.addEventListener('pagehide',saveState);
-  setInterval(()=>{if(dirty)saveState();renderAll()},3000);
+  window.addEventListener('pagehide', saveState);
+  setInterval(() => {
+    if(dirty) saveState();
+    renderAll();
+  }, 3000);
 
   claimOfflineReward();
   renderAll();
