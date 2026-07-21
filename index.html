@@ -1,356 +1,209 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0a0f1c" />
-  <title>Nova Core Idle</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#080c16">
+  <title>NOVA — Idle Core</title>
   <style>
     :root{
-      --bg:#090d17;
-      --panel:#121927;
-      --panel-2:#0e1522;
-      --line:rgba(255,255,255,.08);
-      --text:#f6f8ff;
-      --muted:#8f9bb2;
-      --accent:#67e8f9;
-      --accent-2:#7c83ff;
-      --good:#55e6a4;
-      --warn:#ffd166;
-      --danger:#ff6d8b;
+      --bg:#080c16;--panel:#101726;--panel2:#0c1220;
+      --line:rgba(255,255,255,.075);--text:#f7f9ff;--muted:#8591aa;
+      --cyan:#64e9ff;--blue:#7480ff;--purple:#a966ff;
+      --green:#58eba4;--gold:#ffd36a;--red:#ff718e;
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{
-      margin:0;
-      min-height:100%;
+      margin:0;min-height:100%;overflow-x:hidden;
       background:
-        radial-gradient(circle at 20% -10%,rgba(124,131,255,.18),transparent 35%),
-        radial-gradient(circle at 100% 0,rgba(103,232,249,.10),transparent 30%),
-        linear-gradient(180deg,#0b1120,#080b13 72%);
+        radial-gradient(circle at 15% -8%,rgba(116,128,255,.20),transparent 34%),
+        radial-gradient(circle at 100% 0,rgba(100,233,255,.11),transparent 28%),
+        linear-gradient(180deg,#0a1020,#070a12 72%);
       color:var(--text);
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
     }
     button{font:inherit}
-    .app{
-      width:min(100%,480px);
-      margin:0 auto;
-      min-height:100vh;
-      padding:16px 14px 92px;
-    }
-    .top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:14px;
-    }
-    .brand h1{margin:0;font-size:19px;letter-spacing:.7px}
-    .brand small{color:var(--muted)}
+    .app{width:min(100%,480px);margin:auto;min-height:100vh;padding:14px 13px 94px}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .logo{font-size:19px;font-weight:950;letter-spacing:1.5px}
+    .top-actions{display:flex;gap:7px}
     .icon-btn{
-      width:42px;height:42px;border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(18,25,39,.88);
-      color:white;
+      width:40px;height:40px;border-radius:13px;border:1px solid var(--line);
+      background:rgba(16,23,38,.9);color:white
     }
     .hero{
-      padding:19px;
-      border:1px solid var(--line);
-      border-radius:24px;
-      background:linear-gradient(145deg,rgba(103,232,249,.07),rgba(18,25,39,.96));
+      padding:17px;border:1px solid var(--line);border-radius:22px;
+      background:linear-gradient(145deg,rgba(100,233,255,.065),rgba(16,23,38,.96))
     }
-    .eyebrow{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      color:var(--muted);
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1.2px;
-    }
-    .money{
-      margin:8px 0 4px;
-      font-size:38px;
-      font-weight:900;
-      letter-spacing:-1.3px;
-      overflow-wrap:anywhere;
-    }
-    .income{color:var(--good);font-weight:850;font-size:14px}
-    .metrics{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      margin-top:15px;
-    }
-    .metric{
-      padding:10px;
-      border:1px solid var(--line);
-      border-radius:13px;
-      background:rgba(255,255,255,.025);
-    }
-    .metric b{display:block;font-size:13px}
-    .metric span{display:block;margin-top:2px;color:var(--muted);font-size:9px}
-    .smart-status{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:12px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(103,232,249,.14);
-      background:rgba(103,232,249,.05);
-    }
-    .smart-status strong{font-size:12px}
-    .smart-status small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
-    .status-dot{
-      flex:0 0 auto;
-      width:10px;height:10px;border-radius:50%;
-      background:var(--good);
-      box-shadow:0 0 0 5px rgba(85,230,164,.08);
-    }
-    .core-wrap{
-      display:grid;
-      place-items:center;
-      padding:28px 0 20px;
-    }
+    .hero-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}
+    .money{font-size:38px;font-weight:950;letter-spacing:-1.4px;margin:7px 0 3px;overflow-wrap:anywhere}
+    .rate{color:var(--green);font-weight:900;font-size:13px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px}
+    .stat{padding:9px 7px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.022);text-align:center}
+    .stat b{display:block;font-size:12px}.stat span{color:var(--muted);font-size:8px}
+    .progress{height:7px;border-radius:999px;background:rgba(255,255,255,.055);overflow:hidden;margin-top:11px}
+    .progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple))}
+    .core-wrap{display:grid;place-items:center;padding:24px 0 18px;position:relative}
     .core{
-      width:186px;height:186px;border-radius:50%;
-      border:0;color:white;position:relative;
+      width:178px;height:178px;border:0;border-radius:50%;color:white;position:relative;
       background:
-        radial-gradient(circle at 34% 27%,rgba(255,255,255,.78),rgba(103,232,249,.13) 10%,rgba(124,131,255,.22) 34%,#0c1727 72%),
-        conic-gradient(var(--accent),var(--accent-2),#a664ff,var(--accent));
-      box-shadow:
-        0 0 0 9px rgba(255,255,255,.025),
-        0 0 56px rgba(103,232,249,.18);
-      touch-action:manipulation;
+        radial-gradient(circle at 34% 26%,rgba(255,255,255,.82),rgba(100,233,255,.14) 9%,rgba(116,128,255,.24) 34%,#0c1728 72%),
+        conic-gradient(var(--cyan),var(--blue),var(--purple),var(--cyan));
+      box-shadow:0 0 0 8px rgba(255,255,255,.024),0 0 50px rgba(100,233,255,.17);
+      touch-action:manipulation
     }
-    .core:active{transform:scale(.97)}
-    .core-inner{
-      position:absolute;inset:15px;border-radius:50%;
-      background:radial-gradient(circle at 35% 30%,#17213a,#0a101d 74%);
-      border:1px solid rgba(255,255,255,.12);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
+    .core:active{transform:scale(.965)}
+    .core-in{
+      position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(255,255,255,.11);
+      background:radial-gradient(circle at 35% 29%,#18233b,#09101d 75%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center
     }
-    .core-inner small{color:var(--muted);letter-spacing:1.2px}
-    .core-inner strong{font-size:29px;margin-top:6px}
-    .advisor{
-      display:grid;
-      grid-template-columns:44px 1fr auto;
-      align-items:center;
-      gap:10px;
-      padding:13px;
-      border:1px solid rgba(103,232,249,.14);
-      border-radius:17px;
-      background:rgba(18,25,39,.82);
+    .core-in small{color:var(--muted);font-size:10px;letter-spacing:1.4px}
+    .core-in strong{font-size:29px;margin-top:5px}
+    .event-pill{
+      position:absolute;bottom:12px;padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(255,211,106,.20);background:rgba(255,211,106,.08);
+      color:var(--gold);font-size:10px;font-weight:800;display:none
     }
-    .advisor-icon{
-      width:44px;height:44px;border-radius:13px;
-      display:grid;place-items:center;
-      background:rgba(103,232,249,.08);
-      font-size:21px;
+    .event-pill.show{display:block}
+    .ai{
+      display:grid;grid-template-columns:40px 1fr auto;gap:9px;align-items:center;
+      padding:11px;border:1px solid rgba(100,233,255,.13);border-radius:16px;background:rgba(16,23,38,.84)
     }
-    .advisor h3{margin:0 0 4px;font-size:13px}
-    .advisor p{margin:0;color:var(--muted);font-size:10px;line-height:1.4}
-    .primary{
-      border:0;border-radius:11px;
-      padding:9px 11px;
-      background:linear-gradient(135deg,var(--accent),#a8f4ff);
-      color:#07121c;font-weight:900;
+    .ai-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(100,233,255,.075)}
+    .ai h3{margin:0 0 3px;font-size:12px}.ai p{margin:0;color:var(--muted);font-size:9px;line-height:1.35}
+    .ai button{
+      border:0;border-radius:10px;padding:8px 10px;font-weight:950;
+      background:linear-gradient(135deg,var(--cyan),#b7f7ff);color:#07121c
     }
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin:18px 2px 10px;
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 9px}
+    .section-head h2{margin:0;font-size:15px}.section-head span{color:var(--cyan);font-size:10px}
+    .toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+    .chip{
+      border:1px solid var(--line);border-radius:11px;padding:7px 10px;
+      background:rgba(255,255,255,.025);color:var(--muted);font-size:11px;font-weight:850
     }
-    .section-head h2{margin:0;font-size:16px}
-    .section-head span{color:var(--accent);font-size:11px}
-    .controls{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .chip-btn{
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:8px 11px;
-      background:rgba(255,255,255,.03);
-      color:var(--muted);
-      font-weight:800;
-    }
-    .chip-btn.active{
-      color:white;
-      border-color:rgba(103,232,249,.28);
-      background:rgba(103,232,249,.08);
-    }
-    .list{display:grid;gap:9px}
+    .chip.active{color:white;border-color:rgba(100,233,255,.26);background:rgba(100,233,255,.07)}
+    .list{display:grid;gap:8px}
     .card{
-      display:grid;
-      grid-template-columns:50px 1fr auto;
-      gap:11px;
-      align-items:center;
-      padding:12px;
-      border:1px solid var(--line);
-      border-radius:17px;
-      background:rgba(18,25,39,.88);
+      display:grid;grid-template-columns:46px 1fr auto;gap:10px;align-items:center;
+      padding:10px;border:1px solid var(--line);border-radius:15px;background:rgba(16,23,38,.87)
     }
-    .card.smart-pick{
-      border-color:rgba(103,232,249,.28);
-      background:rgba(103,232,249,.055);
+    .card.pick{border-color:rgba(100,233,255,.25);background:rgba(100,233,255,.045)}
+    .ico{
+      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;
+      background:linear-gradient(145deg,rgba(116,128,255,.21),rgba(100,233,255,.10))
     }
-    .icon{
-      width:50px;height:50px;border-radius:15px;
-      display:grid;place-items:center;
-      background:linear-gradient(145deg,rgba(124,131,255,.22),rgba(103,232,249,.12));
-      font-size:22px;
-    }
-    .card h3{margin:0 0 4px;font-size:13px}
-    .card p{margin:0;color:var(--muted);font-size:10px;line-height:1.4}
+    .card h3{margin:0 0 3px;font-size:12px}.card p{margin:0;color:var(--muted);font-size:9px;line-height:1.35}
     .buy{
-      min-width:84px;border:0;border-radius:11px;
-      padding:9px 10px;color:white;font-weight:900;
-      background:linear-gradient(135deg,var(--accent-2),#9f66ff);
+      min-width:78px;border:0;border-radius:10px;padding:8px 9px;
+      color:white;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple))
     }
-    button:disabled{opacity:.32}
+    button:disabled{opacity:.3}
+    .system-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .system{
+      padding:11px;border:1px solid var(--line);border-radius:15px;background:rgba(16,23,38,.85)
+    }
+    .system-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .system h3{margin:0;font-size:12px}.system p{margin:7px 0 0;color:var(--muted);font-size:9px;line-height:1.35}
+    .switch{
+      border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.025);
+      color:var(--muted);font-size:9px;font-weight:900
+    }
+    .switch.on{color:white;border-color:rgba(88,235,164,.25);background:rgba(88,235,164,.08)}
     .bottom{
-      position:fixed;
-      left:50%;bottom:12px;
-      transform:translateX(-50%);
-      width:min(calc(100% - 24px),456px);
-      height:68px;
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:rgba(9,14,25,.94);
-      backdrop-filter:blur(18px);
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      z-index:30;
+      position:fixed;left:50%;bottom:11px;transform:translateX(-50%);
+      width:min(calc(100% - 22px),458px);height:65px;border:1px solid var(--line);
+      border-radius:21px;background:rgba(8,13,24,.94);backdrop-filter:blur(18px);
+      display:grid;grid-template-columns:repeat(4,1fr);z-index:30
     }
     .nav{
-      border:0;background:none;color:var(--muted);
-      display:flex;flex-direction:column;
-      align-items:center;justify-content:center;
-      gap:4px;font-size:10px;
+      border:0;background:none;color:var(--muted);display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:3px;font-size:9px
     }
-    .nav.active{color:var(--accent)}
-    .nav strong{font-size:20px}
+    .nav strong{font-size:18px}.nav.active{color:var(--cyan)}
     .toast{
-      position:fixed;top:18px;left:50%;
-      transform:translate(-50%,-140%);
-      z-index:80;
-      max-width:calc(100% - 30px);
-      overflow:hidden;text-overflow:ellipsis;
-      white-space:nowrap;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:11px 15px;
-      background:#121a2d;
-      font-size:12px;
-      transition:.25s;
+      position:fixed;top:16px;left:50%;transform:translate(-50%,-140%);z-index:80;
+      max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+      border:1px solid var(--line);border-radius:13px;padding:10px 13px;background:#121a2d;font-size:11px;transition:.22s
     }
     .toast.show{transform:translate(-50%,0)}
-    .float{
-      position:fixed;pointer-events:none;
-      color:var(--accent);font-weight:900;
-      z-index:20;animation:up .7s ease-out forwards;
-    }
-    @keyframes up{to{transform:translateY(-65px);opacity:0}}
-    .modal{
-      position:fixed;inset:0;
-      display:none;align-items:flex-end;justify-content:center;
-      background:rgba(2,5,11,.78);
-      z-index:70;
-    }
+    .float{position:fixed;pointer-events:none;color:var(--cyan);font-weight:900;z-index:20;animation:up .65s ease-out forwards}
+    @keyframes up{to{transform:translateY(-62px);opacity:0}}
+    .modal{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(2,5,11,.78);z-index:70}
     .modal.show{display:flex}
-    .sheet{
-      width:min(100%,480px);
-      padding:22px 18px 28px;
-      border:1px solid var(--line);
-      border-radius:28px 28px 0 0;
-      background:#0d1424;
-    }
-    .sheet h2{margin-top:0}
-    .sheet p{color:var(--muted);line-height:1.55}
-    .sheet button{
-      width:100%;border:0;border-radius:14px;
-      padding:13px;font-weight:900;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      color:#07101c;
-    }
+    .sheet{width:min(100%,480px);padding:20px 17px 26px;border:1px solid var(--line);border-radius:26px 26px 0 0;background:#0d1424}
+    .sheet h2{margin-top:0;font-size:18px}.sheet p{color:var(--muted);line-height:1.55;font-size:13px}
+    .sheet button{width:100%;border:0;border-radius:13px;padding:12px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07101c}
   </style>
 </head>
 <body>
 <main class="app">
   <div class="top">
-    <div class="brand">
-      <h1>NOVA CORE</h1>
-      <small>Adaptive Idle System</small>
+    <div class="logo">NOVA</div>
+    <div class="top-actions">
+      <button class="icon-btn" id="soundBtn">🔊</button>
+      <button class="icon-btn" id="settingsBtn">⚙️</button>
     </div>
-    <button class="icon-btn" id="settingsBtn" aria-label="Ayarlar">⚙️</button>
   </div>
 
   <section class="hero">
-    <div class="eyebrow">
-      <span>Enerji</span>
-      <span id="phaseLabel">Başlangıç Evresi</span>
+    <div class="hero-top">
+      <span>ENERJİ</span>
+      <span id="phase">I</span>
     </div>
     <div class="money" id="money">0</div>
-    <div class="income"><span id="perSecond">0</span> / saniye</div>
+    <div class="rate"><span id="perSecond">0</span>/sn</div>
 
-    <div class="metrics">
-      <div class="metric"><b id="level">1</b><span>SEVİYE</span></div>
-      <div class="metric"><b id="efficiency">%100</b><span>VERİM</span></div>
-      <div class="metric"><b id="prestige">0</b><span>ÇEKİRDEK</span></div>
+    <div class="stats">
+      <div class="stat"><b id="level">1</b><span>LVL</span></div>
+      <div class="stat"><b id="cores">0</b><span>CORE</span></div>
+      <div class="stat"><b id="efficiency">%100</b><span>VERİM</span></div>
+      <div class="stat"><b id="combo">x1</b><span>KOMBO</span></div>
     </div>
 
-    <div class="smart-status">
-      <div>
-        <strong id="uiModeTitle">Akıllı Arayüz Aktif</strong>
-        <small id="uiModeText">Sadece gerekli seçenekler gösteriliyor.</small>
-      </div>
-      <span class="status-dot" id="statusDot"></span>
-    </div>
+    <div class="progress"><div id="xpBar"></div></div>
   </section>
 
   <div class="core-wrap">
     <button class="core" id="coreBtn">
-      <span class="core-inner">
-        <small>ENERJİ TOPLA</small>
+      <span class="core-in">
+        <small>TOPLA</small>
         <strong>+<span id="tapPower">1</span></strong>
       </span>
     </button>
+    <div class="event-pill" id="eventPill">⚡ 2X</div>
   </div>
 
-  <section class="advisor">
-    <div class="advisor-icon">🧠</div>
+  <section class="ai">
+    <div class="ai-icon">🧠</div>
     <div>
-      <h3 id="advisorTitle">Sistem analiz ediyor</h3>
-      <p id="advisorText">Bir sonraki en mantıklı hamle hesaplanıyor.</p>
+      <h3 id="aiTitle">Analiz</h3>
+      <p id="aiText">Hazırlanıyor</p>
     </div>
-    <button class="primary" id="advisorAction">UYGULA</button>
+    <button id="aiAction">AL</button>
   </section>
 
   <div class="section-head">
-    <h2 id="sectionTitle">Yapılar</h2>
-    <span id="smartHint">Akıllı sıralama</span>
+    <h2 id="viewTitle">Yapılar</h2>
+    <span id="viewHint">AI sıralama</span>
   </div>
 
-  <div class="controls" id="buyControls">
-    <button class="chip-btn active" data-mode="1">x1</button>
-    <button class="chip-btn" data-mode="10">x10</button>
-    <button class="chip-btn" data-mode="max">MAX</button>
-    <button class="chip-btn active" id="autoToggle">AUTO</button>
+  <div class="toolbar" id="toolbar">
+    <button class="chip active" data-buy="1">x1</button>
+    <button class="chip" data-buy="10">x10</button>
+    <button class="chip" data-buy="max">MAX</button>
+    <button class="chip active" id="autoChip">AUTO</button>
   </div>
 
-  <section class="list" id="buildingList"></section>
+  <section class="list" id="content"></section>
 </main>
 
 <nav class="bottom">
   <button class="nav active" data-view="build"><strong>🏗️</strong>Yapılar</button>
-  <button class="nav" data-view="systems"><strong>🤖</strong>Sistemler</button>
-  <button class="nav" data-view="core"><strong>✦</strong>Çekirdek</button>
+  <button class="nav" data-view="missions"><strong>🎯</strong>Görev</button>
+  <button class="nav" data-view="systems"><strong>🤖</strong>Sistem</button>
+  <button class="nav" data-view="core"><strong>✦</strong>Core</button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -360,570 +213,357 @@
 (() => {
   'use strict';
 
-  const SAVE_KEY = 'novaCoreAdaptiveSave';
-  const MAX_OFFLINE_SECONDS = 3 * 60 * 60;
-
-  const buildings = [
-    {id:'collector',name:'Enerji Toplayıcı',icon:'🔋',base:15,income:1,unlock:1},
-    {id:'extractor',name:'Plazma Çıkarıcı',icon:'⚙️',base:120,income:9,unlock:2},
-    {id:'reactor',name:'Füzyon Reaktörü',icon:'⚛️',base:950,income:70,unlock:4},
-    {id:'network',name:'Nöral Ağ',icon:'🧠',base:7800,income:560,unlock:7},
-    {id:'singularity',name:'Tekillik Çekirdeği',icon:'🌌',base:65000,income:4600,unlock:11}
+  const SAVE_KEY='novaMaximumSave';
+  const OFFLINE_CAP=4*3600;
+  const buildings=[
+    {id:'cell',name:'Hücre',icon:'🔋',base:15,income:1,unlock:1},
+    {id:'pump',name:'Pompa',icon:'⚙️',base:115,income:8,unlock:2},
+    {id:'reactor',name:'Reaktör',icon:'⚛️',base:900,income:62,unlock:4},
+    {id:'grid',name:'Grid',icon:'🧠',base:7200,income:500,unlock:7},
+    {id:'void',name:'Void',icon:'🌌',base:59000,income:4200,unlock:11}
   ];
-
-  const defaults = {
-    money:0,total:0,level:1,xp:0,prestige:0,
-    buyMode:'1',auto:true,view:'build',
-    owned:{collector:0,extractor:0,reactor:0,network:0,singularity:0},
-    lastSeen:Date.now()
+  const defaults={
+    money:0,total:0,level:1,xp:0,cores:0,
+    view:'build',buyMode:'1',auto:true,sound:true,battery:false,
+    smartCollect:true,smartBoost:true,combo:1,lastTap:0,eventUntil:0,
+    owned:{cell:0,pump:0,reactor:0,grid:0,void:0},
+    missions:{
+      tap:{tier:1,progress:0,target:100,reward:3},
+      buy:{tier:1,progress:0,target:10,reward:4},
+      earn:{tier:1,progress:0,target:5000,reward:5}
+    },
+    gems:0,lastSeen:Date.now(),lastDaily:0,lastChest:0
   };
 
-  const $ = s => document.querySelector(s);
-  const refs = {
-    money:$('#money'),perSecond:$('#perSecond'),level:$('#level'),
-    efficiency:$('#efficiency'),prestige:$('#prestige'),tapPower:$('#tapPower'),
-    phaseLabel:$('#phaseLabel'),uiModeTitle:$('#uiModeTitle'),uiModeText:$('#uiModeText'),
-    statusDot:$('#statusDot'),advisorTitle:$('#advisorTitle'),advisorText:$('#advisorText'),
-    advisorAction:$('#advisorAction'),sectionTitle:$('#sectionTitle'),
-    smartHint:$('#smartHint'),buyControls:$('#buyControls'),buildingList:$('#buildingList'),
-    autoToggle:$('#autoToggle'),toast:$('#toast'),modal:$('#modal'),sheet:$('#sheet')
+  const $=s=>document.querySelector(s);
+  const refs={
+    money:$('#money'),perSecond:$('#perSecond'),level:$('#level'),cores:$('#cores'),
+    efficiency:$('#efficiency'),combo:$('#combo'),tapPower:$('#tapPower'),xpBar:$('#xpBar'),
+    phase:$('#phase'),eventPill:$('#eventPill'),aiTitle:$('#aiTitle'),aiText:$('#aiText'),
+    aiAction:$('#aiAction'),viewTitle:$('#viewTitle'),viewHint:$('#viewHint'),
+    toolbar:$('#toolbar'),autoChip:$('#autoChip'),content:$('#content'),
+    soundBtn:$('#soundBtn'),toast:$('#toast'),modal:$('#modal'),sheet:$('#sheet')
   };
 
-  let state = loadState();
-  let lastFrame = performance.now();
-  let lastUi = 0;
-  let lastAuto = 0;
-  let modalOpen = false;
+  let state=load();
+  let lastFrame=performance.now();
+  let lastUi=0,lastAuto=0,lastSmart=0,modalOpen=false;
 
-  function finite(value,fallback=0){
-    const n=Number(value);
-    return Number.isFinite(n)&&n>=0?n:fallback;
-  }
-
-  function loadState(){
+  function n(v,f=0){const x=Number(v);return Number.isFinite(x)&&x>=0?x:f}
+  function load(){
     try{
-      const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
-      if(!raw)return structuredClone(defaults);
-      const safe={
-        ...defaults,...raw,
-        money:finite(raw.money),
-        total:finite(raw.total),
-        level:Math.max(1,Math.floor(finite(raw.level,1))),
-        xp:finite(raw.xp),
-        prestige:Math.floor(finite(raw.prestige)),
-        buyMode:['1','10','max'].includes(raw.buyMode)?raw.buyMode:'1',
-        auto:raw.auto!==false,
-        view:['build','systems','core'].includes(raw.view)?raw.view:'build',
-        lastSeen:finite(raw.lastSeen,Date.now()),
-        owned:{...defaults.owned,...(raw.owned||{})}
+      const r=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
+      if(!r)return structuredClone(defaults);
+      const s={
+        ...defaults,...r,
+        money:n(r.money),total:n(r.total),level:Math.max(1,Math.floor(n(r.level,1))),
+        xp:n(r.xp),cores:Math.floor(n(r.cores)),gems:Math.floor(n(r.gems)),
+        combo:Math.max(1,Math.min(5,n(r.combo,1))),eventUntil:n(r.eventUntil),
+        lastTap:n(r.lastTap),lastSeen:n(r.lastSeen,Date.now()),lastDaily:n(r.lastDaily),lastChest:n(r.lastChest),
+        buyMode:['1','10','max'].includes(r.buyMode)?r.buyMode:'1',
+        view:['build','missions','systems','core'].includes(r.view)?r.view:'build',
+        owned:{...defaults.owned,...(r.owned||{})},
+        missions:{...structuredClone(defaults.missions),...(r.missions||{})}
       };
-      for(const key of Object.keys(safe.owned)){
-        safe.owned[key]=Math.floor(finite(safe.owned[key]));
-      }
-      return safe;
-    }catch{
-      return structuredClone(defaults);
-    }
+      Object.keys(s.owned).forEach(k=>s.owned[k]=Math.floor(n(s.owned[k])));
+      return s;
+    }catch{return structuredClone(defaults)}
   }
-
-  function saveState(){
-    state.lastSeen=Date.now();
-    localStorage.setItem(SAVE_KEY,JSON.stringify(state));
+  function save(){state.lastSeen=Date.now();localStorage.setItem(SAVE_KEY,JSON.stringify(state))}
+  function fmt(x){
+    x=n(x);
+    if(x<1000)return Math.floor(x).toLocaleString('tr-TR');
+    const u=['K','M','B','T','Qa','Qi'];let i=-1;
+    while(x>=1000&&i<u.length-1){x/=1000;i++}
+    return x.toLocaleString('tr-TR',{maximumFractionDigits:x<10?2:1})+u[i]
   }
-
-  function format(n){
-    n=finite(n);
-    if(n<1000)return Math.floor(n).toLocaleString('tr-TR');
-    const units=['K','M','B','T','Qa','Qi'];
-    let i=-1;
-    while(n>=1000&&i<units.length-1){n/=1000;i++}
-    return n.toLocaleString('tr-TR',{maximumFractionDigits:n<10?2:1})+units[i];
-  }
-
   function phase(){
-    if(state.level<4)return {name:'Başlangıç Evresi',speed:1};
-    if(state.level<8)return {name:'Büyüme Evresi',speed:1.08};
-    if(state.level<14)return {name:'İleri Evre',speed:1.16};
-    return {name:'Tekillik Evresi',speed:1.25};
+    if(state.level<4)return {name:'I',mult:1};
+    if(state.level<8)return {name:'II',mult:1.08};
+    if(state.level<14)return {name:'III',mult:1.16};
+    return {name:'IV',mult:1.25}
   }
-
-  function globalMultiplier(){
-    return (1+state.prestige*.20)*phase().speed;
+  function globalMult(){
+    let m=(1+state.cores*.2)*phase().mult;
+    if(Date.now()<state.eventUntil)m*=2;
+    return m
   }
-
-  function balanceEfficiency(){
-    const levels=Object.values(state.owned);
-    const max=Math.max(1,...levels);
-    const min=Math.min(...levels);
-    const spread=max-min;
-    return Math.max(.82,1-Math.min(.18,spread*.008));
+  function efficiency(){
+    const a=buildings.filter(b=>state.level>=b.unlock).map(b=>state.owned[b.id]);
+    if(!a.length)return 1;
+    const spread=Math.max(...a)-Math.min(...a);
+    return Math.max(.84,1-Math.min(.16,spread*.007))
   }
-
   function income(){
-    return buildings.reduce((sum,b)=>sum+state.owned[b.id]*b.income,0)*globalMultiplier()*balanceEfficiency();
+    return buildings.reduce((s,b)=>s+state.owned[b.id]*b.income,0)*globalMult()*efficiency()
   }
-
-  function tapPower(){
-    return Math.max(1,Math.floor((1+state.level*.45)*globalMultiplier()));
+  function tapPower(){return Math.max(1,Math.floor((1+state.level*.42)*globalMult()*state.combo))}
+  function xpNeed(){return Math.floor(80*Math.pow(1.155,state.level-1))}
+  function addXp(v){
+    state.xp+=v;
+    let up=false;
+    while(state.xp>=xpNeed()){state.xp-=xpNeed();state.level++;up=true}
+    if(up)toast('LVL '+state.level)
   }
-
-  function xpNeed(){
-    return Math.floor(85*Math.pow(1.16,state.level-1));
+  function priceAt(b,l){return Math.max(1,Math.floor(b.base*Math.pow(1.133,l)))}
+  function totalPrice(b,c){
+    let s=0;
+    for(let i=0;i<c;i++)s+=priceAt(b,state.owned[b.id]+i);
+    return s
   }
-
-  function addXp(amount){
-    state.xp+=amount;
-    let leveled=false;
-    while(state.xp>=xpNeed()){
-      state.xp-=xpNeed();
-      state.level++;
-      leveled=true;
-    }
-    if(leveled)toast('Seviye '+state.level);
-  }
-
-  function priceAtLevel(b,level){
-    const stageFactor=1+Math.max(0,phase().speed-1)*.12;
-    return Math.max(1,Math.floor(b.base*Math.pow(1.135*stageFactor,level)));
-  }
-
-  function totalPrice(b,count){
-    let sum=0;
-    for(let i=0;i<count;i++)sum+=priceAtLevel(b,state.owned[b.id]+i);
-    return sum;
-  }
-
-  function maxAffordable(b,limit=500){
-    let count=0;
-    let spent=0;
-    while(count<limit){
-      const next=priceAtLevel(b,state.owned[b.id]+count);
+  function maxAffordable(b){
+    let c=0,spent=0;
+    while(c<500){
+      const next=priceAt(b,state.owned[b.id]+c);
       if(spent+next>state.money)break;
-      spent+=next;
-      count++;
+      spent+=next;c++
     }
-    return count;
+    return c
   }
-
-  function quantityFor(b){
+  function qty(b){
     if(state.buyMode==='1')return 1;
     if(state.buyMode==='10')return 10;
-    return maxAffordable(b);
+    return maxAffordable(b)
   }
-
-  function availableBuildings(){
-    return buildings.filter(b=>state.level>=b.unlock);
-  }
-
-  function metricsFor(b){
-    const quantity=state.buyMode==='max'?Math.max(1,Math.min(maxAffordable(b),10)):Number(state.buyMode);
-    const cost=totalPrice(b,quantity);
-    const gain=b.income*quantity*globalMultiplier()*balanceEfficiency();
+  function available(){return buildings.filter(b=>state.level>=b.unlock)}
+  function metrics(b){
+    const q=state.buyMode==='max'?Math.max(1,Math.min(maxAffordable(b),10)):Number(state.buyMode);
+    const cost=totalPrice(b,q);
+    const gain=b.income*q*globalMult()*efficiency();
     const payback=cost/Math.max(.01,gain);
-    const lowestLevel=Math.min(...availableBuildings().map(x=>state.owned[x.id]));
-    const balanceBonus=state.owned[b.id]===lowestLevel?1.25:1;
-    const score=(gain/Math.max(1,cost))*balanceBonus/(1+payback/180);
-    return {b,quantity,cost,gain,payback,score,afford:state.money>=cost};
+    const min=Math.min(...available().map(x=>state.owned[x.id]));
+    const balance=state.owned[b.id]===min?1.22:1;
+    const score=(gain/Math.max(1,cost))*balance/(1+payback/160);
+    return {b,q,cost,gain,payback,score,afford:state.money>=cost}
   }
-
-  function smartChoice(affordableOnly=false){
-    let list=availableBuildings().map(metricsFor);
-    if(affordableOnly)list=list.filter(x=>x.afford);
-    if(!list.length)return null;
-    return list.sort((a,b)=>b.score-a.score)[0];
+  function choice(affordable=false){
+    let list=available().map(metrics);
+    if(affordable)list=list.filter(x=>x.afford);
+    return list.sort((a,b)=>b.score-a.score)[0]||null
   }
-
-  function smartUiMode(){
-    const available=availableBuildings().length;
-    if(state.view==='systems')return 'systems';
-    if(state.view==='core')return 'core';
-    if(available<=2)return 'simple';
-    return 'advanced';
-  }
-
-  function buyBuilding(id,count,silent=false){
+  function buy(id,count,silent=false){
     const b=buildings.find(x=>x.id===id);
-    if(!b||state.level<b.unlock)return false;
-    const amount=Math.max(1,count);
-    const cost=totalPrice(b,amount);
+    if(!b||state.level<b.unlock||count<1)return false;
+    const cost=totalPrice(b,count);
     if(state.money<cost)return false;
-    state.money-=cost;
-    state.owned[id]+=amount;
-    addXp(5*amount);
-    saveState();
-    if(!silent)toast(b.name+' x'+amount);
-    render();
-    return true;
+    state.money-=cost;state.owned[id]+=count;state.missions.buy.progress+=count;
+    addXp(5*count);save();if(!silent)toast(b.name+' x'+count);render();return true
   }
-
-  function toast(text){
-    refs.toast.textContent=text;
-    refs.toast.classList.add('show');
-    clearTimeout(window.toastTimer);
-    window.toastTimer=setTimeout(()=>refs.toast.classList.remove('show'),1500);
+  function claimMission(id,silent=false){
+    const m=state.missions[id];
+    if(!m||m.progress<m.target)return false;
+    state.gems+=m.reward;m.tier++;
+    if(id==='tap'){m.progress=0;m.target=Math.floor(100*Math.pow(1.35,m.tier-1));m.reward=Math.floor(3*Math.pow(1.22,m.tier-1))}
+    if(id==='buy'){m.progress=0;m.target=Math.floor(10*Math.pow(1.38,m.tier-1));m.reward=Math.floor(4*Math.pow(1.22,m.tier-1))}
+    if(id==='earn'){m.progress=0;m.target=Math.floor(5000*Math.pow(1.55,m.tier-1));m.reward=Math.floor(5*Math.pow(1.24,m.tier-1))}
+    if(!silent)toast('+'+m.reward+' 💎');save();return true
   }
-
-  function openSheet(title,body,action,label='Tamam'){
-    modalOpen=true;
-    refs.sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
-    refs.modal.classList.add('show');
-    $('#sheetAction').onclick=()=>action?.();
-  }
-
-  function closeSheet(){
-    modalOpen=false;
-    refs.modal.classList.remove('show');
-  }
-
-  function renderBuildView(){
-    refs.sectionTitle.textContent='Yapılar';
-    refs.smartHint.textContent='Akıllı sıralama';
-    refs.buyControls.style.display='flex';
-
-    const choice=smartChoice(false);
-    refs.buildingList.innerHTML=buildings.map(b=>{
-      const locked=state.level<b.unlock;
-      const quantity=quantityFor(b);
-      const displayQuantity=state.buyMode==='max'?quantity:Number(state.buyMode);
-      const cost=locked||displayQuantity<1?0:totalPrice(b,displayQuantity);
-      const picked=choice&&choice.b.id===b.id;
-      return `<article class="card ${picked?'smart-pick':''}" style="${locked?'opacity:.45':''}">
-        <div class="icon">${b.icon}</div>
-        <div>
-          <h3>${b.name} · Lv.${state.owned[b.id]}</h3>
-          <p>${locked
-            ? 'Seviye '+b.unlock+' gerekli'
-            : '+'+format(b.income*globalMultiplier()*balanceEfficiency())+'/sn · '+(picked?'AI önerisi · ':'')+(state.buyMode==='max'?'MAX '+displayQuantity:'x'+displayQuantity)}
-          </p>
-        </div>
-        <button class="buy" data-buy="${b.id}" ${locked||displayQuantity<1||state.money<cost?'disabled':''}>${locked?'Kilitli':format(cost)}</button>
-      </article>`;
-    }).join('');
-  }
-
-  function renderSystemsView(){
-    refs.sectionTitle.textContent='Akıllı Sistemler';
-    refs.smartHint.textContent='Otomatik yönetim';
-    refs.buyControls.style.display='none';
-
-    const choice=smartChoice(false);
-    refs.buildingList.innerHTML=`
-      <article class="card smart-pick">
-        <div class="icon">🤖</div>
-        <div>
-          <h3>Akıllı Satın Alma</h3>
-          <p>${state.auto?'Açık · Sistem uygun olduğunda en iyi yatırımı yapıyor.':'Kapalı · Kontrol tamamen sende.'}</p>
-        </div>
-        <button class="buy" id="inlineAuto">${state.auto?'Kapat':'Aç'}</button>
-      </article>
-      <article class="card">
-        <div class="icon">🧭</div>
-        <div>
-          <h3>Akıllı Arayüz</h3>
-          <p>${smartUiMode()==='simple'?'Başlangıç için sade görünüm kullanılıyor.':'İlerlemen arttığı için detaylı görünüm kullanılıyor.'}</p>
-        </div>
-        <button class="buy" disabled>Aktif</button>
-      </article>
-      <article class="card">
-        <div class="icon">📊</div>
-        <div>
-          <h3>Akıllı Dengeleme</h3>
-          <p>Mevcut verim %${Math.round(balanceEfficiency()*100)} · Yapılar arası fark büyürse sistem bunu hesaba katıyor.</p>
-        </div>
-        <button class="buy" disabled>%${Math.round(balanceEfficiency()*100)}</button>
-      </article>
-      <article class="card">
-        <div class="icon">💡</div>
-        <div>
-          <h3>Mevcut Tavsiye</h3>
-          <p>${choice?choice.b.name+' · '+Math.max(1,Math.round(choice.payback))+' sn geri dönüş · +'+format(choice.gain)+'/sn':'Yeni yatırım bekleniyor.'}</p>
-        </div>
-        <button class="buy" id="inlineAdvice" ${!choice||!choice.afford?'disabled':''}>Uygula</button>
-      </article>`;
-  }
-
-  function renderCoreView(){
-    refs.sectionTitle.textContent='Çekirdek Sıçraması';
-    refs.smartHint.textContent='Kalıcı ilerleme';
-    refs.buyControls.style.display='none';
-
-    const gain=Math.floor(Math.sqrt(state.total/1_000_000));
-    refs.buildingList.innerHTML=`
-      <article class="card smart-pick">
-        <div class="icon">✦</div>
-        <div>
-          <h3>Çekirdek Puanı</h3>
-          <p>Şu an ${state.prestige} puanın var. Her puan kalıcı +%20 üretim sağlar.</p>
-        </div>
-        <button class="buy" disabled>${state.prestige}</button>
-      </article>
-      <article class="card">
-        <div class="icon">🚀</div>
-        <div>
-          <h3>Yeni Döngü</h3>
-          <p>${gain>0?'Şimdi sıfırlarsan '+gain+' çekirdek puanı kazanırsın.':'İlk sıçrama için toplam 1M enerji üretmelisin.'}</p>
-        </div>
-        <button class="buy" id="coreReset" ${gain<1?'disabled':''}>${gain>0?'Sıçra':'Hazır Değil'}</button>
-      </article>`;
-  }
-
-  function renderAdvisor(){
-    const mode=smartUiMode();
-
-    if(mode==='systems'){
-      refs.advisorTitle.textContent=state.auto?'Otomasyon çalışıyor':'Otomasyon kapalı';
-      refs.advisorText.textContent=state.auto?'Sistem, paranı boşa harcamadan uygun yatırımı bekliyor.':'Akıllı satın alma kapalı; öneriler görünmeye devam eder.';
-      refs.advisorAction.textContent=state.auto?'KAPAT':'AÇ';
-      refs.advisorAction.disabled=false;
-      return;
-    }
-
-    if(mode==='core'){
-      const gain=Math.floor(Math.sqrt(state.total/1_000_000));
-      refs.advisorTitle.textContent=gain>0?'Çekirdek sıçraması hazır':'Çekirdek henüz hazır değil';
-      refs.advisorText.textContent=gain>0?gain+' kalıcı puan kazanabilirsin.':'Toplam '+format(state.total)+' / 1M enerji.';
-      refs.advisorAction.textContent='GÖR';
-      refs.advisorAction.disabled=false;
-      return;
-    }
-
-    const choice=smartChoice(false);
-    if(!choice){
-      refs.advisorTitle.textContent='Yeni yatırım bekleniyor';
-      refs.advisorText.textContent='Seviye yükseldikçe yeni yapılar açılacak.';
-      refs.advisorAction.disabled=true;
-      return;
-    }
-
-    refs.advisorTitle.textContent=choice.afford?choice.b.name+' öneriliyor':format(choice.cost-state.money)+' enerji daha gerekli';
-    refs.advisorText.textContent=`x${choice.quantity} · ${Math.max(1,Math.round(choice.payback))} sn geri dönüş · +${format(choice.gain)}/sn`;
-    refs.advisorAction.textContent='UYGULA';
-    refs.advisorAction.disabled=!choice.afford;
-  }
-
-  function render(){
-    refs.money.textContent=format(state.money);
-    refs.perSecond.textContent=format(income());
-    refs.level.textContent=state.level;
-    refs.efficiency.textContent='%'+Math.round(balanceEfficiency()*100);
-    refs.prestige.textContent=state.prestige;
-    refs.tapPower.textContent=format(tapPower());
-    refs.phaseLabel.textContent=phase().name;
-
-    const mode=smartUiMode();
-    refs.uiModeTitle.textContent=mode==='simple'?'Akıllı Arayüz: Sade':mode==='advanced'?'Akıllı Arayüz: Gelişmiş':'Akıllı Arayüz Aktif';
-    refs.uiModeText.textContent=mode==='simple'
-      ?'Yeni oyuncu için sadece temel bilgiler gösteriliyor.'
-      :mode==='advanced'
-        ?'İlerleme arttığı için detaylı karar bilgileri gösteriliyor.'
-        :'Bu bölüm için gerekli kontroller gösteriliyor.';
-
-    refs.autoToggle.textContent=state.auto?'AUTO AÇIK':'AUTO KAPALI';
-    refs.autoToggle.classList.toggle('active',state.auto);
-
-    document.querySelectorAll('.chip-btn[data-mode]').forEach(btn=>{
-      btn.classList.toggle('active',btn.dataset.mode===state.buyMode);
-    });
-
-    document.querySelectorAll('.nav').forEach(btn=>{
-      btn.classList.toggle('active',btn.dataset.view===state.view);
-    });
-
-    renderAdvisor();
-
-    if(state.view==='build')renderBuildView();
-    if(state.view==='systems')renderSystemsView();
-    if(state.view==='core')renderCoreView();
-  }
-
-  function offlineReward(){
+  function smartCollect(){
+    if(!state.smartCollect)return;
+    ['tap','buy','earn'].forEach(id=>claimMission(id,true));
     const now=Date.now();
-    const elapsed=Math.max(0,Math.min((now-state.lastSeen)/1000,MAX_OFFLINE_SECONDS));
-    const reward=income()*elapsed*.8;
-
-    state.lastSeen=now;
-    localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-
-    if(reward>=1){
-      state.money+=reward;
-      state.total+=reward;
-      saveState();
-      setTimeout(()=>openSheet(
-        'ÇEVRİMDIŞI KAZANÇ',
-        `${Math.floor(elapsed/60)} dakika boyunca sistem çalıştı.<br><br><b>+${format(reward)}</b> enerji`,
-        closeSheet,
-        'Topla'
-      ),250);
+    if(now-state.lastDaily>=86400000){state.gems+=5+Math.floor(state.level/5);state.lastDaily=now}
+    if(now-state.lastChest>=300000){
+      const r=Math.max(50,Math.floor(income()*75+Math.random()*400));
+      state.money+=r;state.total+=r;state.missions.earn.progress+=r;state.lastChest=now
     }
+  }
+  function smartBoost(){
+    if(!state.smartBoost||Date.now()<state.eventUntil)return;
+    if(state.gems>=3&&income()>0&&state.money<choice(false)?.cost*.35){
+      state.gems-=3;state.eventUntil=Date.now()+60000
+    }
+  }
+  function smartAuto(){
+    if(!state.auto)return;
+    const c=choice(true);
+    if(c&&c.payback<=170)buy(c.b.id,c.q,true)
+  }
+  function prestigeGain(){return Math.floor(Math.sqrt(state.total/1_000_000))}
+  function toast(t){
+    refs.toast.textContent=t;refs.toast.classList.add('show');
+    clearTimeout(window.tt);window.tt=setTimeout(()=>refs.toast.classList.remove('show'),1300)
+  }
+  function openSheet(title,body,action,label='Tamam'){
+    modalOpen=true;refs.sheet.innerHTML=`<h2>${title}</h2><p>${body}</p><button id="sheetAction">${label}</button>`;
+    refs.modal.classList.add('show');$('#sheetAction').onclick=()=>action?.()
+  }
+  function closeSheet(){modalOpen=false;refs.modal.classList.remove('show')}
+
+  function renderTop(){
+    refs.money.textContent=fmt(state.money);
+    refs.perSecond.textContent=fmt(income());
+    refs.level.textContent=state.level;
+    refs.cores.textContent=state.cores;
+    refs.efficiency.textContent='%'+Math.round(efficiency()*100);
+    refs.combo.textContent='x'+state.combo.toFixed(1);
+    refs.tapPower.textContent=fmt(tapPower());
+    refs.xpBar.style.width=Math.min(100,state.xp/xpNeed()*100)+'%';
+    refs.phase.textContent=phase().name;
+    refs.eventPill.classList.toggle('show',Date.now()<state.eventUntil);
+    if(Date.now()<state.eventUntil)refs.eventPill.textContent='⚡ '+Math.ceil((state.eventUntil-Date.now())/1000)+'s';
+    refs.soundBtn.textContent=state.sound?'🔊':'🔇';
+    refs.autoChip.textContent=state.auto?'AUTO':'MANUEL';
+    refs.autoChip.classList.toggle('active',state.auto);
+    document.querySelectorAll('[data-buy]').forEach(b=>b.classList.toggle('active',b.dataset.buy===state.buyMode));
+    document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.view===state.view))
+  }
+  function renderAI(){
+    const c=choice(false);
+    if(state.view==='core'){
+      const g=prestigeGain();
+      refs.aiTitle.textContent=g>0?'Core hazır':'Core kilitli';
+      refs.aiText.textContent=g>0?'+'+g+' kalıcı puan':'1M toplam enerji';
+      refs.aiAction.textContent='GÖR';refs.aiAction.disabled=false;return
+    }
+    if(state.view==='systems'){
+      refs.aiTitle.textContent=state.auto?'AI aktif':'AI kapalı';
+      refs.aiText.textContent=state.auto?'Yatırım + toplama + boost':'Kontrol sende';
+      refs.aiAction.textContent=state.auto?'KAPAT':'AÇ';refs.aiAction.disabled=false;return
+    }
+    if(!c){refs.aiTitle.textContent='Bekleniyor';refs.aiText.textContent='Yeni yapı aç';refs.aiAction.disabled=true;return}
+    refs.aiTitle.textContent=c.afford?c.b.name:fmt(c.cost-state.money)+' eksik';
+    refs.aiText.textContent='x'+c.q+' · '+Math.max(1,Math.round(c.payback))+'s · +'+fmt(c.gain)+'/sn';
+    refs.aiAction.textContent='AL';refs.aiAction.disabled=!c.afford
+  }
+  function renderBuild(){
+    refs.viewTitle.textContent='Yapılar';refs.viewHint.textContent='AI sıralama';refs.toolbar.style.display='flex';
+    const c=choice(false);
+    refs.content.innerHTML=buildings.map(b=>{
+      const locked=state.level<b.unlock,q=qty(b),display=state.buyMode==='max'?q:Number(state.buyMode);
+      const cost=locked||display<1?0:totalPrice(b,display),pick=c&&c.b.id===b.id;
+      return `<article class="card ${pick?'pick':''}" style="${locked?'opacity:.42':''}">
+        <div class="ico">${b.icon}</div>
+        <div><h3>${b.name} · ${state.owned[b.id]}</h3><p>${locked?'LVL '+b.unlock: '+'+fmt(b.income*globalMult()*efficiency())+'/sn · '+(state.buyMode==='max'?'MAX '+display:'x'+display)}</p></div>
+        <button class="buy" data-id="${b.id}" ${locked||display<1||state.money<cost?'disabled':''}>${locked?'Kilit':fmt(cost)}</button>
+      </article>`
+    }).join('')
+  }
+  function renderMissions(){
+    refs.viewTitle.textContent='Görevler';refs.viewHint.textContent=state.smartCollect?'Auto':'Manuel';refs.toolbar.style.display='none';
+    const names={tap:['👆','Dokun'],buy:['🏗️','Kur'],earn:['⚡','Üret']};
+    refs.content.innerHTML=Object.entries(state.missions).map(([id,m])=>`
+      <article class="card ${m.progress>=m.target?'pick':''}">
+        <div class="ico">${names[id][0]}</div>
+        <div><h3>${names[id][1]} · T${m.tier}</h3><p>${fmt(Math.min(m.progress,m.target))}/${fmt(m.target)} · ${m.reward} 💎</p></div>
+        <button class="buy" data-mission="${id}" ${m.progress<m.target?'disabled':''}>AL</button>
+      </article>`).join('')
+  }
+  function renderSystems(){
+    refs.viewTitle.textContent='Sistemler';refs.viewHint.textContent='Akıllı';refs.toolbar.style.display='none';
+    const items=[
+      ['auto','🤖','Yatırım',state.auto],
+      ['collect','🧲','Toplama',state.smartCollect],
+      ['boost','⚡','Boost',state.smartBoost],
+      ['battery','🔋','Pil',state.battery]
+    ];
+    refs.content.innerHTML=`<div class="system-grid">${items.map(([id,ic,nm,on])=>`
+      <article class="system">
+        <div class="system-top"><h3>${ic} ${nm}</h3><button class="switch ${on?'on':''}" data-system="${id}">${on?'AÇIK':'KAPALI'}</button></div>
+        <p>${id==='auto'?'En iyi yatırımı alır':id==='collect'?'Görev ve ödülleri toplar':id==='boost'?'Doğru anda 2X açar':'Daha az güncelleme'}</p>
+      </article>`).join('')}</div>`
+  }
+  function renderCore(){
+    refs.viewTitle.textContent='Core';refs.viewHint.textContent='Kalıcı';refs.toolbar.style.display='none';
+    const g=prestigeGain();
+    refs.content.innerHTML=`
+      <article class="card pick"><div class="ico">✦</div><div><h3>${state.cores} Core</h3><p>Her biri +%20</p></div><button class="buy" disabled>x${(1+state.cores*.2).toFixed(1)}</button></article>
+      <article class="card"><div class="ico">🚀</div><div><h3>Sıçrama</h3><p>${g>0?'+'+g+' Core':'1M toplam enerji'}</p></div><button class="buy" id="prestigeBtn" ${g<1?'disabled':''}>${g>0?'SIÇRA':'KİLİT'}</button></article>`
+  }
+  function render(){
+    renderTop();renderAI();
+    if(state.view==='build')renderBuild();
+    if(state.view==='missions')renderMissions();
+    if(state.view==='systems')renderSystems();
+    if(state.view==='core')renderCore()
   }
 
   $('#coreBtn').addEventListener('pointerdown',e=>{
+    const now=Date.now();
+    state.combo=now-state.lastTap<900?Math.min(5,state.combo+.15):1;
+    state.lastTap=now;
     const gain=tapPower();
-    state.money+=gain;
-    state.total+=gain;
-    addXp(1);
-
-    refs.money.textContent=format(state.money);
-
-    const f=document.createElement('div');
-    f.className='float';
-    f.textContent='+'+format(gain);
-    f.style.left=(e.clientX-15)+'px';
-    f.style.top=(e.clientY-10)+'px';
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),700);
-
-    navigator.vibrate?.(8);
+    state.money+=gain;state.total+=gain;state.missions.tap.progress++;state.missions.earn.progress+=gain;addXp(1);
+    refs.money.textContent=fmt(state.money);refs.combo.textContent='x'+state.combo.toFixed(1);
+    const f=document.createElement('div');f.className='float';f.textContent='+'+fmt(gain);
+    f.style.left=(e.clientX-14)+'px';f.style.top=(e.clientY-10)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),650);
+    navigator.vibrate?.(6)
   });
 
-  refs.advisorAction.addEventListener('click',()=>{
-    if(state.view==='systems'){
-      state.auto=!state.auto;
-      saveState();
-      render();
-      toast(state.auto?'Otomasyon açıldı':'Otomasyon kapatıldı');
-      return;
-    }
-
-    if(state.view==='core'){
-      state.view='core';
-      saveState();
-      render();
-      return;
-    }
-
-    const choice=smartChoice(true);
-    if(choice)buyBuilding(choice.b.id,choice.quantity);
+  refs.aiAction.addEventListener('click',()=>{
+    if(state.view==='systems'){state.auto=!state.auto;save();render();return}
+    if(state.view==='core'){state.view='core';save();render();return}
+    const c=choice(true);if(c)buy(c.b.id,c.q)
   });
 
-  refs.buildingList.addEventListener('click',e=>{
-    const buy=e.target.closest('[data-buy]');
-    if(buy){
-      const b=buildings.find(x=>x.id===buy.dataset.buy);
-      if(!b)return;
-      const quantity=quantityFor(b);
-      if(quantity>0)buyBuilding(b.id,quantity);
-      return;
-    }
+  refs.toolbar.addEventListener('click',e=>{
+    const b=e.target.closest('[data-buy]');
+    if(b){state.buyMode=b.dataset.buy;save();render();return}
+    if(e.target.closest('#autoChip')){state.auto=!state.auto;save();render()}
+  });
 
-    if(e.target.closest('#inlineAuto')){
-      state.auto=!state.auto;
-      saveState();
-      render();
-      return;
+  refs.content.addEventListener('click',e=>{
+    const b=e.target.closest('[data-id]');
+    if(b){const x=buildings.find(z=>z.id===b.dataset.id);if(x){const q=qty(x);if(q>0)buy(x.id,q)}return}
+    const m=e.target.closest('[data-mission]');
+    if(m){if(claimMission(m.dataset.mission)){save();render()}return}
+    const s=e.target.closest('[data-system]');
+    if(s){
+      const map={auto:'auto',collect:'smartCollect',boost:'smartBoost',battery:'battery'};
+      state[map[s.dataset.system]]=!state[map[s.dataset.system]];save();render();return
     }
-
-    if(e.target.closest('#inlineAdvice')){
-      const choice=smartChoice(true);
-      if(choice)buyBuilding(choice.b.id,choice.quantity);
-      return;
-    }
-
-    if(e.target.closest('#coreReset')){
-      const gain=Math.floor(Math.sqrt(state.total/1_000_000));
-      if(gain<1)return;
-      openSheet(
-        'ÇEKİRDEK SIÇRAMASI',
-        `İlerleme sıfırlanır ve <b>${gain}</b> kalıcı çekirdek puanı kazanırsın.`,
-        ()=>{
-          const prestige=state.prestige+gain;
-          state=structuredClone(defaults);
-          state.prestige=prestige;
-          state.lastSeen=Date.now();
-          saveState();
-          closeSheet();
-          render();
-          toast('Çekirdek sıçraması tamamlandı');
-        },
-        'Sıçra'
-      );
+    if(e.target.closest('#prestigeBtn')){
+      const g=prestigeGain();if(g<1)return;
+      openSheet('Core','İlerleme sıfırlanır.<br><br><b>+'+g+' Core</b>',()=>{
+        const cores=state.cores+g,sound=state.sound,battery=state.battery;
+        state=structuredClone(defaults);state.cores=cores;state.sound=sound;state.battery=battery;state.lastSeen=Date.now();
+        save();closeSheet();render();toast('+'+g+' Core')
+      },'Sıçra')
     }
   });
 
-  refs.buyControls.addEventListener('click',e=>{
-    const mode=e.target.closest('[data-mode]');
-    if(mode){
-      state.buyMode=mode.dataset.mode;
-      saveState();
-      render();
-      return;
+  document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>{
+    state.view=b.dataset.view;save();render()
+  }));
+
+  refs.soundBtn.addEventListener('click',()=>{state.sound=!state.sound;save();renderTop()});
+  $('#settingsBtn').addEventListener('click',()=>openSheet(
+    'NOVA',
+    `AUTO: <b>${state.auto?'Açık':'Kapalı'}</b><br>Toplama: <b>${state.smartCollect?'Açık':'Kapalı'}</b><br>Boost: <b>${state.smartBoost?'Açık':'Kapalı'}</b><br>Pil: <b>${state.battery?'Açık':'Kapalı'}</b><br>💎 <b>${state.gems}</b>`,
+    closeSheet,'Tamam'
+  ));
+  refs.modal.addEventListener('click',e=>{if(e.target===refs.modal)closeSheet()});
+
+  function offline(){
+    const now=Date.now(),sec=Math.min(Math.max(0,(now-state.lastSeen)/1000),OFFLINE_CAP);
+    const reward=income()*sec*.8;
+    state.lastSeen=now;localStorage.setItem(SAVE_KEY,JSON.stringify(state));
+    if(reward>=1){
+      state.money+=reward;state.total+=reward;state.missions.earn.progress+=reward;save();
+      setTimeout(()=>openSheet('Offline','+'+fmt(reward),closeSheet,'Topla'),220)
     }
-    if(e.target.closest('#autoToggle')){
-      state.auto=!state.auto;
-      saveState();
-      render();
-      toast(state.auto?'Otomasyon açıldı':'Otomasyon kapatıldı');
-    }
-  });
-
-  document.querySelectorAll('.nav').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      state.view=btn.dataset.view;
-      saveState();
-      render();
-    });
-  });
-
-  $('#settingsBtn').addEventListener('click',()=>{
-    const choice=smartChoice(false);
-    openSheet(
-      'SİSTEM DURUMU',
-      `Akıllı arayüz: <b>${smartUiMode()}</b><br>
-       Otomasyon: <b>${state.auto?'Açık':'Kapalı'}</b><br>
-       Satın alma modu: <b>${state.buyMode==='max'?'MAX':'x'+state.buyMode}</b><br>
-       Denge verimi: <b>%${Math.round(balanceEfficiency()*100)}</b><br>
-       Mevcut öneri: <b>${choice?choice.b.name:'Yok'}</b><br>
-       Çevrimdışı sınır: <b>3 saat</b>`,
-      closeSheet,
-      'Tamam'
-    );
-  });
-
-  refs.modal.addEventListener('click',e=>{
-    if(e.target===refs.modal)closeSheet();
-  });
-
-  function loop(now){
-    const dt=Math.min(.25,Math.max(0,(now-lastFrame)/1000));
-    lastFrame=now;
-
-    if(!document.hidden){
-      const gain=income()*dt;
-      if(gain>0){
-        state.money+=gain;
-        state.total+=gain;
-      }
-
-      if(state.auto&&now-lastAuto>=3000){
-        lastAuto=now;
-        const choice=smartChoice(true);
-        if(choice&&choice.payback<=180){
-          buyBuilding(choice.b.id,choice.quantity,true);
-        }
-      }
-
-      if(now-lastUi>=300){
-        lastUi=now;
-        refs.money.textContent=format(state.money);
-        refs.perSecond.textContent=format(income());
-        refs.tapPower.textContent=format(tapPower());
-      }
-    }
-
-    requestAnimationFrame(loop);
   }
 
-  document.addEventListener('visibilitychange',()=>{
-    lastFrame=performance.now();
-    if(document.hidden)saveState();
-  });
+  function loop(now){
+    const dt=Math.min(.25,Math.max(0,(now-lastFrame)/1000));lastFrame=now;
+    if(!document.hidden){
+      if(Date.now()-state.lastTap>1000)state.combo=Math.max(1,state.combo-dt*.8);
+      const gain=income()*dt;
+      if(gain>0){state.money+=gain;state.total+=gain;state.missions.earn.progress+=gain}
+      const aiGap=state.battery?5000:2800;
+      if(now-lastAuto>=aiGap){lastAuto=now;smartAuto()}
+      if(now-lastSmart>=4000){lastSmart=now;smartCollect();smartBoost()}
+      const uiGap=state.battery?800:250;
+      if(now-lastUi>=uiGap){lastUi=now;renderTop();renderAI()}
+    }
+    requestAnimationFrame(loop)
+  }
 
-  window.addEventListener('pagehide',saveState);
-  setInterval(()=>{saveState();if(!modalOpen)render()},3000);
+  document.addEventListener('visibilitychange',()=>{lastFrame=performance.now();if(document.hidden)save()});
+  window.addEventListener('pagehide',save);
+  setInterval(()=>{save();if(!modalOpen)render()},3500);
 
-  offlineReward();
-  render();
-  requestAnimationFrame(loop);
+  offline();render();requestAnimationFrame(loop)
 })();
 </script>
 </body>
