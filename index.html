@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" name="viewport"/>
+<meta content="#120d0a" name="theme-color"/>
+<title>sıfıraltı.co</title>
+
+<link href="style.css" rel="stylesheet"/></head>
+<body>
+<div class="app">
+<header class="top">
+<div class="brandline"><div><div class="logo">sıfıraltı<span>.co</span></div><div class="playerTag" id="playerTag">OTOMATİK KAYIT</div></div><div class="brandbox"><div class="brandlvl"><span>MARKA LV.<b id="brandLevel">1</b></span><span id="brandXpText">0/100</span></div><div class="bar"><i id="brandBar"></i></div><div class="permline"><span id="permMultiplier">ÇARPAN x1.00 • Lv.0</span><span id="permParts">0/10</span></div></div></div>
+<div class="stats"><div class="stat main"><small>Kasa</small><b id="cash">₺0</b></div><div class="stat"><small>Gelir/sn</small><b id="rate">₺0</b></div><div class="stat"><small>Hazır</small><b id="ready">₺0</b></div></div>
+<div class="bigHud" id="bigHud"><div class="bigHudBox"><div class="hudList" id="hudList"></div></div></div>
+<div class="cityswitch"><button class="citybtn active" data-city="ankara">ANKARA</button><button class="citybtn" data-city="istanbul">İSTANBUL</button><button class="citybtn" data-city="izmir">İZMİR</button><button class="citybtn" data-city="antalya">ANTALYA</button></div>
+</header>
+<main class="page" id="page-game"><div class="sectionHead"><h2 id="cityTitle">Ankara Şubeleri</h2><span id="branchCount">0 / 25</span></div><section class="grid" id="branchGrid"></section></main>
+<main class="page hidden" id="page-missions"><div class="sectionHead"><h2>Görevler</h2><span hidden="" id="missionSeries"></span></div><section class="missionGrid" id="missionGrid"></section></main>
+<main class="page hidden" id="page-map"><div class="sectionHead"><h2 id="mapTitle">Ankara Haritası</h2><span id="mapSummary">0 açık</span></div><section class="mapGrid" id="mapGrid"></section></main>
+<main class="page hidden" id="page-events"><div class="sectionHead"><h2>Etkinlikler</h2><span id="eventStatus">3 teklif</span></div><section class="eventGrid" id="eventGrid"></section><div class="sectionHead"><h2>Geçmiş</h2></div><section class="reportList" id="eventReports"></section></main>
+</div>
+<div aria-live="polite" class="rewardBurst hidden" id="rewardBurst"><div class="rewardBurstCard"><div class="rewardBurstIcon" id="rewardBurstIcon">🎁</div><div class="rewardBurstTitle" id="rewardBurstTitle">ÖDÜL</div><div class="rewardBurstSub" id="rewardBurstSub"></div></div></div><div class="miniGameOverlay hidden" id="miniGameOverlay"><div class="miniGameCard"><div class="miniGameTop"><div class="miniGameTitle" id="miniGameTitle">Fırsat Operasyonu</div><div class="miniGameTimer" id="miniGameTimer">00:12</div></div><div class="miniGameText" id="miniGameText"></div><div class="miniGameArea" id="miniGameArea"></div><div class="miniGameProgress" id="miniGameProgress"></div><button class="miniGameAction hidden" id="miniGameAction" type="button">DURDUR</button></div></div><div class="bottom"><div class="dock"><button class="action" id="collectBtn">AKILLI TOPLA</button><button class="action secondary" id="upgradeBtn">AKILLI YÜKSELT</button></div><nav class="tabs bottomTabs"><button class="tab active" data-page="game"><span>☕</span>OYUN</button><button class="tab" data-page="missions"><span>✓</span>GÖREV</button><button class="tab" data-page="map"><span>⌖</span>HARİTA</button><button class="tab" data-page="events"><span>★</span>ETKİNLİK</button></nav></div>
+<script src="game.js"></script>
+</body>
+</html>
