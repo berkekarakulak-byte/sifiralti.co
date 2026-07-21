@@ -141,12 +141,26 @@ html,body{background:radial-gradient(circle at 50% -10%,#332117 0,#18100c 35%,#0
 }
 
 </style>
+
+<style id="minimalTextCleanup">
+/* Gereksiz metinleri kaldıran sade görünüm */
+.playerTag,.bigHud,.sectionHead>span,.idx,.tagrow,.branchMetric.live,.branchMetric.maxed,.mapMeta,.eventBadge,.reportDate{display:none!important}
+.sectionHead{margin:9px 2px 5px}.sectionHead h2{font-size:12px;color:var(--muted)}
+.bottomTabs .tab{font-size:0;padding:8px 2px}.bottomTabs .tab span{font-size:18px}
+.branchCompactBottom{margin-top:4px}.branchMetric{padding:3px 5px}
+.branchMiniStat small{font-size:0}.branchMiniStat small:after{font-size:6px}
+.branchMiniStat:nth-child(1) small:after{content:'Y'}
+.branchMiniStat:nth-child(2) small:after{content:'P'}
+.branchMiniStat:nth-child(3) small:after{content:'M'}
+.eventMetric small{font-size:0}.eventMetric:nth-child(1) small:after{content:'₺';font-size:8px}.eventMetric:nth-child(2) small:after{content:'⏱';font-size:8px}.eventMetric:nth-child(3) small:after{content:'×';font-size:8px}
+.eventReward{font-size:9px}.reportMeta{font-size:8px}.missionMeta{font-size:8px}
+</style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <div class="brandline"><div><div class="logo">sıfıraltı<span>.co</span></div><div class="playerTag" id="playerTag">OTOMATİK KAYIT</div></div><div class="brandbox"><div class="brandlvl"><span>MARKA LV.<b id="brandLevel">1</b></span><span id="brandXpText">0/100</span></div><div class="bar"><i id="brandBar"></i></div><div class="permline"><span id="permMultiplier">ÇARPAN x1.00 • Lv.0</span><span id="permParts">0/10</span></div></div></div>
-  <div class="stats"><div class="stat main"><small>Kasa</small><b id="cash">₺0</b></div><div class="stat"><small>Gelir/sn</small><b id="rate">₺0</b></div><div class="stat"><small>Hazır</small><b id="ready">₺0</b></div></div>
+  <div class="brandline"><div><div class="logo">sıfıraltı<span>.co</span></div><div class="playerTag" id="playerTag"></div></div><div class="brandbox"><div class="brandlvl"><span>LV.<b id="brandLevel">1</b></span><span id="brandXpText">0/100</span></div><div class="bar"><i id="brandBar"></i></div><div class="permline"><span id="permMultiplier">ÇARPAN x1.00 • Lv.0</span><span id="permParts">0/10</span></div></div></div>
+  <div class="stats"><div class="stat main"><small>Kasa</small><b id="cash">₺0</b></div><div class="stat"><small>/SN</small><b id="rate">₺0</b></div><div class="stat"><small>HAZIR</small><b id="ready">₺0</b></div></div>
   <div class="bigHud" id="bigHud"><div class="bigHudBox"><div class="hudList" id="hudList"></div></div></div>
   <div class="cityswitch"><button class="citybtn active" data-city="ankara">ANKARA</button><button class="citybtn" data-city="istanbul">İSTANBUL</button><button class="citybtn" data-city="izmir">İZMİR</button><button class="citybtn" data-city="antalya">ANTALYA</button></div>
 </header>
@@ -155,7 +169,7 @@ html,body{background:radial-gradient(circle at 50% -10%,#332117 0,#18100c 35%,#0
 <main id="page-map" class="page hidden"><div class="sectionHead"><h2 id="mapTitle">Ankara Haritası</h2><span id="mapSummary">0 açık</span></div><section id="mapGrid" class="mapGrid"></section></main>
 <main id="page-events" class="page hidden"><div class="sectionHead"><h2>Etkinlikler</h2><span id="eventStatus">3 teklif</span></div><section id="eventGrid" class="eventGrid"></section><div class="sectionHead"><h2>Geçmiş</h2></div><section id="eventReports" class="reportList"></section></main>
 </div>
-<div class="rewardBurst hidden" id="rewardBurst" aria-live="polite"><div class="rewardBurstCard"><div class="rewardBurstIcon" id="rewardBurstIcon">🎁</div><div class="rewardBurstTitle" id="rewardBurstTitle">ÖDÜL</div><div class="rewardBurstSub" id="rewardBurstSub"></div></div></div><div class="miniGameOverlay hidden" id="miniGameOverlay"><div class="miniGameCard"><div class="miniGameTop"><div class="miniGameTitle" id="miniGameTitle">Fırsat Operasyonu</div><div class="miniGameTimer" id="miniGameTimer">00:12</div></div><div class="miniGameText" id="miniGameText"></div><div class="miniGameArea" id="miniGameArea"></div><div class="miniGameProgress" id="miniGameProgress"></div><button class="miniGameAction hidden" id="miniGameAction" type="button">DURDUR</button></div></div><div class="bottom"><div class="dock"><button class="action" id="collectBtn">AKILLI TOPLA</button><button class="action secondary" id="upgradeBtn">AKILLI YÜKSELT</button></div><nav class="tabs bottomTabs"><button class="tab active" data-page="game"><span>☕</span>OYUN</button><button class="tab" data-page="missions"><span>✓</span>GÖREV</button><button class="tab" data-page="map"><span>⌖</span>HARİTA</button><button class="tab" data-page="events"><span>★</span>ETKİNLİK</button></nav></div>
+<div class="rewardBurst hidden" id="rewardBurst" aria-live="polite"><div class="rewardBurstCard"><div class="rewardBurstIcon" id="rewardBurstIcon">🎁</div><div class="rewardBurstTitle" id="rewardBurstTitle">ÖDÜL</div><div class="rewardBurstSub" id="rewardBurstSub"></div></div></div><div class="miniGameOverlay hidden" id="miniGameOverlay"><div class="miniGameCard"><div class="miniGameTop"><div class="miniGameTitle" id="miniGameTitle">Fırsat Operasyonu</div><div class="miniGameTimer" id="miniGameTimer">00:12</div></div><div class="miniGameText" id="miniGameText"></div><div class="miniGameArea" id="miniGameArea"></div><div class="miniGameProgress" id="miniGameProgress"></div><button class="miniGameAction hidden" id="miniGameAction" type="button">DURDUR</button></div></div><div class="bottom"><div class="dock"><button class="action" id="collectBtn">TOPLA</button><button class="action secondary" id="upgradeBtn">YÜKSELT</button></div><nav class="tabs bottomTabs"><button class="tab active" data-page="game" aria-label="Oyun"><span>☕</span></button><button class="tab" data-page="missions" aria-label="Görevler"><span>✓</span></button><button class="tab" data-page="map" aria-label="Harita"><span>⌖</span></button><button class="tab" data-page="events" aria-label="Etkinlikler"><span>★</span></button></nav></div>
 <script>
 'use strict';
 window.addEventListener('error',e=>{console.error(e.error||e.message);if(typeof bigNotify==='function'&&state)bigNotify('⚠️','Oyun hatası','Güvenli kayıt korundu.');});
@@ -186,13 +200,14 @@ const liveCache=[];
 function num(v,d=0){v=Number(v);return Number.isFinite(v)?v:d}function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function freshBranch(open=false){return{unlocked:open,level:open?1:0,manager:0,staff:open?1:0,portfolio:0,stored:0,lastAuto:0}}
 function freshDistrict(open=false){return{unlocked:open,activeBranch:0,branches:[freshBranch(open)]}}
-function freshState(){return{version:12,cash:2500,brandLevel:1,brandXp:0,multiplierLevel:0,multiplierParts:0,jackpotPity:0,jackpotCount:0,city:{ankara:Ankara.map((_,i)=>freshDistrict(i===0)),istanbul:Istanbul.map((_,i)=>freshDistrict(i===0)),izmir:Izmir.map((_,i)=>freshDistrict(i===0)),antalya:Antalya.map((_,i)=>freshDistrict(i===0))},missions:[],missionHistory:[],missionSeries:1,stats:{collect:0,upgrade:0,open:4,manager:0,staff:4,portfolio:0,chest:0,spend:0,autoCollect:0},multipliers:[],events:{offers:[],active:null,reports:[]},miniGame:{nextAt:now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS),lastType:'',wins:0},lastChest:now(),lastAutoSweep:now(),lastSave:now()}}
+function freshState(){return{version:13,cash:2500,brandLevel:1,brandXp:0,multiplierLevel:0,multiplierParts:0,jackpotPity:0,jackpotCount:0,city:{ankara:Ankara.map((_,i)=>freshDistrict(i===0)),istanbul:Istanbul.map((_,i)=>freshDistrict(i===0)),izmir:Izmir.map((_,i)=>freshDistrict(i===0)),antalya:Antalya.map((_,i)=>freshDistrict(i===0))},missions:[],missionHistory:[],missionSeries:1,stats:{collect:0,upgrade:0,open:4,manager:0,staff:4,portfolio:0,chest:0,spend:0,autoCollect:0},multipliers:[],events:{offers:[],active:null,reports:[]},miniGame:{nextAt:now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS),lastType:'',wins:0},ui:{activeCity:'ankara',currentPage:'game',scrollY:0},lastChest:now(),lastAutoSweep:now(),lastSave:now()}}
 function multiplierNeedForState(level){if(level>=MAX.multiplier)return 1;return Math.max(1,Math.floor((10*Math.pow(1.082,level)+level*1.35)*0.56))}
 function normalizeBranch(o,open){return{unlocked:!!open,level:clamp(Math.floor(num(o?.level,open?1:0)),open?1:0,MAX.branch),manager:clamp(Math.floor(num(o?.manager,0)),0,MAX.manager),staff:clamp(Math.floor(num(o?.staff,open?1:0)),open?1:0,MAX.staff),portfolio:clamp(Math.floor(num(o?.portfolio,0)),0,MAX.portfolio),stored:Math.max(0,num(o?.stored,0)),lastAuto:Math.max(0,num(o?.lastAuto,0))}}
 function migrate(raw){const s=freshState();if(!raw||typeof raw!=='object')return s;s.cash=Math.max(0,num(raw.cash,s.cash));s.brandLevel=clamp(Math.floor(num(raw.brandLevel,1)),1,MAX.brand);const rawXp=Math.max(0,num(raw.brandXp,0));if(num(raw.version,0)<12&&s.brandLevel<MAX.brand){const oldNeed=Math.max(1,oldBrandNeedForLevel(s.brandLevel)),newNeed=Math.max(1,brandNeedForLevel(s.brandLevel));s.brandXp=Math.floor(newNeed*clamp(rawXp/oldNeed,0,.999))}else{s.brandXp=s.brandLevel>=MAX.brand?0:Math.min(rawXp,Math.max(0,brandNeedForLevel(s.brandLevel)-1))};s.multiplierLevel=clamp(Math.floor(num(raw.multiplierLevel,0)),0,MAX.multiplier);s.multiplierParts=Math.max(0,num(raw.multiplierParts,0));s.jackpotPity=clamp(Math.floor(num(raw.jackpotPity,0)),0,JACKPOT_GUARANTEE-1);s.jackpotCount=Math.max(0,Math.floor(num(raw.jackpotCount,0)));s.lastSave=num(raw.lastSave,now());s.lastChest=num(raw.lastChest,now());s.missionSeries=Math.max(1,Math.floor(num(raw.missionSeries,1)));s.missionHistory=Array.isArray(raw.missionHistory)?raw.missionHistory.filter(x=>missionTypes.includes(x)).slice(-12):[];const rs=raw.stats&&typeof raw.stats==='object'?raw.stats:{};for(const k of Object.keys(s.stats))s.stats[k]=Math.max(0,num(rs[k],s.stats[k]));s.multipliers=Array.isArray(raw.multipliers)?raw.multipliers.filter(m=>m&&num(m.until)>s.lastSave&&num(m.value)>1).map(m=>({value:num(m.value),until:num(m.until),label:['offline','jackpot','zeroalti','minigame','chest'].includes(m.label)?m.label:'chest'})):[];
  for(const city of CITIES){const src=raw.city?.[city];if(!Array.isArray(src))continue;s.city[city]=s.city[city].map((d,i)=>{const old=src[i]||{},districtUnlocked=!!old.unlocked||i===0;if(Array.isArray(old.branches)){const branches=old.branches.slice(0,MAX.branchesPerDistrict).map((b,j)=>normalizeBranch(b,districtUnlocked&&!!b.unlocked));if(!branches.length)branches.push(freshBranch(districtUnlocked));branches[0].unlocked=districtUnlocked;return{unlocked:districtUnlocked,activeBranch:clamp(Math.floor(num(old.activeBranch,branches.length-1)),0,branches.length-1),branches}}const legacy=normalizeBranch(old,districtUnlocked);return{unlocked:districtUnlocked,activeBranch:0,branches:[legacy]}})}
  const ev=raw.events&&typeof raw.events==='object'?raw.events:{};s.events.offers=Array.isArray(ev.offers)?ev.offers.filter(validEventOffer).slice(0,3).map(normalizeEventXpData):[];s.events.active=validActiveEvent(ev.active)?normalizeEventXpData(ev.active):null;s.events.reports=Array.isArray(ev.reports)?ev.reports.filter(r=>r&&r.name).slice(0,10):[];
  const mg=raw.miniGame&&typeof raw.miniGame==='object'?raw.miniGame:{};s.miniGame={nextAt:Math.max(now()+5000,num(mg.nextAt,now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS))),lastType:String(mg.lastType||''),wins:Math.max(0,Math.floor(num(mg.wins,0)))};
+ const ui=raw.ui&&typeof raw.ui==='object'?raw.ui:{};s.ui={activeCity:CITIES.includes(ui.activeCity)?ui.activeCity:'ankara',currentPage:['game','missions','map','events'].includes(ui.currentPage)?ui.currentPage:'game',scrollY:Math.max(0,num(ui.scrollY,0))};
  while(s.multiplierLevel<MAX.multiplier&&s.multiplierParts>=multiplierNeedForState(s.multiplierLevel)){s.multiplierParts-=multiplierNeedForState(s.multiplierLevel);s.multiplierLevel++}if(s.multiplierLevel>=MAX.multiplier)s.multiplierParts=0;s.missions=Array.isArray(raw.missions)?raw.missions.filter(validMission).slice(0,6):[];unlockEarnedBranches(s);return s}
 function validMission(m){return m&&missionTypes.includes(m.type)&&num(m.target)>0&&num(m.rewardCash)>=0&&num(m.rewardXp)>0}
 function safeParse(v){try{return JSON.parse(v)}catch{return null}}
@@ -208,21 +223,17 @@ function storageAvailable(){
  }catch{return false}
 }
 function buildSaveSnapshot(){
- return JSON.parse(JSON.stringify({...state,lastSave:now()}));
-}
-function writeSnapshot(key,snapshot){
- localStorage.setItem(key,JSON.stringify(snapshot));
- const verified=readStorage(key);
- if(!snapshotValid(verified))throw new Error('Kayıt doğrulanamadı');
- return true;
+ state.ui={activeCity,currentPage,scrollY:Math.max(0,Math.round(window.scrollY||0))};
+ state.lastSave=now();
+ return JSON.parse(JSON.stringify(state));
 }
 function save(){
  if(!state)return false;
  try{
   const snapshot=buildSaveSnapshot();
-  writeSnapshot(SAVE,snapshot);
-  try{writeSnapshot(BACKUP,snapshot)}catch{}
-  state.lastSave=snapshot.lastSave;
+  localStorage.setItem(SAVE,JSON.stringify(snapshot));
+  const verified=readStorage(SAVE);
+  if(!snapshotValid(verified))throw new Error('Kayıt doğrulanamadı');
   saveHealthy=true;
   updateProfileUI();
   return true;
@@ -240,34 +251,40 @@ function findOneLegacySave(){
  }
  return null;
 }
-function load(){
- let raw=null,migratedLegacy=false,loadError=null;
+async function load(){
+ let bootError=null,migratedLegacy=false;
  try{
-  raw=readStorage(SAVE);
+  let raw=readStorage(SAVE);
   if(!snapshotValid(raw)){
    raw=findOneLegacySave();
    migratedLegacy=!!raw;
   }
   state=snapshotValid(raw)?migrate(raw):freshState();
+  activeCity=state.ui?.activeCity||'ankara';
+  currentPage=state.ui?.currentPage||'game';
+  invalidateBranchCache();
+  state.lastChest=Math.max(now()-OFFLINE_CAP,num(state.lastChest,now()));
+  normalizeStored();
+  ensureMissions();
+  ensureEventOffers();
+  applyOffline();
+  completeEventIfDue();
+  switchPage(currentPage);
+  renderAll();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,num(state.ui?.scrollY,0)))));
+  save();
  }catch(err){
-  console.error('Kayıt okuma hatası:',err);
-  loadError=err;
+  bootError=err;
+  console.error('Kayıt yükleme hatası:',err);
   state=freshState();
+  invalidateBranchCache();
+  normalizeStored();
+  ensureMissions();
+  ensureEventOffers();
+  renderAll();
  }
-
- /* Kayıt başarıyla okunduysa, arayüz/offline hatası yüzünden asla sıfırlama. */
- try{invalidateBranchCache()}catch(err){console.error(err)}
- try{state.lastChest=Math.max(now()-OFFLINE_CAP,num(state.lastChest,now()))}catch(err){console.error(err)}
- try{normalizeStored()}catch(err){console.error(err)}
- try{ensureMissions()}catch(err){console.error(err)}
- try{ensureEventOffers()}catch(err){console.error(err)}
- try{applyOffline()}catch(err){console.error('Çevrimdışı gelir hatası:',err)}
- try{completeEventIfDue()}catch(err){console.error(err)}
- try{renderAll()}catch(err){console.error('Arayüz yükleme hatası:',err)}
-
  const storageOk=storageAvailable();
- if(storageOk)save();
- setInfo(loadError?'🛠️':storageOk?'✅':'⚠️',loadError?'Yeni kayıt oluşturuldu':storageOk?'Otomatik kayıt aktif':'Depolama kapalı',storageOk?(migratedLegacy?'Eski kayıt ana kayda taşındı.':'Sayfa yenilense de aynı kayıttan devam eder.'):'Bu tarayıcı yerel kayıt tutmuyor.');
+ setInfo(bootError?'🛠️':storageOk?'✅':'⚠️',bootError?'Kayıt onarıldı':storageOk?'Otomatik kayıt aktif':'Depolama kapalı',storageOk?(migratedLegacy?'Eski kayıt tek ana kayda taşındı.':'Oyun kaldığın yerden devam eder.'):'Bu açılış ortamı yerel kayıt tutmuyor.');
  updateProfileUI();
  renderHud();
  lastTick=now();
@@ -558,6 +575,21 @@ function openChest(count=1,offline=false){
  checkMissions()
 }
 function offlineMultiplierAverage(a,b){if(b<=a)return 1;const rel=state.multipliers.filter(m=>m.until>a),pts=[a,b,...rel.map(m=>clamp(m.until,a,b))].sort((x,y)=>x-y);let w=0;for(let i=0;i<pts.length-1;i++){const x=pts[i],y=pts[i+1],mid=(x+y)/2,m=rel.reduce((v,z)=>z.until>mid?Math.max(v,z.value):v,1);w+=m*(y-x)}return permanentMultiplier()*w/(b-a)}
+function accrueUntil(t=now()){
+ const elapsed=Math.max(0,t-lastTick);
+ if(elapsed<50)return;
+ const seconds=Math.min(elapsed,OFFLINE_CAP)/1000,avg=offlineMultiplierAverage(lastTick,t);
+ for(const x of allBranches())if(x.b.unlocked)x.b.stored=Math.min(capacity(x.city,x.i,x.j),x.b.stored+branchRateBase(x.city,x.i,x.j)*avg*seconds);
+ normalizeStored();
+ runAutomation(true);
+ lastTick=t;
+}
+function smartSuspendSave(){
+ if(!state)return;
+ accrueUntil(now());
+ state.ui={activeCity,currentPage,scrollY:Math.max(0,Math.round(window.scrollY||0))};
+ save();
+}
 function applyOffline(){const t=now(),start=Math.max(t-OFFLINE_CAP,num(state.lastSave,t)),elapsed=t-start;if(elapsed>2500){const avg=offlineMultiplierAverage(start,t);for(const x of allBranches())if(x.b.unlocked)x.b.stored=Math.min(capacity(x.city,x.i,x.j),x.b.stored+branchRateBase(x.city,x.i,x.j)*avg*elapsed/1000);normalizeStored();const auto=runAutomation(true),due=Math.max(0,Math.floor((t-state.lastChest)/CHEST_MS)),chests=Math.min(MAX_OFFLINE_CHESTS,due);if(chests){openChest(chests,true);state.lastChest+=chests*CHEST_MS}state.multipliers=state.multipliers.filter(m=>m.until>t);bigNotify('🕒','Çevrimdışı gelir',Math.floor(elapsed/60000)+' dk işlendi'+(auto.total?' • '+fmt(auto.total)+' toplandı':''))}state.lastSave=t}
 let miniGameRuntime=null;
 function scheduleNextMiniGame(){if(!state.miniGame)state.miniGame={nextAt:0,lastType:'',wins:0};state.miniGame.nextAt=now()+randInt(MINIGAME_MIN_MS,MINIGAME_MAX_MS)}
@@ -649,11 +681,16 @@ function renderMissions(){
 function renderMap(){const list=state.city[activeCity],data=DATA[activeCity];$('mapTitle').textContent=CITY_NAMES[activeCity]+' Şube Ağı';$('mapSummary').textContent=list.filter(d=>d.unlocked).length+' açık';$('mapGrid').innerHTML=list.map((d,i)=>{const income=d.unlocked?d.branches.reduce((sum,b,j)=>sum+branchRate(activeCity,i,j),0):0,maxed=d.unlocked&&d.branches.every(branchFullyMaxed);return`<article class="mapNode ${d.unlocked?'':'locked'} ${maxed?'maxed':''}" data-map-district="${i}"><div class="mapNodeTop"><div class="mapNodeName">${data[i].name}</div><div class="idx">${String(i+1).padStart(2,'0')}</div></div><div class="mapNodeIncome">${d.unlocked?fmt(income)+'/sn':'Marka Lv.'+data[i].unlock}</div><div class="mapNodeMeta">${d.unlocked?d.branches.length+' / 5 şube • '+(maxed?'TAMAMEN MAX':'gelişim sürüyor'):'Açılış '+fmt(districtOpenCost(activeCity,i))}</div></article>`}).join('');document.querySelectorAll('[data-map-district]').forEach(el=>el.addEventListener('click',()=>{const i=+el.dataset.mapDistrict;if(!state.city[activeCity][i].unlocked)return;switchPage('game');requestAnimationFrame(()=>document.getElementById(`branch-card-${activeCity}-${i}`)?.scrollIntoView({behavior:'smooth',block:'center'}))}))}
 function renderEvents(){completeEventIfDue();const e=state.events.active;if(e){$('eventStatus').textContent='Aktif etkinlik';const left=Math.max(0,e.endsAt-now()),pct=clamp((now()-e.startedAt)/e.duration*100,0,100);$('eventGrid').innerHTML=`<article class="panel eventCard ${e.abroad?'special':''}"><span class="eventBadge ${e.abroad?'special':''}">${e.abroad?'YURT DIŞI ÖZEL':'AKTİF ETKİNLİK'}</span><div class="eventTitle">${e.name}</div><div class="eventCountdown">${formatDuration(left)}</div><div class="eventReward">Ödül ${fmt(e.rewardCash)} • +${plain(e.rewardXp)} EXP • +${e.rewardParts} parça</div><div class="eventProgress"><div class="bar"><i style="width:${pct}%"></i></div></div></article>`}else{ensureEventOffers();$('eventStatus').textContent='3 teklif';$('eventGrid').innerHTML=state.events.offers.map(x=>`<article class="panel eventCard ${x.abroad?'special':''}"><span class="eventBadge ${x.abroad?'special':''}">${x.abroad?'YURT DIŞI ÖZEL':'TÜRKİYE ETKİNLİĞİ'}</span><div class="eventTitle">${x.name}</div><div class="eventMeta"><div class="eventMetric"><small>KATILIM</small><b>${fmt(x.cost)}</b></div><div class="eventMetric"><small>SÜRE</small><b>${formatDuration(x.duration).slice(0,5)}</b></div><div class="eventMetric"><small>GETİRİ</small><b>x${x.factor}</b></div></div><div class="eventReward">${fmt(x.rewardCash)} • +${plain(x.rewardXp)} EXP • +${x.rewardParts} parça</div><button class="eventAction" data-event-id="${x.id}" ${state.cash<x.cost?'disabled':''}>ETKİNLİĞE KATIL</button></article>`).join('');document.querySelectorAll('[data-event-id]').forEach(b=>b.addEventListener('click',()=>startEvent(b.dataset.eventId)))}$('eventReports').innerHTML=state.events.reports.length?state.events.reports.map(r=>`<article class="panel report"><div class="reportTop"><div class="reportName">${r.name}</div><div class="reportDate">${new Date(r.completedAt).toLocaleString('tr-TR')}</div></div><div class="reportMeta">Katılım ${fmt(r.cost)} • Ödül ${fmt(r.rewardCash)} • Net ${fmt(r.net)}<br>+${plain(r.rewardXp)} EXP • +${r.rewardParts} çarpan parçası</div></article>`).join(''):'<article class="panel report"><div class="reportMeta">Henüz tamamlanan etkinlik yok.</div></article>'}
 function renderAll(){lastUpgradeCheck=0;renderTop();renderBranches();if(currentPage==='missions')renderMissions();if(currentPage==='map')renderMap();if(currentPage==='events')renderEvents()}
-function switchPage(p){currentPage=p;lastMapRender=0;lastEventRender=0;document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$('page-'+p).classList.remove('hidden');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===p));if(p==='missions')renderMissions();if(p==='map')renderMap();if(p==='events')renderEvents()}
+function switchPage(p){currentPage=p;state.ui&&(state.ui.currentPage=p);lastMapRender=0;lastEventRender=0;document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$('page-'+p).classList.remove('hidden');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===p));if(p==='missions')renderMissions();if(p==='map')renderMap();if(p==='events')renderEvents()}
 $('rewardBurst').addEventListener('click',()=>$('rewardBurst').classList.add('hidden'));
 
 
-document.querySelectorAll('.citybtn').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;renderAll()}));document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchPage(b.dataset.page)));$('collectBtn').addEventListener('click',collectAll);$('upgradeBtn').addEventListener('click',smartUpgrade);window.addEventListener('pagehide',save);window.addEventListener('beforeunload',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){if(miniGameRuntime)endMiniGame(false);save()}else{applyOffline();completeEventIfDue();lastTick=now();nextFrameAt=0;renderAll();save()}});load();setTimeout(seedHudQueue,250);
+document.querySelectorAll('.citybtn').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;state.ui&&(state.ui.activeCity=activeCity);renderAll();save()}));document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{switchPage(b.dataset.page);save()}));$('collectBtn').addEventListener('click',collectAll);$('upgradeBtn').addEventListener('click',smartUpgrade);let scrollSaveTimer=null;
+window.addEventListener('scroll',()=>{if(!state)return;state.ui.scrollY=Math.max(0,Math.round(window.scrollY||0));clearTimeout(scrollSaveTimer);scrollSaveTimer=setTimeout(save,350)},{passive:true});
+window.addEventListener('pagehide',smartSuspendSave);
+window.addEventListener('beforeunload',smartSuspendSave);
+window.addEventListener('freeze',smartSuspendSave);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(miniGameRuntime)endMiniGame(false);smartSuspendSave()}else{applyOffline();completeEventIfDue();lastTick=now();nextFrameAt=0;renderAll();requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,num(state.ui?.scrollY,0))));save()}});load();setTimeout(seedHudQueue,250);
 </script>
 </body>
 </html>
