@@ -1,77 +1,687 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Idle Fusion Stabil v9</title>
-<style>
-:root{--bg:#080d18;--p:#111a2c;--p2:#19263d;--line:#2b3d5c;--text:#f8fafc;--muted:#9fb0c8;--violet:#7c3aed;--gold:#fbbf24;--green:#34d399;--red:#fb7185;--blue:#38bdf8}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(#080d18,#0c1423);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,select{font:inherit;color:inherit}.app{max-width:620px;margin:auto;padding-bottom:82px}.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;gap:8px;padding:12px;background:#080d18ee;border-bottom:1px solid var(--line)}.wallet{text-align:right;font-size:12px}.screen{display:none;padding:12px}.screen.active{display:block}.card{background:var(--p);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.muted{color:var(--muted);font-size:12px}.arena{position:relative;height:290px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 0,#4c1d95,transparent 48%),linear-gradient(#17233a,#0e1627)}.arena:after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:#17263f;clip-path:polygon(0 48%,18% 25%,35% 48%,55% 20%,74% 45%,100% 22%,100% 100%,0 100%)}.stage{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;z-index:2}.fighters{position:absolute;inset:55px 10px 20px;display:flex;justify-content:space-around;align-items:flex-end;z-index:2}.unit{text-align:center;width:45%}.sprite{font-size:78px;transition:transform .12s,filter .12s;user-select:none}.attack-right{transform:translateX(20px)}.attack-left{transform:translateX(-20px)}.hit{filter:brightness(2)}.bar{height:10px;background:#293750;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;transition:width .15s}.hp{background:var(--red)}.hero-hp{background:var(--green)}.mana{background:var(--blue)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.btn{border:1px solid var(--line);border-radius:10px;background:#263752;padding:7px 8px;min-height:38px;font-size:13px;font-weight:750;line-height:1.15}.btn.primary{background:var(--violet)}.btn.good{background:#047857}.btn.danger{background:#9f1239}.btn:disabled{opacity:.4}.full{width:100%}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:var(--p2);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}.stat small{display:block;color:var(--muted);font-size:10px}.skillbar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.skill{min-height:56px;position:relative;padding:6px}.skill span{display:block;font-size:20px}.cd{position:absolute;inset:0;display:grid;place-items:center;background:#060912d9;border-radius:12px}.list{display:grid;gap:6px}.item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--p2);border:1px solid var(--line);border-radius:11px;padding:8px}.actions{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}.actions .btn{min-height:34px;padding:6px 7px;font-size:12px}.gold{color:var(--gold)}.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(620px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:#080d18f5;border-top:1px solid var(--line)}.tab{border:0;background:none;padding:6px 2px;color:var(--muted);font-size:9px;min-height:52px}.tab strong{display:block;font-size:18px}.tab.active{color:#c4b5fd}.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-8px);opacity:0;z-index:20;background:white;color:#111827;padding:9px 13px;border-radius:999px;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%)}.float{position:absolute;z-index:8;font-weight:900;animation:up .7s forwards;pointer-events:none}.crit{color:var(--gold);font-size:22px}.heal{color:var(--green)}@keyframes up{to{opacity:0;transform:translateY(-55px)}}
-@media(max-width:390px){.sprite{font-size:62px}.stats{grid-template-columns:1fr 1fr}.btn{padding:6px 7px;min-height:36px;font-size:12px}.skill{min-height:52px}.skill span{font-size:19px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#121212" />
+  <title>Idle Underworld</title>
+  <style>
+    :root{
+      --bg:#0f1012;
+      --panel:#181a1f;
+      --panel-2:#202329;
+      --gold:#f6c453;
+      --gold-2:#ffdf86;
+      --green:#49d17d;
+      --red:#ff5f67;
+      --text:#f7f7f7;
+      --muted:#a6abb5;
+      --line:#30343c;
+      --purple:#9a7cff;
+      --blue:#5aa9ff;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#0b0c0e,#14161a 35%,#0d0e10);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{min-height:100vh;overflow-x:hidden}
+    button{font:inherit}
+    .app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:94px}
+    .top{
+      position:sticky;top:0;z-index:20;
+      background:rgba(15,16,18,.94);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);padding:10px 14px 12px;
+    }
+    .top-row{display:flex;gap:10px;align-items:center}
+    .avatar{
+      width:46px;height:46px;border-radius:14px;
+      background:linear-gradient(135deg,#30343c,#111);
+      display:grid;place-items:center;font-size:24px;border:1px solid #40454f;
+      box-shadow:var(--shadow)
+    }
+    .money{flex:1}
+    .money .label{font-size:12px;color:var(--muted)}
+    .money .value{font-size:24px;font-weight:900;color:var(--gold);letter-spacing:.3px}
+    .gem{
+      min-width:88px;border-radius:14px;background:var(--panel);border:1px solid var(--line);
+      padding:8px 10px;text-align:center
+    }
+    .gem strong{color:#8ed0ff}
+    .progress-wrap{margin-top:10px}
+    .progress-head{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
+    .bar{height:8px;background:#252931;border-radius:999px;overflow:hidden;border:1px solid #30343c}
+    .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ff9f43);transition:width .3s}
+    .hero{padding:16px 14px 10px}
+    .hero-card{
+      position:relative;overflow:hidden;border-radius:22px;padding:20px;
+      background:
+        radial-gradient(circle at 80% 10%,rgba(246,196,83,.22),transparent 30%),
+        linear-gradient(135deg,#24272d,#14161a 60%);
+      border:1px solid #353a44;box-shadow:var(--shadow)
+    }
+    .hero-card:after{
+      content:"";position:absolute;right:-35px;bottom:-50px;width:180px;height:180px;border-radius:50%;
+      background:radial-gradient(circle,rgba(246,196,83,.2),transparent 65%)
+    }
+    .chapter{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#0f1115;border:1px solid #353a44;color:var(--gold-2);font-size:12px}
+    .hero h1{margin:12px 0 6px;font-size:25px}
+    .hero p{margin:0;color:var(--muted);font-size:14px;max-width:75%}
+    .income-chip{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:rgba(73,209,125,.12);border:1px solid rgba(73,209,125,.35);padding:8px 10px;border-radius:12px;color:#8af0ad;font-weight:700}
+    .section{padding:8px 14px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin:8px 2px 10px}
+    .section-title h2{font-size:18px;margin:0}
+    .section-title span{font-size:12px;color:var(--muted)}
+    .business-list{display:grid;gap:12px}
+    .business{
+      background:linear-gradient(180deg,var(--panel),#15171b);border:1px solid var(--line);
+      border-radius:18px;padding:13px;box-shadow:0 6px 18px rgba(0,0,0,.2)
+    }
+    .business.locked{filter:saturate(.45);opacity:.72}
+    .biz-top{display:flex;align-items:center;gap:11px}
+    .biz-icon{
+      width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#2d3139,#16181c);
+      display:grid;place-items:center;font-size:28px;border:1px solid #383d47;flex:none
+    }
+    .biz-info{flex:1;min-width:0}
+    .biz-name{font-size:16px;font-weight:850}
+    .biz-meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:4px}
+    .badge{padding:3px 7px;border-radius:999px;background:#23262d;border:1px solid #353a44}
+    .biz-income{text-align:right}
+    .biz-income strong{display:block;color:var(--green);font-size:15px}
+    .biz-income small{color:var(--muted)}
+    .biz-progress{margin:11px 0 10px}
+    .biz-progress .bar{height:10px}
+    .biz-actions{display:grid;grid-template-columns:1fr auto;gap:8px}
+    .btn{
+      border:0;border-radius:13px;padding:11px 12px;font-weight:850;color:#111;cursor:pointer;
+      transition:transform .08s ease,filter .15s;touch-action:manipulation
+    }
+    .btn:active{transform:scale(.98)}
+    .btn:disabled{filter:grayscale(.9);opacity:.5;cursor:not-allowed}
+    .btn-gold{background:linear-gradient(180deg,var(--gold-2),var(--gold))}
+    .btn-dark{background:#282c33;color:#fff;border:1px solid #3b404a}
+    .btn-green{background:linear-gradient(180deg,#72e89b,var(--green))}
+    .manager{
+      display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px dashed #454b56;border-radius:12px;margin-top:9px;background:#14161a
+    }
+    .manager span{font-size:21px}
+    .manager div{flex:1}
+    .manager b{font-size:13px}
+    .manager small{display:block;color:var(--muted);margin-top:2px}
+    .manager button{padding:8px 10px;font-size:12px}
+    .tabs{
+      position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:30;
+      width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);
+      background:rgba(20,22,26,.97);backdrop-filter:blur(14px);
+      border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))
+    }
+    .tab{
+      background:none;border:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;border-radius:10px;font-size:11px
+    }
+    .tab span{font-size:21px}
+    .tab.active{color:var(--gold);background:rgba(246,196,83,.08)}
+    .screen{display:none}
+    .screen.active{display:block}
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .card{
+      background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px
+    }
+    .card h3{margin:6px 0;font-size:15px}
+    .card p{margin:0;color:var(--muted);font-size:12px}
+    .card .big{font-size:34px}
+    .card .btn{width:100%;margin-top:12px}
+    .mission{
+      background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px
+    }
+    .mission-head{display:flex;justify-content:space-between;gap:8px}
+    .mission b{font-size:14px}
+    .mission small{color:var(--muted)}
+    .mission .bar{margin:9px 0}
+    .city{
+      background:linear-gradient(135deg,#1b1e23,#252932);border:1px solid #3a404b;border-radius:18px;padding:16px;margin-bottom:12px
+    }
+    .city.locked{opacity:.55}
+    .city-top{display:flex;justify-content:space-between;align-items:center}
+    .city h3{margin:0}
+    .city p{color:var(--muted);font-size:13px}
+    .toast{
+      position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(20px);
+      background:#0d0f12;border:1px solid #444b57;color:#fff;padding:10px 14px;border-radius:12px;
+      opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90%;text-align:center
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;z-index:60
+    }
+    .modal.show{display:flex}
+    .sheet{
+      width:min(520px,100%);background:#17191e;border:1px solid #353a44;border-radius:24px 24px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))
+    }
+    .sheet h2{margin:0 0 8px}
+    .sheet p{color:var(--muted);line-height:1.55}
+    .sheet .reward{font-size:30px;color:var(--gold);font-weight:900;margin:14px 0}
+    .sheet .btn{width:100%}
+    .mini-stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}
+    .mini-stat:last-child{border-bottom:0}
+    @media (max-width:390px){
+      .hero p{max-width:92%}
+      .money .value{font-size:20px}
+      .gem{min-width:72px}
+      .biz-actions{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-<header class="top"><b>IDLE FUSION</b><div class="wallet"><span class="gold">◉ <span id="gold">0</span></span><br>◆ <span id="gems">0</span> · 🔑 <span id="keys">0</span> · 🔩 <span id="dust">0</span></div></header>
-<main>
-<section class="screen active" data-screen="battle">
-<div id="arena" class="arena"><div class="stage"><b id="zone">Karanlık Orman</b><b>Bölüm <span id="stage">1</span></b></div><div class="fighters"><div class="unit"><div id="heroSprite" class="sprite">🛡️</div><b id="heroName">Savaşçı</b></div><div class="unit"><div id="enemySprite" class="sprite">👹</div><b id="enemyName">Gölge</b></div></div></div>
-<div class="card"><div class="row"><b>Düşman</b><span>◉ <span id="reward">0</span></span></div><div class="row muted"><span>Can</span><span id="enemyHpText"></span></div><div class="bar"><i id="enemyHpBar" class="hp"></i></div><div class="row muted"><span>Kahraman</span><span id="heroHpText"></span></div><div class="bar"><i id="heroHpBar" class="hero-hp"></i></div><div class="row muted"><span>Mana</span><span id="manaText"></span></div><div class="bar"><i id="manaBar" class="mana"></i></div></div>
-<div class="grid2"><button id="manual" class="btn primary">⚔️ Vur</button><button id="heal" class="btn good">💚 İyileş</button></div>
-<div id="skillbar" class="skillbar" style="margin-top:8px"></div>
-<div class="stats" style="margin-top:10px"><div class="stat"><small>Saldırı</small><b id="atk"></b></div><div class="stat"><small>Can</small><b id="maxHp"></b></div><div class="stat"><small>Hız</small><b id="speed"></b></div><div class="stat"><small>Kritik</small><b id="crit"></b></div></div>
-<div id="upgrades" class="grid2" style="margin-top:8px"></div>
-</section>
-<section class="screen" data-screen="hero"><div class="card"><div class="row"><b>Sınıf</b><select id="classSelect"><option value="warrior">Savaşçı</option><option value="archer">Okçu</option><option value="mage">Büyücü</option></select></div></div><h3>Yetenekler</h3><div id="skills" class="list"></div></section>
-<section class="screen" data-screen="gear"><div class="grid2"><button id="openChest" class="btn primary">Sandık Aç 🔑1</button><button id="equipBest" class="btn good">En İyiyi Kuşan</button></div><h3>Kuşanılan</h3><div id="equipped" class="list"></div><h3>Çanta <span id="bagCount" class="muted"></span></h3><div id="inventory" class="list"></div></section>
-<section class="screen" data-screen="quests"><h3>Görevler</h3><div id="quests" class="list"></div><h3>Prestige</h3><div class="card"><div class="row"><div><b>Yükseliş</b><div class="muted">Kalıcı saldırı bonusu</div></div><button id="prestige" class="btn primary">Yüksel</button></div></div></section>
-<section class="screen" data-screen="settings"><div class="card"><label><input id="autoSkills" type="checkbox"> Otomatik yetenek</label></div><div class="card"><button id="reset" class="btn danger full">Kaydı Sıfırla</button></div></section>
-</main>
-<nav class="tabs"><button class="tab active" data-tab="battle"><strong>⚔️</strong>Savaş</button><button class="tab" data-tab="hero"><strong>🧙</strong>Kahraman</button><button class="tab" data-tab="gear"><strong>🎒</strong>Ekipman</button><button class="tab" data-tab="quests"><strong>📜</strong>Görev</button><button class="tab" data-tab="settings"><strong>⚙️</strong>Ayar</button></nav>
-</div><div id="toast" class="toast"></div>
+  <div class="app">
+    <header class="top">
+      <div class="top-row">
+        <div class="avatar">🕴️</div>
+        <div class="money">
+          <div class="label">TOPLAM SERVET</div>
+          <div class="value" id="cash">$0</div>
+        </div>
+        <div class="gem">💎 <strong id="gems">25</strong></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-head"><span>Patron Seviyesi <b id="level">1</b></span><span id="xpText">0 / 100 XP</span></div>
+        <div class="bar"><span id="xpBar"></span></div>
+      </div>
+    </header>
+
+    <main>
+      <section id="screen-business" class="screen active">
+        <div class="hero">
+          <div class="hero-card">
+            <div class="chapter">📍 Bölüm <span id="chapter">1</span> · Gece Mahallesi</div>
+            <h1>Yeraltı imparatorluğunu büyüt</h1>
+            <p>İşletmeleri geliştir, yöneticiler ata ve para akışını otomatikleştir.</p>
+            <div class="income-chip">⚡ <span id="totalIncome">$0/sn</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title"><h2>İşletmeler</h2><span id="bizCount">0/5 aktif</span></div>
+          <div id="businessList" class="business-list"></div>
+        </div>
+      </section>
+
+      <section id="screen-managers" class="screen">
+        <div class="section">
+          <div class="section-title"><h2>Yöneticiler</h2><span>Pasif bonus sağlar</span></div>
+          <div id="managerCards" class="cards"></div>
+        </div>
+      </section>
+
+      <section id="screen-missions" class="screen">
+        <div class="section">
+          <div class="section-title"><h2>Görevler</h2><span>Ödülleri topla</span></div>
+          <div id="missionList"></div>
+        </div>
+      </section>
+
+      <section id="screen-city" class="screen">
+        <div class="section">
+          <div class="section-title"><h2>Bölgeler</h2><span>Yeni gelir kaynakları</span></div>
+          <div id="cityList"></div>
+        </div>
+      </section>
+
+      <section id="screen-shop" class="screen">
+        <div class="section">
+          <div class="section-title"><h2>Kasa & Mağaza</h2><span>Şansını dene</span></div>
+          <div class="cards">
+            <div class="card">
+              <div class="big">🎁</div>
+              <h3>Günlük Kasa</h3>
+              <p>Para, elmas veya yönetici kartı kazan.</p>
+              <button class="btn btn-gold" id="freeCrateBtn">Ücretsiz Aç</button>
+            </div>
+            <div class="card">
+              <div class="big">💎</div>
+              <h3>Elmas Kasa</h3>
+              <p>Daha yüksek ödül ve nadir yönetici şansı.</p>
+              <button class="btn btn-dark" id="gemCrateBtn">10 💎 ile Aç</button>
+            </div>
+          </div>
+          <div class="card" style="margin-top:12px">
+            <h3>İstatistikler</h3>
+            <div class="mini-stat"><span>Toplam Kazanç</span><b id="statEarned">$0</b></div>
+            <div class="mini-stat"><span>Toplam Yükseltme</span><b id="statUpgrades">0</b></div>
+            <div class="mini-stat"><span>Oyun Süresi</span><b id="statTime">0 dk</b></div>
+            <button class="btn btn-dark" id="resetBtn">Oyunu Sıfırla</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabs">
+      <button class="tab active" data-screen="business"><span>🏢</span>İşletme</button>
+      <button class="tab" data-screen="managers"><span>🕶️</span>Yönetici</button>
+      <button class="tab" data-screen="missions"><span>🎯</span>Görev</button>
+      <button class="tab" data-screen="city"><span>🗺️</span>Bölge</button>
+      <button class="tab" data-screen="shop"><span>🎁</span>Kasa</button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal" id="offlineModal">
+    <div class="sheet">
+      <h2>Tekrar hoş geldin patron</h2>
+      <p>Sen yokken yöneticilerin çalışmaya devam etti.</p>
+      <div class="reward" id="offlineReward">$0</div>
+      <button class="btn btn-gold" id="collectOffline">Kazancı Topla</button>
+    </div>
+  </div>
+
 <script>
-(()=>{'use strict';
-const $=id=>document.getElementById(id), SAVE='idle_fusion_stable_v9';
-const CLASSES={warrior:{name:'Savaşçı',icon:'🛡️',atk:1,hp:1.35,speed:1,crit:0},archer:{name:'Okçu',icon:'🏹',atk:1.08,hp:1,speed:1.22,crit:.08},mage:{name:'Büyücü',icon:'🧙',atk:1.2,hp:.9,speed:.95,crit:.04}};
-const SKILLS={burst:{name:'Güç Patlaması',icon:'💥',mana:18,cd:5,mult:4},storm:{name:'Fırtına',icon:'🌪️',mana:25,cd:8,mult:6},meteor:{name:'Meteor',icon:'☄️',mana:35,cd:12,mult:9}};
-const SLOTS=['Silah','Zırh','Kask','Yüzük','Kolye'];
-const ZONES=['Karanlık Orman','Kristal Mağara','Çöl Tapınağı','Buz Diyarı','Gölge Kalesi'];
-const ENEMIES=['Gölge','Goblin','Kurt','İskelet','Golem','Ejder'];
-const fresh=()=>({gold:2500,gems:30,keys:5,dust:50,stage:1,best:1,cls:'warrior',atkLv:1,hpLv:1,speedLv:1,critLv:1,heroHp:null,enemyHp:null,mana:100,kills:0,bossKills:0,prestige:0,skillLv:{burst:1,storm:1,meteor:1},equipped:{},inventory:[],quests:{kills:0,boss:0,gear:0},claimed:{kills:0,boss:0,gear:0},autoSkills:false,lastSeen:Date.now()});
-let state=fresh(), last=performance.now(), heroTimer=0, enemyTimer=0, saveTimer=0, cooldown={burst:0,storm:0,meteor:0};
-const n=v=>Number.isFinite(+v)?+v:0, clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), compact=v=>Math.floor(v).toLocaleString('tr-TR');
-function sanitize(raw){const f=fresh(),s={...f,...raw};s.skillLv={...f.skillLv,...(raw.skillLv||{})};s.equipped={...(raw.equipped||{})};s.inventory=Array.isArray(raw.inventory)?raw.inventory.filter(Boolean).slice(0,60):[];s.quests={...f.quests,...(raw.quests||{})};s.claimed={...f.claimed,...(raw.claimed||{})};['gold','gems','keys','dust','stage','best','atkLv','hpLv','speedLv','critLv','kills','bossKills','prestige','mana'].forEach(k=>s[k]=Math.max(0,n(s[k])));if(!CLASSES[s.cls])s.cls='warrior';s.stage=Math.max(1,Math.floor(s.stage));return s}
-function load(){try{const raw=localStorage.getItem(SAVE);if(raw)state=sanitize(JSON.parse(raw))}catch(e){state=fresh()}const off=Math.min(8*3600,Math.max(0,(Date.now()-n(state.lastSeen))/1000));state.gold+=Math.floor(off*stats().passive);state.lastSeen=Date.now()}
-function save(){state.lastSeen=Date.now();try{localStorage.setItem(SAVE,JSON.stringify(state))}catch(e){}}
-function gearPower(i){return i?Math.floor(i.power*(1+i.level*.18)):0}
-function stats(){const c=CLASSES[state.cls],gear=Object.values(state.equipped).reduce((a,i)=>a+gearPower(i),0),perm=1+state.prestige*.12;return{atk:(18+state.atkLv*6+gear*.55)*c.atk*perm,hp:(170+state.hpLv*38+gear*2)*c.hp,speed:(.85+state.speedLv*.045)*c.speed,crit:clamp(.05+state.critLv*.012+c.crit,0,.6),passive:(2+state.stage*.7+state.atkLv*.35)*perm}}
-function enemyMax(){const early=state.stage<=30?.78:1;return Math.floor((85+state.stage*20)*Math.pow(1.075,state.stage-1)*early*(state.stage%10===0?3:1))}
-function enemyDamage(){return Math.max(2,(8+state.stage*2.2)*Math.pow(1.035,state.stage-1)*(state.stage%10===0?1.35:1))}
-function reward(){return Math.floor((25+state.stage*8)*Math.pow(1.045,state.stage-1)*(state.stage%10===0?3:1))}
-function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1500)}
-function floatText(t,cls,x){const e=document.createElement('div');e.className='float '+(cls||'');e.textContent=t;e.style.left=x+'%';e.style.top='42%';$('arena').append(e);setTimeout(()=>e.remove(),750)}
-function spawn(){state.enemyHp=enemyMax();state.heroHp=clamp(state.heroHp||stats().hp,1,stats().hp)}
-function hitEnemy(base,manual=false){if(state.enemyHp<=0)return;const s=stats(),crit=Math.random()<s.crit,dmg=Math.max(1,base*(crit?2:1));state.enemyHp-=dmg;$('heroSprite').classList.add('attack-right');setTimeout(()=>$('heroSprite').classList.remove('attack-right'),120);floatText(compact(dmg),crit?'crit':'',63);if(state.enemyHp<=0)killEnemy()}
-function hitHero(){const s=stats(),dmg=enemyDamage();state.heroHp-=dmg;$('enemySprite').classList.add('attack-left');setTimeout(()=>$('enemySprite').classList.remove('attack-left'),120);if(state.heroHp<=0){state.heroHp=s.hp;toast('Kahraman toparlandı')}}
-function killEnemy(){const boss=state.stage%10===0;state.gold+=reward();state.kills++;state.quests.kills++;if(boss){state.bossKills++;state.quests.boss++;state.keys++;state.gems+=2}state.stage++;state.best=Math.max(state.best,state.stage);state.heroHp=Math.min(stats().hp,state.heroHp+stats().hp*.22);spawn();save();renderAll()}
-function useSkill(id){const sk=SKILLS[id],lv=state.skillLv[id];if(cooldown[id]>0||state.mana<sk.mana)return;state.mana-=sk.mana;cooldown[id]=sk.cd;hitEnemy(stats().atk*sk.mult*(1+(lv-1)*.2),true)}
-function itemName(slot,rarity){const p=['Eski','Nadir','Epik','Efsanevi'][rarity];return p+' '+slot}
-function makeGear(){const r=Math.random(),rarity=r>.96?3:r>.78?2:r>.45?1:0,slot=SLOTS[Math.floor(Math.random()*SLOTS.length)];return{id:Date.now()+Math.random(),slot,rarity,name:itemName(slot,rarity),power:12+rarity*18+state.stage*2,level:0}}
-function equip(id){const ix=state.inventory.findIndex(i=>i.id===id);if(ix<0)return;const item=state.inventory.splice(ix,1)[0],old=state.equipped[item.slot];if(old)state.inventory.push(old);state.equipped[item.slot]=item;state.heroHp=stats().hp;save();renderAll()}
-function salvage(id){const ix=state.inventory.findIndex(i=>i.id===id);if(ix<0)return;const item=state.inventory.splice(ix,1)[0];state.dust+=8+item.rarity*10+item.level*4;save();renderAll()}
-function upgrade(slot){const i=state.equipped[slot];if(!i)return;const cost=12+i.level*10;if(state.dust<cost)return toast('Malzeme yetersiz');state.dust-=cost;i.level++;save();renderAll()}
-function renderHud(){const s=stats(),em=enemyMax();$('gold').textContent=compact(state.gold);$('gems').textContent=compact(state.gems);$('keys').textContent=compact(state.keys);$('dust').textContent=compact(state.dust);$('stage').textContent=state.stage;$('zone').textContent=ZONES[Math.min(ZONES.length-1,Math.floor((state.stage-1)/20))];$('heroName').textContent=CLASSES[state.cls].name;$('heroSprite').textContent=CLASSES[state.cls].icon;$('enemyName').textContent=(state.stage%10===0?'Boss ':'')+ENEMIES[Math.floor((state.stage-1)/5)%ENEMIES.length];$('enemySprite').textContent=state.stage%10===0?'🐲':['👹','👺','🐺','💀','🗿'][Math.floor((state.stage-1)/5)%5];$('reward').textContent=compact(reward());$('enemyHpText').textContent=compact(Math.max(0,state.enemyHp))+'/'+compact(em);$('enemyHpBar').style.width=clamp(state.enemyHp/em*100,0,100)+'%';$('heroHpText').textContent=compact(state.heroHp)+'/'+compact(s.hp);$('heroHpBar').style.width=clamp(state.heroHp/s.hp*100,0,100)+'%';$('manaText').textContent=Math.floor(state.mana)+'/100';$('manaBar').style.width=state.mana+'%';$('atk').textContent=compact(s.atk);$('maxHp').textContent=compact(s.hp);$('speed').textContent=s.speed.toFixed(2);$('crit').textContent=Math.round(s.crit*100)+'%'}
-function renderSkills(){const bar=$('skillbar'),lib=$('skills');bar.replaceChildren();lib.replaceChildren();Object.entries(SKILLS).forEach(([id,sk])=>{const b=document.createElement('button');b.className='btn skill';b.innerHTML=`<span>${sk.icon}</span>${sk.name}`;b.addEventListener('click',()=>useSkill(id));if(cooldown[id]>0){const c=document.createElement('i');c.className='cd';c.textContent=cooldown[id].toFixed(1);b.append(c)}bar.append(b);const row=document.createElement('div');row.className='item';row.innerHTML=`<div><b>${sk.icon} ${sk.name}</b><div class="muted">Sv. ${state.skillLv[id]} · ${sk.mana} mana</div></div>`;const up=document.createElement('button');const cost=5+state.skillLv[id]*3;up.className='btn primary';up.textContent='◆ '+cost;up.disabled=state.gems<cost;up.addEventListener('click',()=>{if(state.gems<cost)return;state.gems-=cost;state.skillLv[id]++;save();renderAll()});row.append(up);lib.append(row)})}
-function renderUpgrades(){const box=$('upgrades');box.replaceChildren();[['atkLv','Saldırı',120],['hpLv','Can',100],['speedLv','Hız',150],['critLv','Kritik',180]].forEach(([k,nm,base])=>{const cost=Math.floor(base*Math.pow(1.14,state[k]-1)),b=document.createElement('button');b.className='btn';b.innerHTML=`${nm} +<br><span class="gold">◉ ${compact(cost)}</span>`;b.disabled=state.gold<cost;b.addEventListener('click',()=>{if(state.gold<cost)return;state.gold-=cost;state[k]++;if(k==='hpLv')state.heroHp=stats().hp;save();renderAll()});box.append(b)})}
-function renderGear(){const eq=$('equipped');eq.replaceChildren();SLOTS.forEach(slot=>{const i=state.equipped[slot],row=document.createElement('div');row.className='item';row.innerHTML=`<div><b>${slot}</b><div class="muted">${i?i.name+' +'+i.level+' · Güç '+compact(gearPower(i)):'Boş'}</div></div>`;if(i){const b=document.createElement('button'),cost=12+i.level*10;b.className='btn good';b.textContent='🔩 '+cost;b.disabled=state.dust<cost;b.addEventListener('click',()=>upgrade(slot));row.append(b)}eq.append(row)});$('bagCount').textContent=state.inventory.length+'/60';const inv=$('inventory');inv.replaceChildren();state.inventory.forEach(i=>{const row=document.createElement('div');row.className='item';row.innerHTML=`<div><b>${i.name}</b><div class="muted">${i.slot} · Güç ${compact(gearPower(i))}</div></div>`;const a=document.createElement('div');a.className='actions';const e=document.createElement('button');e.className='btn';e.textContent='Kuşan';e.addEventListener('click',()=>equip(i.id));const s=document.createElement('button');s.className='btn danger';s.textContent='Erit';s.addEventListener('click',()=>salvage(i.id));a.append(e,s);row.append(a);inv.append(row)})}
-function renderQuests(){const box=$('quests');box.replaceChildren();[['kills','Düşman yen',20,4],['boss','Boss yen',2,6],['gear','Eşya bul',5,5]].forEach(([id,name,base,gems])=>{const target=base*(state.claimed[id]+1),v=state.quests[id],row=document.createElement('div');row.className='item';row.innerHTML=`<div><b>${name}</b><div class="muted">${Math.min(v,target)}/${target}</div></div>`;const b=document.createElement('button');b.className='btn primary';b.textContent='◆ '+gems;b.disabled=v<target;b.addEventListener('click',()=>{if(state.quests[id]<target)return;state.quests[id]-=target;state.claimed[id]++;state.gems+=gems;save();renderAll()});row.append(b);box.append(row)});$('prestige').textContent=state.best<50?'Bölüm 50':`+${Math.floor(state.best/50)} Öz`;}
-function renderAll(){renderHud();renderSkills();renderUpgrades();renderGear();renderQuests();$('classSelect').value=state.cls;$('autoSkills').checked=state.autoSkills}
-$('manual').addEventListener('click',()=>hitEnemy(stats().atk*2.4,true));$('heal').addEventListener('click',()=>{if(state.mana<15)return toast('Mana yetersiz');state.mana-=15;state.heroHp=Math.min(stats().hp,state.heroHp+stats().hp*.5);floatText('+'+compact(stats().hp*.5),'heal',18)});$('classSelect').addEventListener('change',e=>{state.cls=e.target.value;state.heroHp=stats().hp;save();renderAll()});$('autoSkills').addEventListener('change',e=>{state.autoSkills=e.target.checked;save()});
-$('openChest').addEventListener('click',()=>{if(state.keys<1)return toast('Anahtar yok');state.keys--;for(let x=0;x<3;x++){if(state.inventory.length<60){state.inventory.unshift(makeGear());state.quests.gear++}}save();renderAll()});$('equipBest').addEventListener('click',()=>{SLOTS.forEach(slot=>{const options=[...state.inventory.filter(i=>i.slot===slot),...(state.equipped[slot]?[state.equipped[slot]]:[])].sort((a,b)=>gearPower(b)-gearPower(a));if(!options[0])return;const best=options[0],old=state.equipped[slot];state.inventory=state.inventory.filter(i=>i.id!==best.id);if(old&&old.id!==best.id)state.inventory.push(old);state.equipped[slot]=best});state.heroHp=stats().hp;save();renderAll()});
-$('prestige').addEventListener('click',()=>{if(state.best<50)return toast('Bölüm 50 gerekli');const gain=Math.floor(state.best/50);state.prestige+=gain;Object.assign(state,{stage:1,atkLv:1,hpLv:1,speedLv:1,critLv:1});spawn();save();renderAll();toast('Kalıcı güç +'+gain)});$('reset').addEventListener('click',()=>{if(!confirm('Tüm kayıt silinsin mi?'))return;localStorage.removeItem(SAVE);state=fresh();spawn();save();renderAll()});
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===t.dataset.tab))}));
-function loop(now){const dt=Math.min(.1,(now-last)/1000);last=now;const s=stats();heroTimer+=dt*s.speed;enemyTimer+=dt*.28;saveTimer+=dt;while(heroTimer>=1){heroTimer-=1;hitEnemy(s.atk)}while(enemyTimer>=1){enemyTimer-=1;hitHero()}state.mana=Math.min(100,state.mana+dt*5);for(const id in cooldown)cooldown[id]=Math.max(0,cooldown[id]-dt);if(state.autoSkills){const id=Object.keys(SKILLS).find(i=>cooldown[i]<=0&&state.mana>=SKILLS[i].mana);if(id)useSkill(id)}state.gold+=s.passive*dt;if(saveTimer>=5){saveTimer=0;save()}renderHud();renderSkills();requestAnimationFrame(loop)}
-load();spawn();renderAll();requestAnimationFrame(loop);
+(() => {
+  "use strict";
+  const SAVE_KEY = "idle_underworld_save_v3";
+  const LEGACY_KEYS = ["idle_underworld_save_v2"];
+  const $ = id => document.getElementById(id);
+  const now = () => Date.now();
+
+  const businessTemplates = [
+    { id:"garage", name:"Kaçak Garaj", icon:"🚘", baseCost:25, baseIncome:10, cycle:2, manager:"rico" },
+    { id:"club", name:"Gece Kulübü", icon:"🎧", baseCost:250, baseIncome:65, cycle:4, manager:"luna" },
+    { id:"dock", name:"Liman Deposu", icon:"📦", baseCost:2200, baseIncome:450, cycle:6, manager:"bruno" },
+    { id:"casino", name:"Gizli Casino", icon:"🎰", baseCost:18000, baseIncome:3400, cycle:8, manager:"vera" },
+    { id:"tower", name:"Finans Kulesi", icon:"🏦", baseCost:150000, baseIncome:28000, cycle:12, manager:"silas" }
+  ];
+
+  const managerTemplates = [
+    { id:"rico", name:"Rico", icon:"🧔🏻", bonus:1.15, cost:15, biz:"garage", rarity:"Sıradan" },
+    { id:"luna", name:"Luna", icon:"👩🏻‍🎤", bonus:1.25, cost:30, biz:"club", rarity:"Nadir" },
+    { id:"bruno", name:"Bruno", icon:"🧔🏽‍♂️", bonus:1.4, cost:60, biz:"dock", rarity:"Nadir" },
+    { id:"vera", name:"Vera", icon:"👩🏼", bonus:1.65, cost:120, biz:"casino", rarity:"Epik" },
+    { id:"silas", name:"Silas", icon:"🧑🏿‍💼", bonus:2, cost:220, biz:"tower", rarity:"Efsane" }
+  ];
+
+  const missions = [
+    {id:"earn1", title:"İlk servet", target:1000, rewardCash:500, type:"earn"},
+    {id:"up10", title:"10 yükseltme yap", target:10, rewardGems:5, type:"upgrade"},
+    {id:"earn2", title:"Büyük patron", target:50000, rewardCash:10000, type:"earn"},
+    {id:"up50", title:"50 yükseltme yap", target:50, rewardGems:12, type:"upgrade"}
+  ];
+
+  const defaultState = () => ({
+    version:3, cash:120, gems:25, xp:0, level:1, chapter:1,
+    businesses:{}, managers:{}, totalEarned:0, totalUpgrades:0,
+    playSeconds:0, lastSave:now(), freeCrateAt:0, claimedMissions:{}
+  });
+
+  let state = defaultState();
+  let lastFrame = performance.now();
+  let toastTimer = 0;
+  let lastUiRefresh = 0;
+  let pendingOffline = 0;
+
+  function normalizeState(input) {
+    const s = Object.assign(defaultState(), input || {});
+    s.cash = finiteNonNegative(s.cash, 120);
+    s.gems = finiteNonNegative(s.gems, 25);
+    s.xp = finiteNonNegative(s.xp, 0);
+    s.level = Math.max(1, Math.floor(finiteNonNegative(s.level, 1)));
+    s.chapter = Math.min(4, Math.max(1, Math.floor(finiteNonNegative(s.chapter, 1))));
+    s.totalEarned = finiteNonNegative(s.totalEarned, 0);
+    s.totalUpgrades = Math.floor(finiteNonNegative(s.totalUpgrades, 0));
+    s.playSeconds = finiteNonNegative(s.playSeconds, 0);
+    s.freeCrateAt = finiteNonNegative(s.freeCrateAt, 0);
+    s.claimedMissions = s.claimedMissions && typeof s.claimedMissions === "object" ? s.claimedMissions : {};
+    s.businesses = s.businesses && typeof s.businesses === "object" ? s.businesses : {};
+    s.managers = s.managers && typeof s.managers === "object" ? s.managers : {};
+
+    businessTemplates.forEach(t => {
+      const old = s.businesses[t.id] || {};
+      s.businesses[t.id] = {
+        level: Math.max(0, Math.floor(finiteNonNegative(old.level, 0))),
+        progress: Math.min(t.cycle, finiteNonNegative(old.progress, 0)),
+        running: Boolean(old.running),
+        ready: Boolean(old.ready),
+        managerAssigned: Boolean(old.managerAssigned)
+      };
+      if (s.businesses[t.id].level === 0) {
+        s.businesses[t.id].progress = 0;
+        s.businesses[t.id].running = false;
+        s.businesses[t.id].ready = false;
+        s.businesses[t.id].managerAssigned = false;
+      }
+    });
+    managerTemplates.forEach(m => {
+      const old = s.managers[m.id] || {};
+      s.managers[m.id] = { owned:Boolean(old.owned), level:Math.max(1, Math.floor(finiteNonNegative(old.level, 1))) };
+    });
+    return s;
+  }
+
+  function finiteNonNegative(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : fallback;
+  }
+
+  function load() {
+    let raw = null;
+    try { raw = localStorage.getItem(SAVE_KEY); } catch (_) {}
+    if (!raw) {
+      for (const key of LEGACY_KEYS) {
+        try { raw = localStorage.getItem(key); } catch (_) {}
+        if (raw) break;
+      }
+    }
+    try { state = normalizeState(raw ? JSON.parse(raw) : null); }
+    catch (_) { state = normalizeState(null); }
+
+    const elapsed = Math.min(8 * 3600, Math.max(0, (now() - finiteNonNegative(state.lastSave, now())) / 1000));
+    pendingOffline = elapsed * automaticIncomePerSecond() * 0.65;
+    if (pendingOffline >= 1) {
+      $("offlineReward").textContent = formatMoney(pendingOffline);
+      $("offlineModal").classList.add("show");
+    }
+    state.lastSave = now();
+  }
+
+  function save() {
+    state.lastSave = now();
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (_) {}
+  }
+
+  function formatMoney(value) {
+    const n = Number.isFinite(value) ? Math.max(0, value) : 0;
+    const units = [[1e18,"Qi"],[1e15,"Qa"],[1e12,"T"],[1e9,"B"],[1e6,"M"],[1e3,"K"]];
+    for (const [v,suffix] of units) {
+      if (n >= v) {
+        const scaled = n / v;
+        return "$" + scaled.toFixed(scaled >= 100 ? 0 : scaled >= 10 ? 1 : 2) + suffix;
+      }
+    }
+    return "$" + n.toFixed(n >= 100 ? 0 : n >= 10 ? 1 : 2);
+  }
+
+  function chapterMultiplier() { return [1,1.25,1.5,2][state.chapter - 1] || 1; }
+  function upgradeCost(t, level) { return Math.ceil(t.baseCost * Math.pow(1.18, Math.max(0, level))); }
+  function managerFor(t) { return managerTemplates.find(m => m.id === t.manager); }
+
+  function cycleIncome(t, d) {
+    if (!d || d.level <= 0) return 0;
+    const milestone = 1 + Math.floor(d.level / 25) * 0.5;
+    const m = managerFor(t);
+    const md = state.managers[m.id];
+    const managerBonus = d.managerAssigned && md.owned ? m.bonus * (1 + (md.level - 1) * 0.08) : 1;
+    return t.baseIncome * d.level * milestone * managerBonus * chapterMultiplier();
+  }
+
+  function automaticIncomePerSecond() {
+    return businessTemplates.reduce((sum,t) => {
+      const d = state.businesses[t.id];
+      return sum + (d.level > 0 && d.managerAssigned ? cycleIncome(t,d) / t.cycle : 0);
+    }, 0);
+  }
+
+  function addCash(amount) {
+    const n = Number(amount);
+    if (!Number.isFinite(n) || n <= 0) return;
+    state.cash += n;
+    state.totalEarned += n;
+  }
+
+  function addXp(amount) {
+    state.xp += Math.max(0, Number(amount) || 0);
+    let need = state.level * 100;
+    while (state.xp >= need) {
+      state.xp -= need;
+      state.level += 1;
+      state.gems += 3;
+      showToast("Seviye atladın! +3 💎");
+      need = state.level * 100;
+    }
+  }
+
+  function buyOne(t) {
+    const d = state.businesses[t.id];
+    const cost = d.level === 0 ? t.baseCost : upgradeCost(t,d.level);
+    if (state.cash + 1e-9 < cost) return showToast("Yeterli paran yok.");
+    state.cash -= cost;
+    d.level += 1;
+    state.totalUpgrades += 1;
+    if (d.level === 1) {
+      d.running = false;
+      d.ready = false;
+      d.progress = 0;
+      showToast(t.name + " açıldı!");
+    }
+    addXp(8);
+    renderAll(); save();
+  }
+
+  function buyMax(t) {
+    const d = state.businesses[t.id];
+    let bought = 0;
+    while (bought < 500) {
+      const cost = d.level === 0 ? t.baseCost : upgradeCost(t,d.level);
+      if (state.cash + 1e-9 < cost) break;
+      state.cash -= cost;
+      d.level += 1;
+      state.totalUpgrades += 1;
+      bought += 1;
+    }
+    if (!bought) return showToast("Yükseltme için para yetmiyor.");
+    addXp(Math.min(100, bought * 2));
+    showToast(bought + " seviye yükseltildi.");
+    renderAll(); save();
+  }
+
+  function operateBusiness(t) {
+    const d = state.businesses[t.id];
+    if (d.level <= 0) return showToast("Önce işletmeyi satın al.");
+    if (d.managerAssigned) return showToast("Bu işletme otomatik çalışıyor.");
+    if (d.ready) {
+      addCash(cycleIncome(t,d));
+      d.ready = false;
+      d.progress = 0;
+      d.running = true;
+      showToast("Kazanç toplandı.");
+    } else if (!d.running) {
+      d.running = true;
+      d.progress = 0;
+    } else {
+      return showToast("İşletme şu anda çalışıyor.");
+    }
+    renderBusinesses(); updateTop(); save();
+  }
+
+  function assignManager(t) {
+    const d = state.businesses[t.id];
+    const m = managerFor(t);
+    if (d.level <= 0) return showToast("Önce işletmeyi aç.");
+    if (!state.managers[m.id].owned) return showToast("Önce " + m.name + " yöneticisini işe al.");
+    d.managerAssigned = !d.managerAssigned;
+    d.ready = false;
+    d.running = d.managerAssigned;
+    d.progress = 0;
+    showToast(d.managerAssigned ? "Yönetici atandı; üretim otomatik." : "Yönetici kaldırıldı.");
+    renderAll(); save();
+  }
+
+  function buyManager(m) {
+    const md = state.managers[m.id];
+    const cost = md.owned ? Math.ceil(m.cost * md.level * 0.7) : m.cost;
+    if (state.gems < cost) return showToast("Yeterli elmas yok.");
+    state.gems -= cost;
+    if (md.owned) md.level += 1;
+    else md.owned = true;
+    showToast(md.owned ? m.name + " ekibe katıldı/güçlendi." : "Yönetici açıldı.");
+    renderAll(); save();
+  }
+
+  function renderBusinesses() {
+    const list = $("businessList");
+    list.replaceChildren();
+    let active = 0;
+    businessTemplates.forEach(t => {
+      const d = state.businesses[t.id];
+      const opened = d.level > 0;
+      if (opened) active += 1;
+      const cost = opened ? upgradeCost(t,d.level) : t.baseCost;
+      const m = managerFor(t);
+      const status = !opened ? "Kilitli" : d.managerAssigned ? "Otomatik" : d.ready ? "Hazır" : d.running ? "Çalışıyor" : "Bekliyor";
+      const operateText = d.ready ? "Topla · " + formatMoney(cycleIncome(t,d)) : d.running ? "Çalışıyor…" : "Çalıştır";
+      const pct = opened ? Math.min(100, (d.progress / t.cycle) * 100) : 0;
+
+      const el = document.createElement("article");
+      el.className = "business" + (opened ? "" : " locked");
+      el.dataset.biz = t.id;
+      el.innerHTML = `
+        <div class="biz-top">
+          <div class="biz-icon">${t.icon}</div>
+          <div class="biz-info">
+            <div class="biz-name">${t.name}</div>
+            <div class="biz-meta"><span class="badge">Seviye ${d.level}</span><span class="badge status">${status}</span></div>
+          </div>
+          <div class="biz-income"><strong>${opened ? formatMoney(cycleIncome(t,d)) : "Kilitli"}</strong><small>${opened ? t.cycle + " sn/döngü" : formatMoney(t.baseCost)}</small></div>
+        </div>
+        <div class="biz-progress"><div class="bar"><span class="biz-bar" style="width:${pct}%"></span></div></div>
+        ${opened && !d.managerAssigned ? `<button class="btn ${d.ready ? "btn-green" : "btn-dark"} operate-btn" style="width:100%;margin-bottom:8px" ${d.running && !d.ready ? "disabled" : ""}>${operateText}</button>` : ""}
+        <div class="biz-actions">
+          <button class="btn btn-gold buy-btn" ${state.cash < cost ? "disabled" : ""}>${opened ? "Yükselt · " + formatMoney(cost) : "Satın Al · " + formatMoney(cost)}</button>
+          <button class="btn btn-dark max-btn">MAX</button>
+        </div>
+        <div class="manager">
+          <span>${m.icon}</span><div><b>${m.name}</b><small>${state.managers[m.id].owned ? (d.managerAssigned ? "Otomatik çalışıyor" : "Atamaya hazır") : "Yönetici kilitli"}</small></div>
+          <button class="btn ${d.managerAssigned ? "btn-green" : "btn-dark"} assign-btn">${d.managerAssigned ? "Kaldır" : "Ata"}</button>
+        </div>`;
+      el.querySelector(".buy-btn").addEventListener("click", () => buyOne(t));
+      el.querySelector(".max-btn").addEventListener("click", () => buyMax(t));
+      el.querySelector(".assign-btn").addEventListener("click", () => assignManager(t));
+      const op = el.querySelector(".operate-btn");
+      if (op) op.addEventListener("click", () => operateBusiness(t));
+      list.appendChild(el);
+    });
+    $("bizCount").textContent = `${active}/${businessTemplates.length} aktif`;
+  }
+
+  function updateBusinessProgressUI() {
+    businessTemplates.forEach(t => {
+      const d = state.businesses[t.id];
+      const card = document.querySelector(`[data-biz="${t.id}"]`);
+      if (!card) return;
+      const bar = card.querySelector(".biz-bar");
+      if (bar) bar.style.width = Math.min(100, d.progress / t.cycle * 100) + "%";
+    });
+  }
+
+  function renderManagers() {
+    const wrap = $("managerCards"); wrap.replaceChildren();
+    managerTemplates.forEach(m => {
+      const md = state.managers[m.id];
+      const cost = md.owned ? Math.ceil(m.cost * md.level * 0.7) : m.cost;
+      const card = document.createElement("div"); card.className = "card";
+      card.innerHTML = `<div class="big">${m.icon}</div><span class="badge">${m.rarity}</span><h3>${m.name}${md.owned ? " · Lv." + md.level : ""}</h3><p>${Math.round((m.bonus-1)*100)}% gelir bonusu sağlar.</p><button class="btn ${md.owned ? "btn-dark" : "btn-gold"}" ${state.gems < cost ? "disabled" : ""}>${md.owned ? "Yükselt · " : "İşe Al · "}${cost} 💎</button>`;
+      card.querySelector("button").addEventListener("click", () => buyManager(m)); wrap.appendChild(card);
+    });
+  }
+
+  function renderMissions() {
+    const wrap = $("missionList"); wrap.replaceChildren();
+    missions.forEach(m => {
+      const value = m.type === "earn" ? state.totalEarned : state.totalUpgrades;
+      const complete = value >= m.target, claimed = Boolean(state.claimedMissions[m.id]);
+      const el = document.createElement("div"); el.className = "mission";
+      el.innerHTML = `<div class="mission-head"><div><b>${m.title}</b><br><small>${Math.min(value,m.target).toFixed(0)} / ${m.target}</small></div><div><b>${m.rewardCash ? formatMoney(m.rewardCash) : m.rewardGems + " 💎"}</b></div></div><div class="bar"><span style="width:${Math.min(100,value/m.target*100)}%"></span></div><button class="btn ${complete && !claimed ? "btn-gold" : "btn-dark"}" style="width:100%" ${!complete || claimed ? "disabled" : ""}>${claimed ? "Alındı" : complete ? "Ödülü Al" : "Devam Et"}</button>`;
+      el.querySelector("button").addEventListener("click", () => {
+        if (!complete || claimed) return;
+        if (m.rewardCash) addCash(m.rewardCash); else state.gems += m.rewardGems;
+        state.claimedMissions[m.id] = true; showToast("Görev ödülü alındı!"); renderAll(); save();
+      }); wrap.appendChild(el);
+    });
+  }
+
+  function renderCities() {
+    const cities = [
+      {name:"Gece Mahallesi", icon:"🌃", req:1, bonus:"Başlangıç bölgesi"},
+      {name:"Liman Bölgesi", icon:"⚓", req:4, bonus:"+%25 tüm gelir"},
+      {name:"Altın Şehir", icon:"🏙️", req:8, bonus:"+%50 tüm gelir"},
+      {name:"Kıyı Metropolü", icon:"🌉", req:14, bonus:"+%100 tüm gelir"}
+    ];
+    const wrap = $("cityList"); wrap.replaceChildren();
+    cities.forEach((c,i) => {
+      const unlocked = state.level >= c.req, active = state.chapter === i+1;
+      const el = document.createElement("div"); el.className = "city" + (unlocked ? "" : " locked");
+      el.innerHTML = `<div class="city-top"><h3>${c.icon} ${c.name}</h3><span class="badge">${active ? "Aktif" : unlocked ? "Açık" : "Lv." + c.req}</span></div><p>${c.bonus}</p><button class="btn ${active ? "btn-green" : "btn-dark"}" style="width:100%" ${!unlocked || active ? "disabled" : ""}>${active ? "Bu bölgedesin" : unlocked ? "Bölgeye Git" : "Kilitli"}</button>`;
+      el.querySelector("button").addEventListener("click", () => { state.chapter=i+1; showToast(c.name+" bölgesine geçildi."); renderAll(); save(); });
+      wrap.appendChild(el);
+    });
+  }
+
+  function openCrate(isGem) {
+    if (isGem) {
+      if (state.gems < 10) return showToast("Yeterli elmas yok.");
+      state.gems -= 10;
+    } else {
+      if (now() < state.freeCrateAt) return showToast("Ücretsiz kasa henüz hazır değil.");
+      state.freeCrateAt = now() + 3600000;
+    }
+    const roll = Math.random();
+    if (roll < 0.62) {
+      const reward = Math.max(250, automaticIncomePerSecond() * 240) * (isGem ? 2 : 1);
+      addCash(reward); showToast("Kasadan " + formatMoney(reward) + " çıktı!");
+    } else if (roll < 0.9) {
+      const reward = isGem ? 15 : 4; state.gems += reward; showToast("Kasadan " + reward + " 💎 çıktı!");
+    } else {
+      const locked = managerTemplates.filter(m => !state.managers[m.id].owned);
+      if (locked.length) { const m=locked[Math.floor(Math.random()*locked.length)]; state.managers[m.id].owned=true; showToast(m.name+" yönetici kartı çıktı!"); }
+      else { state.gems += 20; showToast("Tüm yöneticiler açık: +20 💎"); }
+    }
+    renderAll(); save();
+  }
+
+  function updateTop() {
+    $("cash").textContent = formatMoney(state.cash); $("gems").textContent = Math.floor(state.gems);
+    $("level").textContent = state.level; $("chapter").textContent = state.chapter;
+    $("totalIncome").textContent = formatMoney(automaticIncomePerSecond()) + "/sn";
+    const need = state.level * 100; $("xpText").textContent = `${Math.floor(state.xp)} / ${need} XP`; $("xpBar").style.width = Math.min(100,state.xp/need*100)+"%";
+    $("statEarned").textContent = formatMoney(state.totalEarned); $("statUpgrades").textContent = state.totalUpgrades; $("statTime").textContent = Math.floor(state.playSeconds/60)+" dk";
+    const remaining = Math.max(0, state.freeCrateAt-now());
+    $("freeCrateBtn").disabled = remaining > 0;
+    $("freeCrateBtn").textContent = remaining > 0 ? `${Math.ceil(remaining/60000)} dk sonra` : "Ücretsiz Aç";
+    $("gemCrateBtn").disabled = state.gems < 10;
+  }
+
+  function renderAll() { updateTop(); renderBusinesses(); renderManagers(); renderMissions(); renderCities(); }
+
+  function gameLoop(timestamp) {
+    const dt = Math.min(1, Math.max(0, (timestamp-lastFrame)/1000)); lastFrame = timestamp; state.playSeconds += dt;
+    let needsBusinessRender = false;
+    businessTemplates.forEach(t => {
+      const d = state.businesses[t.id]; if (d.level <= 0) return;
+      if (d.managerAssigned) {
+        d.running = true; d.progress += dt;
+        while (d.progress >= t.cycle) { d.progress -= t.cycle; addCash(cycleIncome(t,d)); }
+      } else if (d.running && !d.ready) {
+        d.progress += dt;
+        if (d.progress >= t.cycle) { d.progress=t.cycle; d.running=false; d.ready=true; needsBusinessRender=true; }
+      }
+    });
+    if (timestamp-lastUiRefresh > 200) { updateTop(); updateBusinessProgressUI(); lastUiRefresh=timestamp; }
+    if (needsBusinessRender) renderBusinesses();
+    requestAnimationFrame(gameLoop);
+  }
+
+  function showToast(message) {
+    const el=$("toast"); el.textContent=message; el.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),2200);
+  }
+
+  document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active")); document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active"); $("screen-"+btn.dataset.screen).classList.add("active"); renderAll();
+  }));
+  $("collectOffline").addEventListener("click", () => { addCash(pendingOffline); pendingOffline=0; $("offlineModal").classList.remove("show"); renderAll(); save(); });
+  $("freeCrateBtn").addEventListener("click", () => openCrate(false));
+  $("gemCrateBtn").addEventListener("click", () => openCrate(true));
+  $("resetBtn").addEventListener("click", () => { if (!confirm("Tüm ilerleme silinsin mi?")) return; try { localStorage.removeItem(SAVE_KEY); LEGACY_KEYS.forEach(k=>localStorage.removeItem(k)); } catch(_){} location.reload(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) save(); else lastFrame=performance.now(); });
+  window.addEventListener("pagehide", save); window.addEventListener("beforeunload", save);
+
+  load(); renderAll(); setInterval(save,5000); requestAnimationFrame(gameLoop);
 })();
 </script>
 </body>
