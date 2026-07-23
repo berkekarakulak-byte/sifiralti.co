@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#090b11">
-<title>Underworld Empire: Reborn</title>
+<title>Underworld Empire: Dominion</title>
 <style>
 :root{
   --bg:#080a0f;--panel:#111621;--panel2:#181f2d;--panel3:#20293a;--line:#2a3448;
@@ -112,6 +112,18 @@ button{touch-action:manipulation}
   .battle-arena{grid-template-columns:1fr}.vs{display:none}
   .currency .pill:first-child{display:none}
 }
+
+.energy-orb{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:13px;background:#151c28;border:1px solid #33415a;font-size:12px;font-weight:900}
+.operation-card{position:relative;overflow:hidden}
+.operation-card:after{content:"";position:absolute;right:-35px;bottom:-55px;width:145px;height:145px;border-radius:50%;background:radial-gradient(circle,rgba(99,169,255,.16),transparent 68%)}
+.difficulty{display:flex;gap:5px;margin-top:6px}.difficulty i{width:10px;height:10px;border-radius:50%;background:#2e394e;border:1px solid #45536e}.difficulty i.on{background:var(--red);border-color:#ff8e95}
+.mastery-ring{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--gold) var(--mastery),#263147 0);position:relative}
+.mastery-ring:after{content:"";position:absolute;inset:6px;border-radius:50%;background:#111722}.mastery-ring b{position:relative;z-index:1;font-size:12px}
+.synergy-box{margin-bottom:10px;border:1px solid rgba(169,129,255,.35);background:rgba(169,129,255,.08)}
+.contract-streak{display:flex;gap:5px}.contract-streak span{width:25px;height:7px;border-radius:999px;background:#29354a}.contract-streak span.done{background:var(--green)}
+.raid-hp{height:15px}.raid-hp i{background:linear-gradient(90deg,var(--red),var(--orange))}
+.update-banner{margin:8px 14px 2px;padding:11px 12px;border-radius:14px;background:linear-gradient(135deg,rgba(99,169,255,.13),rgba(169,129,255,.12));border:1px solid #3b4a66;font-size:12px;color:#dce8ff}
+
 </style>
 </head>
 <body>
@@ -120,12 +132,13 @@ button{touch-action:manipulation}
   <div class="toprow">
     <div class="avatar" id="topAvatar">🕴️</div>
     <div class="wallet"><div class="eyebrow">UNDERWORLD EMPIRE</div><div class="cash" id="cash">$0</div></div>
-    <div class="currency"><div class="pill">👑 <span id="crowns">0</span></div><div class="pill">💎 <span id="gems">0</span></div></div>
+    <div class="currency"><div class="energy-orb">⚡ <span id="energy">0/10</span></div><div class="pill">👑 <span id="crowns">0</span></div><div class="pill">💎 <span id="gems">0</span></div></div>
   </div>
   <div class="levelrow"><small>Patron Lv.<b id="level">1</b></small><div class="bar"><i id="xpBar"></i></div><small id="xpText">0/100</small></div>
 </header>
 
 <main>
+<div class="update-banner"><b>DOMINION V13:</b> Operasyonlar, kalıcı raid bossu, şehir ustalığı, ekip sinerjileri ve günlük kontratlar aktif.</div>
 <section class="screen active" id="screen-home">
   <div class="hero">
     <div class="hero-card">
@@ -154,11 +167,13 @@ button{touch-action:manipulation}
       <button class="subtab active" data-panel="empire">İmparatorluk</button>
       <button class="subtab" data-panel="story">Hikâye</button>
       <button class="subtab" data-panel="rivals">Rakipler</button>
+      <button class="subtab" data-panel="operations">Operasyonlar</button>
       <button class="subtab" data-panel="prestige">Prestij</button>
     </div>
     <div class="panel active" id="panel-empire"><div class="section-head"><h2>İşletmeler</h2><span id="bizCount"></span></div><div class="list" id="businessList"></div></div>
     <div class="panel" id="panel-story"><div class="section-head"><h2>Hikâye Modu</h2><span id="storyProgress"></span></div><div id="storyBox"></div></div>
     <div class="panel" id="panel-rivals"><div class="section-head"><h2>Rakip Çeteler</h2><span>Geliri tehdit eder</span></div><div id="rivalBox"></div></div>
+    <div class="panel" id="panel-operations"><div class="section-head"><h2>Özel Operasyonlar</h2><span id="operationStatus"></span></div><div id="operationBox"></div></div>
     <div class="panel" id="panel-prestige"><div class="section-head"><h2>Prestij Merkezi</h2><span>Kalıcı gelişim</span></div><div id="prestigeBox"></div></div>
   </div>
 </section>
@@ -171,7 +186,7 @@ button{touch-action:manipulation}
       <button class="subtab" data-panel="skills">Yetenek Ağacı</button>
       <button class="subtab" data-panel="collection">Koleksiyon</button>
     </div>
-    <div class="panel active" id="panel-fighters"><div class="section-head"><h2>Ekibin</h2><span>En fazla 3 kişi</span></div><div class="grid2" id="fighterList"></div></div>
+    <div class="panel active" id="panel-fighters"><div class="section-head"><h2>Ekibin</h2><span>En fazla 3 kişi</span></div><div id="synergyBox"></div><div class="grid2" id="fighterList"></div></div>
     <div class="panel" id="panel-equipment"><div class="section-head"><h2>Ekipman</h2><span>Set bonusları</span></div><div id="equipmentSummary"></div><div class="grid2" id="equipmentList" style="margin-top:10px"></div></div>
     <div class="panel" id="panel-skills"><div class="section-head"><h2>Yetenek Ağacı</h2><span id="skillPointsText"></span></div><div class="node-grid" id="skillTree"></div></div>
     <div class="panel" id="panel-collection"><div class="section-head"><h2>Koleksiyon</h2><span id="collectionText"></span></div><div class="grid3" id="collectionGrid"></div></div>
@@ -198,11 +213,15 @@ button{touch-action:manipulation}
       <button class="subtab" data-panel="missions">Görevler</button>
       <button class="subtab" data-panel="season">Sezon</button>
       <button class="subtab" data-panel="events">Etkinlikler</button>
+      <button class="subtab" data-panel="mastery">Şehir Ustalığı</button>
+      <button class="subtab" data-panel="contracts">Kontratlar</button>
     </div>
     <div class="panel active" id="panel-cities"><div class="section-head"><h2>Dünya Haritası</h2><span>Her şehir farklı bonus</span></div><div class="list" id="cityList"></div></div>
     <div class="panel" id="panel-missions"><div class="section-head"><h2>Dinamik Görevler</h2><span id="missionTimer"></span></div><div id="missionList"></div></div>
     <div class="panel" id="panel-season"><div class="section-head"><h2>Sezon Yolu</h2><span id="seasonTimer"></span></div><div id="seasonBox"></div></div>
     <div class="panel" id="panel-events"><div class="section-head"><h2>Canlı Etkinlikler</h2><span>Tarih bazlı</span></div><div id="eventList"></div></div>
+    <div class="panel" id="panel-mastery"><div class="section-head"><h2>Şehir Ustalığı</h2><span>Kalıcı şehir bonusları</span></div><div class="list" id="masteryList"></div></div>
+    <div class="panel" id="panel-contracts"><div class="section-head"><h2>Günlük Kontratlar</h2><span id="contractTimer"></span></div><div id="contractList"></div></div>
   </div>
 </section>
 
@@ -239,10 +258,13 @@ button{touch-action:manipulation}
 <script>
 (()=>{
 "use strict";
-const VERSION=11,SAVE_KEY="underworld_empire_reborn_v11",TICK=250;
+const VERSION=13,SAVE_KEY="underworld_empire_reborn_v11",TICK=250;
 const $=id=>document.getElementById(id),clamp=(n,a,b)=>Math.max(a,Math.min(b,n)),now=()=>Date.now();
 const fmt=n=>{n=Number(n)||0;const u=[[1e18,"Qi"],[1e15,"Qa"],[1e12,"T"],[1e9,"B"],[1e6,"M"],[1e3,"K"]];for(const [v,s] of u)if(Math.abs(n)>=v)return"$"+(n/v).toFixed(n>=v*100?0:n>=v*10?1:2)+s;return"$"+n.toFixed(n>=100?0:n>=10?1:2)};
 const dateKey=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Istanbul",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const dateToDay=k=>{const [y,m,d]=String(k||"").split("-").map(Number);return y&&m&&d?Math.floor(Date.UTC(y,m-1,d)/dayMs):null};
+const isWeekend=()=>[0,6].includes(new Date().getDay());
+const chestFestivalActive=()=>new Date().getDate()%3===0;
 const dayMs=86400000,weekMs=7*dayMs,seasonMs=30*dayMs;
 
 const BUSINESSES=[
@@ -286,6 +308,21 @@ const SKILLS=[
 {id:"chest",name:"Şanslı Patron",icon:"🎁",desc:"+%5 kasa kalitesi",cost:2,max:3,branch:"Şans"},
 {id:"mission",name:"Hızlı Operasyon",icon:"⚡",desc:"+%10 görev ilerlemesi",cost:2,max:3,branch:"Şans"}
 ];
+
+const OPERATIONS=[
+{id:"warehouse",name:"Gece Deposu Baskını",icon:"🏚️",energy:2,power:300,reward:12000,difficulty:1},
+{id:"convoy",name:"Zırhlı Konvoy",icon:"🚚",energy:3,power:900,reward:55000,difficulty:2},
+{id:"vault",name:"Merkez Bankası Tüneli",icon:"🏦",energy:4,power:2600,reward:260000,difficulty:3},
+{id:"satellite",name:"Uydu Veri Merkezi",icon:"🛰️",energy:5,power:6500,reward:1200000,difficulty:4}
+];
+const DAILY_CONTRACTS=[
+{id:"money",name:"Nakit Akışı",desc:"Bugün 5 dakika aktif oyna",reward:4},
+{id:"fight",name:"Sokak Temizliği",desc:"3 savaş kazan",reward:5},
+{id:"upgrade",name:"Büyüme Planı",desc:"10 yükseltme yap",reward:5},
+{id:"chest",name:"Şans Günü",desc:"1 kasa aç",reward:4},
+{id:"operation",name:"Özel Birim",desc:"1 operasyon tamamla",reward:6}
+];
+
 const STORIES=[
 {title:"Başlangıç Borcu",text:"Eski patronun borçları sana kaldı. İlk hamlen ne olacak?",choices:[["Garajı büyüt","+25K nakit","cash",25000],["Rico'ya güven","+20 Rico kartı","shards:rico",20]]},
 {title:"Boğazdaki Teklif",text:"İstanbul'dan gizli bir ortaklık teklifi geldi.",choices:[["Anlaşmayı kabul et","+8 elmas","gems",8],["Tek başına ilerle","+1 yetenek puanı","skillPoints",1]]},
@@ -316,7 +353,7 @@ function defaultState(){
   businesses:{},fighters:{},team:["rico"],equipment:{},equipped:{Silah:null,Kıyafet:null,Araç:null,Aksesuar:null},
   skills:{},storyIndex:0,storyIncome:0,storyPower:0,missions:[],missionHistory:[],achievements:{},collection:{},
   freeChestAt:0,lastDaily:"",dailyStreak:0,leagueScore:0,family:{name:"Karakurt Ailesi",level:1,xp:0},
-  rival:null,lastRivalAt:t,rivalPenalty:0,vipXp:0,eventScore:0,lastSave:t,lastTick:t
+  rival:null,lastRivalAt:t,rivalPenalty:0,vipXp:0,eventScore:0,claimedSeasonLevels:[],seasonNumber:1,lastLeagueRewardWeek:0,energy:10,maxEnergy:10,energyUpdatedAt:t,operationWins:0,operationLevel:1,cityMastery:{},raidBoss:{hp:0,maxHp:0,endsAt:0,claimed:false},dailyContracts:[],contractDay:"",contractProgress:{},contractClaims:{},lastSave:t,lastTick:t
  };
 }
 let S=defaultState(),battleTimer=null,lastFrame=performance.now(),toastTimer=null;
@@ -326,8 +363,16 @@ function ensure(){
  S.profile=Object.assign(defaultState().profile,S.profile||{});
  S.settings=Object.assign(defaultState().settings,S.settings||{});
  S.family=Object.assign(defaultState().family,S.family||{});
- S.businesses=S.businesses||{};for(const b of BUSINESSES){const d=S.businesses[b.id]||{};S.businesses[b.id]={level:clamp(+d.level||0,0,9999),progress:clamp(+d.progress||0,0,b.cycle),manager:!!d.manager,running:!!d.running};}
- S.fighters=S.fighters||{};for(const f of FIGHTERS){const d=S.fighters[f.id]||{};S.fighters[f.id]={owned:f.id==="rico"||!!d.owned,level:clamp(+d.level||1,1,999),stars:clamp(+d.stars||1,1,5),shards:clamp(+d.shards||0,0,99999)};}
+ S.energy=clamp(+S.energy||0,0,+S.maxEnergy||10);S.maxEnergy=clamp(+S.maxEnergy||10,10,30);S.energyUpdatedAt=+S.energyUpdatedAt||now();
+ S.cityMastery=S.cityMastery||{};for(let i=0;i<CITIES.length;i++)S.cityMastery[i]=clamp(+S.cityMastery[i]||0,0,10);
+ S.raidBoss=Object.assign({hp:0,maxHp:0,endsAt:0,claimed:false},S.raidBoss||{});
+ S.contractProgress=S.contractProgress||{};S.contractClaims=S.contractClaims||{};
+ if(S.contractDay!==dateKey()||!Array.isArray(S.dailyContracts)||S.dailyContracts.length!==3)resetDailyContracts();
+ updateEnergy();
+ initRaidBoss();
+
+ S.businesses=S.businesses||{};for(const b of BUSINESSES){const d=S.businesses[b.id]||{},ownsManager=!!S.fighters?.[b.manager]?.owned;S.businesses[b.id]={level:clamp(+d.level||0,0,9999),progress:clamp(+d.progress||0,0,b.cycle),manager:!!d.manager&&ownsManager,running:!!d.running};if(!ownsManager&&d.manager){S.businesses[b.id].manager=false;S.businesses[b.id].running=false;S.businesses[b.id].progress=0}}
+ S.fighters=S.fighters||{};for(const f of FIGHTERS){const d=S.fighters[f.id]||{};S.fighters[f.id]={owned:f.id==="rico"||!!d.owned,level:clamp(+d.level||1,1,999),stars:clamp(+d.stars||1,1,5),shards:clamp(+d.shards||0,0,99999)};}for(const b of BUSINESSES){const d=S.businesses[b.id];if(d.manager&&!S.fighters[b.manager]?.owned){d.manager=false;d.running=false;d.progress=0}}
  S.team=[...new Set((S.team||[]).filter(id=>S.fighters[id]?.owned))].slice(0,3);if(!S.team.length)S.team=["rico"];
  S.equipment=S.equipment||{};for(const e of EQUIPMENT){const d=S.equipment[e.id]||{};S.equipment[e.id]={owned:!!d.owned,level:clamp(+d.level||1,1,100)};}
  S.equipped=Object.assign({Silah:null,Kıyafet:null,Araç:null,Aksesuar:null},S.equipped||{});
@@ -336,17 +381,79 @@ function ensure(){
  S.achievements=S.achievements||{};S.collection=S.collection||{};
  S.city=clamp(+S.city||0,0,CITIES.length-1);if(S.level<CITIES[S.city].level)S.city=0;
  if(!Array.isArray(S.missions)||S.missions.length!==4)refreshMissions(true);
- if(!Array.isArray(S.missionHistory))S.missionHistory=[];
+ if(!Array.isArray(S.missionHistory))S.missionHistory=[];if(!Array.isArray(S.claimedSeasonLevels))S.claimedSeasonLevels=[];S.seasonNumber=Math.max(1,+S.seasonNumber||1);
  S.lastSave=+S.lastSave||now();S.lastTick=+S.lastTick||now();S.version=VERSION;
 }
-function load(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw)S=JSON.parse(raw)}catch(e){console.warn("save load",e)}ensure();offlineReward();}
+function load(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw)S=JSON.parse(raw)}catch(e){console.warn("save load",e)}ensure();processTimeCycles();offlineReward();}
 function save(){S.lastSave=now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(S))}catch(e){console.warn("save",e)}}
-function offlineReward(){const sec=clamp((now()-S.lastSave)/1000,0,8*3600),gain=autoIncome()*sec*(.55+skillLevel("offline")*.12);if(gain>10){earn(gain);showReward("Offline Kazanç",`<div class="notice">Sen yokken yöneticilerin çalıştı.</div><h2 style="color:var(--gold)">${fmt(gain)}</h2>`)}}
+function offlineReward(){const sec=clamp((now()-S.lastSave)/1000,0,8*3600),gain=autoIncome()*sec*(.55+skillLevel("offline")*.12+vipLevel()*.01);if(gain>10){earn(gain);showReward("Offline Kazanç",`<div class="notice">Sen yokken yöneticilerin çalıştı.</div><h2 style="color:var(--gold)">${fmt(gain)}</h2>`)}}
+
+function updateEnergy(){
+ const interval=6*60000,elapsed=Math.max(0,now()-S.energyUpdatedAt),gain=Math.floor(elapsed/interval);
+ if(gain>0){S.energy=Math.min(S.maxEnergy,S.energy+gain);S.energyUpdatedAt+=gain*interval}
+ if(S.energy>=S.maxEnergy)S.energyUpdatedAt=now()
+}
+function energyCountdown(){
+ if(S.energy>=S.maxEnergy)return "Dolu";
+ const remain=Math.max(0,6*60000-(now()-S.energyUpdatedAt)),m=Math.floor(remain/60000),s=Math.floor(remain%60000/1000);
+ return `${m}:${String(s).padStart(2,"0")}`
+}
+function resetDailyContracts(){
+ const shuffled=[...DAILY_CONTRACTS].sort(()=>Math.random()-.5).slice(0,3);
+ S.dailyContracts=shuffled.map(x=>x.id);S.contractDay=dateKey();S.contractProgress={activeSeconds:0,startWins:S.wins,startUpgrades:S.totalUpgrades,startChests:S.chests,startOperations:S.operationWins};S.contractClaims={}
+}
+function contractValue(id){
+ const p=S.contractProgress||{};
+ if(id==="money")return Math.floor((p.activeSeconds||0)/60);
+ if(id==="fight")return Math.max(0,S.wins-(p.startWins||0));
+ if(id==="upgrade")return Math.max(0,S.totalUpgrades-(p.startUpgrades||0));
+ if(id==="chest")return Math.max(0,S.chests-(p.startChests||0));
+ if(id==="operation")return Math.max(0,S.operationWins-(p.startOperations||0));
+ return 0
+}
+function contractTarget(id){return id==="money"?5:id==="fight"?3:id==="upgrade"?10:1}
+function initRaidBoss(){
+ if(S.raidBoss.endsAt<=now()||S.raidBoss.maxHp<=0){
+  const hp=Math.max(5000,teamPower()*35+S.level*1800);
+  S.raidBoss={hp,maxHp:hp,endsAt:now()+24*60*60000,claimed:false}
+ }
+}
+function synergy(){
+ const roles=S.team.map(id=>FIGHTERS.find(f=>f.id===id)?.role).filter(Boolean);
+ let power=0,income=0,label="Sinerji yok";
+ if(new Set(roles).size===3){power=.18;label="Dengeli Ekip: +%18 güç"}
+ if(roles.includes("Lider")&&roles.includes("Hasar")){income+=.1;label+=(label==="Sinerji yok"?"":" · ")+"Komuta Zinciri: +%10 gelir"}
+ if(roles.includes("Tank")&&roles.includes("Destek")){power+=.12;label+=(label==="Sinerji yok"?"":" · ")+"Koruma Hattı: +%12 güç"}
+ return{power,income,label}
+}
+function operationReward(op){
+ return op.reward*(1+S.operationLevel*.15)*cityMulti()
+}
+function runOperation(id){
+ updateEnergy();const op=OPERATIONS.find(x=>x.id===id);if(!op)return;
+ if(S.energy<op.energy)return toast("Yeterli enerji yok.");
+ const required=Math.floor(op.power*Math.pow(1.15,S.operationLevel-1));
+ if(teamPower()<required)return toast(`En az ${required} ekip gücü gerekli.`);
+ S.energy-=op.energy;S.energyUpdatedAt=now();const rewardCash=operationReward(op);earn(rewardCash);S.operationWins++;S.operationLevel++;
+ S.seasonXp+=8+op.difficulty*2;S.vipXp+=2;S.cityMastery[S.city]=Math.min(10,(S.cityMastery[S.city]||0)+1);
+ showReward("Operasyon Başarılı",`<div style="font-size:54px">${op.icon}</div><h2 style="color:var(--gold)">${fmt(rewardCash)}</h2><p>${op.name} tamamlandı. Şehir ustalığı arttı.</p>`);
+ renderAll();save()
+}
+function attackRaidBoss(){
+ initRaidBoss();if(S.energy<2)return toast("Raid saldırısı için 2 enerji gerekli.");
+ S.energy-=2;S.energyUpdatedAt=now();const crit=Math.random()<.12+skillLevel("crit")*.03,damage=Math.floor(teamPower()*(1.8+Math.random()*.8)*(crit?2:1));
+ S.raidBoss.hp=Math.max(0,S.raidBoss.hp-damage);S.eventScore+=Math.floor(damage/100);
+ if(S.raidBoss.hp<=0&&!S.raidBoss.claimed){S.raidBoss.claimed=true;S.bossWins++;S.gems+=20;S.seasonXp+=40;earn(S.raidBoss.maxHp*8);showReward("Raid Bossu Yenildi",`<h2>+20 💎</h2><p>Takımın büyük etkinlik ödülünü kazandı.</p>`)}
+ else toast(`${crit?"KRİTİK! ":""}${damage} hasar`);
+ renderBoss();renderTop();save()
+}
+function masteryIncome(){return Object.values(S.cityMastery||{}).reduce((a,n)=>a+n*.015,0)}
+
 function skillLevel(id){return S.skills[id]||0}
 function cityMulti(){return CITIES[S.city].multi}
 function setBonuses(){const sets={};for(const id of Object.values(S.equipped)){const e=EQUIPMENT.find(x=>x.id===id);if(e)sets[e.set]=(sets[e.set]||0)+1}let income=0,power=0;for(const n of Object.values(sets)){if(n>=2){income+=.08;power+=.1}if(n>=4){income+=.16;power+=.22}}return{sets,income,power}}
 function equipIncome(){return Object.values(S.equipped).reduce((a,id)=>{const e=EQUIPMENT.find(x=>x.id===id);return a+(e?e.income*S.equipment[id].level:0)},0)}
-function globalIncomeMulti(){const rival=1-(S.rivalPenalty||0);return cityMulti()*(1+S.prestige*.2+S.storyIncome+skillLevel("income1")*.1+equipIncome()+setBonuses().income)*rival}
+function globalIncomeMulti(){const rival=1-(S.rivalPenalty||0),family=.02*Math.max(1,S.family.level),vip=.015*vipLevel(),weekend=isWeekend()?.5:0;return cityMulti()*(1+S.prestige*.2+S.storyIncome+skillLevel("income1")*.1+equipIncome()+setBonuses().income+family+vip+weekend+masteryIncome()+synergy().income)*rival}
 function bizCost(b,l){return b.cost*Math.pow(1.18,l)}
 function bizIncome(b){const d=S.businesses[b.id];if(!d.level)return 0;const f=S.fighters[b.manager],m=f?.owned&&d.manager?FIGHTERS.find(x=>x.id===b.manager).bonus*(1+(f.level-1)*.05+(f.stars-1)*.12):1;const milestone=1+Math.floor(d.level/25)*.5;return b.income*d.level*milestone*m*globalIncomeMulti()}
 function autoIncome(){return BUSINESSES.reduce((a,b)=>a+(S.businesses[b.id].manager?bizIncome(b)/b.cycle:0),0)}
@@ -354,7 +461,7 @@ function earn(v){v=Math.max(0,Number(v)||0);S.cash+=v;S.totalEarned+=v;S.runEarn
 function addXp(v){S.xp+=v;let need=S.level*100;while(S.xp>=need){S.xp-=need;S.level++;S.gems+=3;S.skillPoints+=S.level%5===0?1:0;toast("Seviye atladın! +3 💎");need=S.level*100}}
 function fighterPower(id){const f=FIGHTERS.find(x=>x.id===id),d=S.fighters[id];return f&&d?.owned?Math.floor(f.base*d.level*(1+(d.stars-1)*.35)):0}
 function equipmentPower(){return Object.values(S.equipped).reduce((a,id)=>{const e=EQUIPMENT.find(x=>x.id===id);return a+(e?e.power*S.equipment[id].level:0)},0)}
-function teamPower(){return Math.floor((S.team.reduce((a,id)=>a+fighterPower(id),0)+equipmentPower()+S.storyPower)*(1+skillLevel("combat1")*.12+setBonuses().power))}
+function teamPower(){return Math.floor((S.team.reduce((a,id)=>a+fighterPower(id),0)+equipmentPower()+S.storyPower)*(1+skillLevel("combat1")*.12+setBonuses().power+synergy().power))}
 function vipLevel(){return Math.floor(Math.sqrt(S.vipXp/20))}
 function missionBoost(){return 1+skillLevel("mission")*.1}
 function toast(msg){const e=$("toast");e.textContent=msg;e.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove("show"),2000);if(S.settings.vibration&&navigator.vibrate)navigator.vibrate(20)}
@@ -366,7 +473,7 @@ function stat(type){return({earned:S.totalEarned,upgrades:S.totalUpgrades,wins:S
 
 function missionTarget(type,min,max){const scale=1+S.level*.12;return Math.max(1,Math.round((min+Math.random()*(max-min))*scale))}
 function missionCurrent(type){return({earn:S.totalEarned,upgrade:S.totalUpgrades,battle:S.wins,chest:S.chests,hire:S.hires,city:S.cityChanges,rival:S.rivalWins,story:S.storyChoices,equipment:S.equipmentUpgrades,boss:S.bossWins,season:S.seasonXp,family:S.familyDonations})[type]||0}
-function createMission(exclude=[]){let choices=MISSION_TEMPLATES.filter(x=>!exclude.includes(x[0])&&!S.missionHistory.slice(-12).includes(x[0]));if(!choices.length)choices=MISSION_TEMPLATES.filter(x=>!exclude.includes(x[0]));const t=choices[Math.floor(Math.random()*choices.length)],target=missionTarget(t[0],t[3],t[4]);return{id:crypto.randomUUID?crypto.randomUUID():String(Math.random()),type:t[0],cat:t[1],label:t[2].replace("{n}",target),target,start:missionCurrent(t[0]),rewardType:Math.random()<.25?"gems":"cash",rewardValue:Math.random()<.25?Math.ceil(3+S.level/3):Math.max(500,autoIncome()*120+target*250)}}
+function createMission(exclude=[]){let choices=MISSION_TEMPLATES.filter(x=>!exclude.includes(x[0])&&!S.missionHistory.slice(-12).includes(x[0]));if(!choices.length)choices=MISSION_TEMPLATES.filter(x=>!exclude.includes(x[0]));const t=choices[Math.floor(Math.random()*choices.length)],target=missionTarget(t[0],t[3],t[4]),isGem=Math.random()<.25,rewardValue=isGem?clamp(Math.ceil(2+S.level/4+target*.04),3,18):Math.max(500,autoIncome()*120+target*250);return{id:crypto.randomUUID?crypto.randomUUID():String(Math.random()),type:t[0],cat:t[1],label:t[2].replace("{n}",target),target,start:missionCurrent(t[0]),rewardType:isGem?"gems":"cash",rewardValue}}
 function refreshMissions(force=false){const used=[];S.missions=[];for(let i=0;i<4;i++){const m=createMission(used);used.push(m.type);S.missions.push(m);S.missionHistory.push(m.type)}S.missionHistory=S.missionHistory.slice(-30);S.missionRefreshAt=now()+15*60000;if(!force)toast("Görevler yenilendi.")}
 function missionProgress(m){return Math.max(0,(missionCurrent(m.type)-m.start)*missionBoost())}
 function claimMission(i){const m=S.missions[i];if(!m||missionProgress(m)<m.target)return;if(m.rewardType==="gems")S.gems+=m.rewardValue;else earn(m.rewardValue);S.seasonXp+=6;S.vipXp+=2;S.missions[i]=createMission(S.missions.map(x=>x.type));S.missionHistory.push(S.missions[i].type);toast("Görev ödülü alındı.");renderAll();save()}
@@ -390,35 +497,69 @@ function enemy(){const boss=S.stage%5===0;return{name:boss?CITIES[S.city].boss:[
 function startBattle(mode="campaign"){if(battleTimer)return;const e=mode==="boss"?{name:"Sezon Canavarı",face:"🐉",power:Math.floor(teamPower()*1.3+600),boss:true}:enemy(),player=teamPower();if(player<=0)return toast("Ekip kurmalısın.");let ph=player*10,eh=e.power*10;const box=mode==="boss"?"bossBox":"battleBox";battleTimer=setInterval(()=>{const crit=Math.random()<.08+skillLevel("crit")*.03;eh-=player*(.18+Math.random()*.12)*(crit?2:1);ph-=e.power*(.13+Math.random()*.12);renderBattleState(box,e,ph,player*10,eh,e.power*10,crit?"Kritik vuruş!":"Çatışma sürüyor...");if(eh<=0||ph<=0){clearInterval(battleTimer);battleTimer=null;if(eh<=0){const cash=Math.max(1000,e.power*12);earn(cash);S.wins++;S.leagueScore+=Math.ceil(e.power/20);S.seasonXp+=e.boss?15:5;if(mode==="boss"){S.bossWins++;S.eventScore+=25}else S.stage++;showReward("Zafer",`<h2 style="color:var(--gold)">${fmt(cash)}</h2><p>${e.name} yenildi.</p>`)}else toast("Savaş kaybedildi.");renderAll();save()}},350)}
 function renderBattleState(boxId,e,ph,pm,eh,em,msg){const box=$(boxId);if(!box)return;box.innerHTML=`<div class="battle-arena"><div class="unit"><div class="face">🕶️</div><b>Ekibin</b><div class="meta">${teamPower()} güç</div><div class="bar"><i style="width:${clamp(ph/pm*100,0,100)}%"></i></div></div><div class="vs">VS</div><div class="unit"><div class="face">${e.face}</div><b>${e.name}</b><div class="meta">${e.power} güç</div><div class="bar"><i style="width:${clamp(eh/em*100,0,100)}%"></i></div></div></div><div class="log">${msg}</div>`}
 
-function openChest(type){let cost=0;if(type==="diamond")cost=10;if(type==="mythic")cost=35;if(type==="free"&&now()<S.freeChestAt)return;if(cost&&S.gems<cost)return toast("Yeterli elmas yok.");S.gems-=cost;if(type==="free")S.freeChestAt=now()+60*60000;S.chests++;const quality=skillLevel("chest")*.05+(type==="mythic"?.3:type==="diamond"?.12:0),r=Math.random()+quality;let body;if(r>.92){const locked=EQUIPMENT.filter(e=>!S.equipment[e.id].owned);if(locked.length){const e=locked[Math.floor(Math.random()*locked.length)];S.equipment[e.id].owned=true;body=`<div style="font-size:54px">${e.icon}</div><h2>${e.name}</h2><p>Yeni ekipman açıldı.</p>`}else{S.gems+=20;body="<h2>+20 💎</h2>"}}else if(r>.62){const f=FIGHTERS[Math.floor(Math.random()*FIGHTERS.length)],cards=type==="mythic"?40:type==="diamond"?20:8;S.fighters[f.id].shards+=cards;body=`<div style="font-size:54px">${f.face}</div><h2>+${cards} ${f.name} kartı</h2>`}else if(r>.35){const g=type==="mythic"?30:type==="diamond"?12:4;S.gems+=g;body=`<h2>+${g} 💎</h2>`}else{const c=Math.max(2500,autoIncome()*(type==="mythic"?1200:type==="diamond"?500:180));earn(c);body=`<h2 style="color:var(--gold)">${fmt(c)}</h2>`}updateCollection();showReward("Kasa Açıldı",body);renderAll();save()}
-function claimDaily(){if(S.lastDaily===dateKey())return;const rewards=[["gems",3],["gems",5],["cash",5000],["gems",7],["cash",12000],["gems",10],["gems",20]],idx=S.dailyStreak%7;reward(rewards[idx][0],rewards[idx][1]);S.dailyStreak=(idx+1)%7;S.lastDaily=dateKey();toast("Günlük ödül alındı.");renderDaily();renderTop();save()}
+function openChest(type){let cost=0;if(type==="diamond")cost=10;if(type==="mythic")cost=35;if(type==="free"&&now()<S.freeChestAt)return;if(cost&&S.gems<cost)return toast("Yeterli elmas yok.");S.gems-=cost;if(type==="free")S.freeChestAt=now()+60*60000;S.chests++;const quality=skillLevel("chest")*.05+vipLevel()*.01+(chestFestivalActive()?.12:0)+(type==="mythic"?.3:type==="diamond"?.12:0),r=Math.random()+quality;let body;if(r>.92){const locked=EQUIPMENT.filter(e=>!S.equipment[e.id].owned);if(locked.length){const e=locked[Math.floor(Math.random()*locked.length)];S.equipment[e.id].owned=true;body=`<div style="font-size:54px">${e.icon}</div><h2>${e.name}</h2><p>Yeni ekipman açıldı.</p>`}else{S.gems+=20;body="<h2>+20 💎</h2>"}}else if(r>.62){const f=FIGHTERS[Math.floor(Math.random()*FIGHTERS.length)],cards=type==="mythic"?40:type==="diamond"?20:8;S.fighters[f.id].shards+=cards;body=`<div style="font-size:54px">${f.face}</div><h2>+${cards} ${f.name} kartı</h2>`}else if(r>.35){const g=type==="mythic"?30:type==="diamond"?12:4;S.gems+=g;body=`<h2>+${g} 💎</h2>`}else{const c=Math.max(2500,autoIncome()*(type==="mythic"?1200:type==="diamond"?500:180));earn(c);body=`<h2 style="color:var(--gold)">${fmt(c)}</h2>`}updateCollection();showReward("Kasa Açıldı",body);renderAll();save()}
+function claimDaily(){const today=dateKey();if(S.lastDaily===today)return;const last=dateToDay(S.lastDaily),cur=dateToDay(today);if(last!==null&&cur-last>1)S.dailyStreak=0;const rewards=[["gems",3],["gems",5],["cash",5000],["gems",7],["cash",12000],["gems",10],["gems",20]],idx=S.dailyStreak%7;reward(rewards[idx][0],rewards[idx][1]);S.dailyStreak=(idx+1)%7;S.lastDaily=today;toast("Günlük ödül alındı.");renderDaily();renderTop();save()}
 function familyDonate(){const c=5000*S.family.level;if(S.cash<c)return toast("Yeterli paran yok.");S.cash-=c;S.family.xp+=10;S.familyDonations++;while(S.family.xp>=S.family.level*50){S.family.xp-=S.family.level*50;S.family.level++;S.gems+=3}toast("Aileye bağış yapıldı.");renderFamily();renderTop();save()}
 
-function renderTop(){$("cash").textContent=fmt(S.cash);$("gems").textContent=Math.floor(S.gems);$("crowns").textContent=S.crowns;$("level").textContent=S.level;const need=S.level*100;$("xpText").textContent=`${Math.floor(S.xp)}/${need}`;$("xpBar").style.width=clamp(S.xp/need*100,0,100)+"%";$("topAvatar").textContent=S.profile.avatar;$("profileName").textContent=S.profile.name;$("cityName").textContent=CITIES[S.city].name;$("incomeText").textContent=fmt(autoIncome())+"/sn";$("powerMetric").textContent=teamPower();$("vipMetric").textContent="VIP "+vipLevel();$("seasonMetric").textContent=Math.floor(S.seasonXp);$("rivalMetric").textContent=S.rival?S.rival.name:"Yok";$("seasonNo").textContent=Math.floor((now()-S.seasonStart)/seasonMs)+1}
+function renderTop(){$("cash").textContent=fmt(S.cash);updateEnergy();$("energy").textContent=`${Math.floor(S.energy)}/${S.maxEnergy}`;$("gems").textContent=Math.floor(S.gems);$("crowns").textContent=S.crowns;$("level").textContent=S.level;const need=S.level*100;$("xpText").textContent=`${Math.floor(S.xp)}/${need}`;$("xpBar").style.width=clamp(S.xp/need*100,0,100)+"%";$("topAvatar").textContent=S.profile.avatar;$("profileName").textContent=S.profile.name;$("cityName").textContent=CITIES[S.city].name;$("incomeText").textContent=fmt(autoIncome())+"/sn";$("powerMetric").textContent=teamPower();$("vipMetric").textContent="VIP "+vipLevel();$("seasonMetric").textContent=Math.floor(S.seasonXp);$("rivalMetric").textContent=S.rival?S.rival.name:"Yok";$("seasonNo").textContent=S.seasonNumber}
 function renderBusinesses(){const w=$("businessList");w.innerHTML="";let n=0;for(const b of BUSINESSES){const d=S.businesses[b.id],open=d.level>0;if(open)n++;const c=open?bizCost(b,d.level):b.cost,f=FIGHTERS.find(x=>x.id===b.manager),prog=clamp(d.progress/b.cycle*100,0,100),el=document.createElement("article");el.className="card";el.dataset.biz=b.id;el.innerHTML=`<div class="row"><div class="icon">${b.icon}</div><div class="grow"><div class="name">${b.name}</div><div class="meta">Lv.${d.level} · ${b.cycle}s · ${f.name}</div></div><div class="value"><b>${open?fmt(bizIncome(b)):"Kilitli"}</b><small>${open?"döngü":"açılış"}</small></div></div><div class="progress-label"><span>Üretim</span><span>${Math.floor(prog)}%</span></div><div class="bar"><i class="biz-progress" style="width:${prog}%"></i></div><div class="btnrow"><button class="btn gold" data-act="buy" ${S.cash<c?"disabled":""}>${open?"Yükselt · "+fmt(c):"Satın Al · "+fmt(c)}</button><button class="btn dark" data-act="max">MAX</button></div><div class="manager"><div style="font-size:23px">${f.face}</div><div class="grow"><b>${f.name}</b><div class="meta">${S.fighters[f.id].owned?(d.manager?"Otomatik çalışıyor":"Atamaya hazır"):"Karakter kilitli"}</div></div><button class="btn ${d.manager?"green":"dark"}" data-act="manager">${d.manager?"Aktif":"Ata"}</button><button class="btn dark" data-act="run" ${!open||d.manager||d.running?"disabled":""}>▶</button></div>`;w.appendChild(el)}$("bizCount").textContent=`${n}/${BUSINESSES.length} aktif`}
 function renderStory(){const w=$("storyBox"),st=STORIES[S.storyIndex%STORIES.length];$("storyProgress").textContent=`Karar ${S.storyChoices}`;w.innerHTML=`<div class="card story-card"><span class="badge goldish">Bölüm ${S.storyIndex+1}</span><h3>${st.title}</h3><p class="meta">${st.text}</p><div class="choice-grid">${st.choices.map((c,i)=>`<button class="btn ${i?"dark":"purple"}" data-story="${i}">${c[0]} · ${c[1]}</button>`).join("")}</div></div>`}
 function renderRivals(){spawnRival();const w=$("rivalBox");if(!S.rival){w.innerHTML=`<div class="card"><div class="name">Şehir şimdilik sakin</div><p class="meta">Yeni rakip çete birkaç dakika içinde ortaya çıkabilir.</p><button class="btn dark" style="width:100%;margin-top:10px" id="forceRivalBtn">Keşif Yap</button></div>`;return}w.innerHTML=`<div class="card rival"><div class="row"><div class="icon">☠️</div><div class="grow"><div class="name">${S.rival.name}</div><div class="meta">${S.rival.power} güç · Aktifken gelir -%12</div></div><div class="value"><b>${fmt(S.rival.reward)}</b><small>ödül</small></div></div><button class="btn red" style="width:100%;margin-top:10px" id="fightRivalBtn">Çeteye Saldır</button></div>`}
+
+function renderOperations(){
+ updateEnergy();$("operationStatus").textContent=`Enerji ${S.energy}/${S.maxEnergy} · Yenilenme ${energyCountdown()}`;
+ $("operationBox").innerHTML=`<div class="notice" style="margin-bottom:10px">Operasyonlar şehir ustalığı, sezon XP ve büyük nakit kazandırır. Her 6 dakikada 1 enerji yenilenir.</div><div class="list">${OPERATIONS.map(op=>{const req=Math.floor(op.power*Math.pow(1.15,S.operationLevel-1));return `<div class="card operation-card" data-operation="${op.id}"><div class="row"><div class="icon">${op.icon}</div><div class="grow"><div class="name">${op.name}</div><div class="meta">${op.energy} enerji · ${req} güç gerekli</div><div class="difficulty">${[1,2,3,4].map(i=>`<i class="${i<=op.difficulty?"on":""}"></i>`).join("")}</div></div><div class="value"><b>${fmt(operationReward(op))}</b><small>ödül</small></div></div><button class="btn blue" style="width:100%;margin-top:10px" ${S.energy<op.energy||teamPower()<req?"disabled":""}>Operasyonu Başlat</button></div>`}).join("")}</div>`
+}
+function renderSynergy(){
+ const s=synergy();$("synergyBox").innerHTML=`<div class="card synergy-box"><div class="row"><div class="icon">🔗</div><div class="grow"><div class="name">Ekip Sinerjisi</div><div class="meta">${s.label}</div></div><span class="badge">${S.team.length}/3 ekip</span></div></div>`
+}
+function renderMastery(){
+ $("masteryList").innerHTML=CITIES.map((c,i)=>{const m=S.cityMastery[i]||0;return `<div class="card"><div class="row"><div class="mastery-ring" style="--mastery:${m*10}%"><b>${m}/10</b></div><div class="grow"><div class="name">${c.icon} ${c.name} Ustalığı</div><div class="meta">Bu şehirde operasyon tamamlayarak gelişir.</div></div><div class="value"><b>+%${Math.round(m*1.5)}</b><small>global gelir</small></div></div></div>`}).join("")
+}
+function renderContracts(){
+ const tomorrow=new Date();tomorrow.setHours(24,0,0,0);const left=tomorrow-now(),h=Math.floor(left/3600000),m=Math.floor(left%3600000/60000);$("contractTimer").textContent=`${h}s ${m}dk`;
+ $("contractList").innerHTML=`<div class="contract-streak" style="margin-bottom:10px">${S.dailyContracts.map(id=>`<span class="${S.contractClaims[id]?"done":""}"></span>`).join("")}</div>`+S.dailyContracts.map(id=>{const c=DAILY_CONTRACTS.find(x=>x.id===id),v=contractValue(id),t=contractTarget(id),done=v>=t,claimed=!!S.contractClaims[id];return `<div class="card mission" data-contract="${id}"><div class="row"><div class="icon">📜</div><div class="grow"><div class="name">${c.name}</div><div class="meta">${c.desc} · ${Math.min(v,t)}/${t}</div></div><div class="value"><b>${c.reward} 💎</b></div></div><div class="bar" style="margin:9px 0"><i style="width:${clamp(v/t*100,0,100)}%"></i></div><button class="btn ${done&&!claimed?"gold":"dark"}" style="width:100%" ${!done||claimed?"disabled":""}>${claimed?"Alındı":done?"Kontratı Tamamla":"Devam Et"}</button></div>`}).join("")
+}
+function claimContract(id){
+ const c=DAILY_CONTRACTS.find(x=>x.id===id);if(!c||S.contractClaims[id]||contractValue(id)<contractTarget(id))return;
+ S.contractClaims[id]=true;S.gems+=c.reward;S.seasonXp+=5;toast("Kontrat ödülü alındı.");renderContracts();renderTop();save()
+}
+
 function renderPrestige(){const g=prestigeGain();$("prestigeBox").innerHTML=`<div class="card"><div class="row"><div class="icon">👑</div><div class="grow"><div class="name">Hanedan Prestiji</div><div class="meta">Her prestij +%20 kalıcı gelir ve yetenek puanı verir.</div></div><div class="value"><b>+${g} 👑</b></div></div><div class="set-line"><span>Mevcut prestij</span><b>${S.prestige}</b></div><div class="set-line"><span>Kalıcı gelir</span><b>+%${S.prestige*20}</b></div><button class="btn gold" style="width:100%;margin-top:10px" id="prestigeBtn" ${g<1?"disabled":""}>Prestij Yap</button></div>`}
 function renderCrew(){const w=$("fighterList");w.innerHTML="";for(const f of FIGHTERS){const d=S.fighters[f.id],sel=S.team.includes(f.id),need=d.stars*20,c=d.owned?Math.ceil(f.cost*.55*d.level):f.cost,el=document.createElement("div");el.className="card fighter"+(sel?" selected":"");el.dataset.fighter=f.id;el.innerHTML=`<div class="row"><div class="face">${f.face}</div><div class="grow"><span class="badge">${f.rarity}</span><div class="name">${f.name}</div><div class="meta">${f.role} · ${fighterPower(f.id)} güç</div></div></div><div class="stars">${"★".repeat(d.stars)}${"☆".repeat(5-d.stars)}</div><div class="meta">Kart: ${d.shards}/${need}</div><button class="btn ${d.owned?"dark":"gold"}" style="width:100%;margin-top:8px" data-act="hire">${d.owned?(d.shards>=need&&d.stars<5?"Yıldız Yükselt":"Geliştir · "+c+" 💎"):"İşe Al · "+c+" 💎"}</button><button class="btn ${sel?"green":"dark"}" style="width:100%;margin-top:7px" data-act="team" ${d.owned?"":"disabled"}>${sel?"Ekipte":"Ekibe Ekle"}</button>`;w.appendChild(el)}}
 function renderEquipment(){const b=setBonuses(),sum=$("equipmentSummary");sum.innerHTML=`<div class="card"><div class="name">Aktif Set Bonusları</div>${Object.keys(b.sets).length?Object.entries(b.sets).map(([s,n])=>`<div class="set-line"><span>${s} Seti</span><b>${n}/4 parça</b></div>`).join(""):`<p class="meta">Aynı setten 2 veya 4 parça kuşan.</p>`}</div>`;const w=$("equipmentList");w.innerHTML="";for(const e of EQUIPMENT){const d=S.equipment[e.id],eq=S.equipped[e.slot]===e.id,el=document.createElement("div");el.className="card";el.dataset.equip=e.id;el.innerHTML=`<div class="row"><div class="icon">${e.icon}</div><div class="grow"><span class="badge">${e.rarity}</span><div class="name">${e.name}</div><div class="meta">${e.slot} · ${e.set} seti · Lv.${d.level}</div></div></div><div class="meta">+${e.power*d.level} güç · +%${Math.round(e.income*d.level*100)} gelir</div><button class="btn ${d.owned?"dark":"gold"}" style="width:100%;margin-top:8px" data-act="upgrade">${d.owned?"Geliştir · "+5*d.level+" 💎":"Aç · "+(20+EQUIPMENT.indexOf(e)*8)+" 💎"}</button><button class="btn ${eq?"green":"dark"}" style="width:100%;margin-top:7px" data-act="equip" ${d.owned?"":"disabled"}>${eq?"Kuşanıldı":"Kuşan"}</button>`;w.appendChild(el)}}
 function renderSkills(){$("skillPointsText").textContent=S.skillPoints+" puan";const w=$("skillTree");w.innerHTML="";for(const sk of SKILLS){const lv=S.skills[sk.id],el=document.createElement("div");el.className="card skill "+(lv?"unlocked":"locked");el.dataset.skill=sk.id;el.innerHTML=`<div class="row"><div class="icon">${sk.icon}</div><div class="grow"><span class="badge">${sk.branch}</span><div class="name">${sk.name}</div><div class="meta">${sk.desc}</div></div></div><div class="set-line"><span>Seviye</span><b>${lv}/${sk.max}</b></div><button class="btn purple" style="width:100%;margin-top:8px" ${lv>=sk.max||S.skillPoints<sk.cost?"disabled":""}>Geliştir · ${sk.cost} puan</button>`;w.appendChild(el)}}
 function renderCollection(){updateCollection();const items=[...FIGHTERS.map(f=>({id:"fighter:"+f.id,icon:f.face,name:f.name})),...EQUIPMENT.map(e=>({id:"equip:"+e.id,icon:e.icon,name:e.name})),...CITIES.map((c,i)=>({id:"city:"+i,icon:c.icon,name:c.name}))];$("collectionText").textContent=`${collectionCount()}/${items.length}`;const w=$("collectionGrid");w.innerHTML=items.map(x=>`<div class="card collection-item ${S.collection[x.id]?"":"locked"}"><div style="font-size:30px">${x.icon}</div><div class="name">${S.collection[x.id]?x.name:"???"}</div></div>`).join("")}
 function battleMarkup(e,buttonText,mode){return `<div class="battle-arena"><div class="unit"><div class="face">🕶️</div><b>Ekibin</b><div class="meta">${teamPower()} güç</div><div class="bar"><i style="width:100%"></i></div></div><div class="vs">VS</div><div class="unit"><div class="face">${e.face}</div><b>${e.name}</b><div class="meta">${e.power} güç</div><div class="bar"><i style="width:100%"></i></div></div></div><div class="log">Savaşa hazır.</div><button class="btn gold" style="width:100%" data-battle="${mode}" ${battleTimer?"disabled":""}>${buttonText}</button>`}
-function renderBattle(){const e=enemy();$("stageText").textContent=`Bölüm ${S.stage}${e.boss?" · BOSS":""}`;$("battleBox").innerHTML=battleMarkup(e,"Otomatik Savaşı Başlat","campaign");const be={name:"Sezon Canavarı",face:"🐉",power:Math.floor(teamPower()*1.3+600)};$("bossTimer").textContent="Etkinlik aktif";$("bossBox").innerHTML=battleMarkup(be,"Boss Avına Başla","boss")}
-function renderLeague(){const rivals=[["Kara Baron",Math.max(100,S.leagueScore+120)],["Neon Hanedanı",Math.max(80,S.leagueScore+60)],["Sen",S.leagueScore],["Gölge Ailesi",Math.max(20,S.leagueScore-35)],["Kızıl Konsey",Math.max(5,S.leagueScore-80)]].sort((a,b)=>b[1]-a[1]);$("leagueReset").textContent="Haftalık sıralama";$("leagueBox").innerHTML=`<div class="card">${rivals.map((r,i)=>`<div class="set-line"><span>${i+1}. ${r[0]}</span><b>${r[1]} puan</b></div>`).join("")}<div class="notice" style="margin-top:10px">Savaş kazanarak lig puanı topla.</div></div>`}
+function renderBattle(){const e=enemy();$("stageText").textContent=`Bölüm ${S.stage}${e.boss?" · BOSS":""}`;$("battleBox").innerHTML=battleMarkup(e,"Otomatik Savaşı Başlat","campaign");renderBoss()}
+function renderBoss(){initRaidBoss();const pct=clamp(S.raidBoss.hp/S.raidBoss.maxHp*100,0,100),left=Math.max(0,S.raidBoss.endsAt-now()),h=Math.floor(left/3600000),m=Math.floor(left%3600000/60000);$("bossTimer").textContent=`${h}s ${m}dk`;$("bossBox").innerHTML=`<div class="card"><div class="battle-arena"><div class="unit"><div class="face">🕶️</div><b>Ekibin</b><div class="meta">${teamPower()} güç</div></div><div class="vs">VS</div><div class="unit"><div class="face">🐉</div><b>Dominion Raid Bossu</b><div class="meta">${fmt(S.raidBoss.hp)} / ${fmt(S.raidBoss.maxHp)} HP</div></div></div><div class="bar raid-hp" style="margin:12px 0"><i style="width:${pct}%"></i></div><button class="btn red" style="width:100%" id="raidAttackBtn" ${S.raidBoss.claimed||S.energy<2?"disabled":""}>${S.raidBoss.claimed?"Boss Yenildi":"2 ⚡ ile Saldır"}</button></div>`}
+function processTimeCycles(){
+ const t=now();
+ while(t>=S.seasonStart+seasonMs){S.seasonStart+=seasonMs;S.seasonNumber++;S.seasonXp=0;S.claimedSeasonLevels=[];S.gems+=10;toast("Yeni sezon başladı! +10 💎")}
+ while(t>=S.weekStart+weekMs){const score=S.leagueScore,reward=score>=500?20:score>=250?12:score>=100?7:3;S.gems+=reward;S.weekStart+=weekMs;S.leagueScore=0;toast(`Haftalık lig ödülü: +${reward} 💎`)}
+}
+function claimSeasonLevel(level){
+ const unlocked=Math.floor(S.seasonXp/25);
+ if(level<1||level>unlocked||S.claimedSeasonLevels.includes(level))return;
+ S.claimedSeasonLevels.push(level);
+ if(level%2){S.gems+=3+level}else{const f=FIGHTERS[level%FIGHTERS.length];S.fighters[f.id].shards+=10+level*2}
+ toast(`Sezon ${level}. seviye ödülü alındı.`);renderSeason();renderTop();save()
+}
+function renderLeague(){const rivals=[["Kara Baron",Math.max(100,S.leagueScore+120)],["Neon Hanedanı",Math.max(80,S.leagueScore+60)],["Sen",S.leagueScore],["Gölge Ailesi",Math.max(20,S.leagueScore-35)],["Kızıl Konsey",Math.max(5,S.leagueScore-80)]].sort((a,b)=>b[1]-a[1]);$("leagueReset").textContent=Math.ceil(Math.max(0,S.weekStart+weekMs-now())/dayMs)+" gün sonra sıfırlanır";$("leagueBox").innerHTML=`<div class="card">${rivals.map((r,i)=>`<div class="set-line"><span>${i+1}. ${r[0]}</span><b>${r[1]} puan</b></div>`).join("")}<div class="notice" style="margin-top:10px">Savaş kazanarak lig puanı topla.</div></div>`}
 function renderCities(){const w=$("cityList");w.innerHTML="";CITIES.forEach((c,i)=>{const open=S.level>=c.level,active=S.city===i,el=document.createElement("div");el.className="card region "+(active?"active ":"")+(open?"":"locked");el.dataset.city=i;el.innerHTML=`<div class="row"><div class="icon">${c.icon}</div><div class="grow"><div class="name">${c.name}</div><div class="meta">${c.theme} · x${c.multi} gelir · Boss: ${c.boss}</div></div><span class="badge">${active?"Aktif":open?"Açık":"Lv."+c.level}</span></div><button class="btn ${active?"green":"dark"}" style="width:100%;margin-top:9px" ${!open||active?"disabled":""}>${active?"Bu şehirdesin":"Şehre Git"}</button>`;w.appendChild(el)})}
 function renderMissions(){const l=Math.max(0,S.missionRefreshAt-now()),m=Math.floor(l/60000),s=Math.floor(l%60000/1000);$("missionTimer").textContent=`${m}:${String(s).padStart(2,"0")} sonra`;const w=$("missionList");w.innerHTML="";S.missions.forEach((x,i)=>{const p=missionProgress(x),done=p>=x.target,pct=clamp(p/x.target*100,0,100);w.innerHTML+=`<div class="card mission" data-mission="${i}"><div class="row"><div class="grow"><span class="badge">${x.cat}</span><div class="name">${x.label}</div></div><div class="value"><b>${x.rewardType==="gems"?x.rewardValue+" 💎":fmt(x.rewardValue)}</b></div></div><div class="bar"><i style="width:${pct}%"></i></div><div class="meta">${Math.floor(Math.min(p,x.target))}/${x.target}</div><div class="mission-actions"><button class="btn ${done?"gold":"dark"}" data-act="claim" ${done?"":"disabled"}>${done?"Ödülü Al":"Devam Et"}</button><button class="btn dark" data-act="reroll">🔄 2 💎</button></div></div>`})}
-function renderSeason(){const level=Math.floor(S.seasonXp/25),left=Math.max(0,S.seasonStart+seasonMs-now());$("seasonTimer").textContent=Math.ceil(left/dayMs)+" gün";$("seasonBox").innerHTML=`<div class="card"><div class="row"><div class="icon">🏆</div><div class="grow"><div class="name">Yeraltı Sezonu</div><div class="meta">Sezon seviyesi ${level}</div></div><div class="value"><b>${S.seasonXp} XP</b></div></div><div class="bar" style="margin-top:10px"><i style="width:${S.seasonXp%25/25*100}%"></i></div><div class="season-track" style="margin-top:12px">${[1,2,3,4,5].map(n=>`<div class="reward-step ${level>=n?"done":level+1===n?"current":""}">Lv.${n}<br>${n%2?"💎":"🎁"}</div>`).join("")}</div><div class="notice" style="margin-top:10px">Görev, savaş, hikâye ve rakip çete etkinliklerinden sezon XP kazan.</div></div>`}
-function renderEvents(){const weekend=[0,6].includes(new Date().getDay()),events=[{icon:"💰",name:"Hafta Sonu Serveti",active:weekend,desc:"Hafta sonu gelir etkinliği."},{icon:"🐉",name:"Boss Avı",active:true,desc:`Etkinlik puanı: ${S.eventScore}`},{icon:"🎁",name:"Kasa Festivali",active:new Date().getDate()%3===0,desc:"Belirli günlerde kasa kalitesi artar."}];$("eventList").innerHTML=events.map(e=>`<div class="card"><div class="row"><div class="icon">${e.icon}</div><div class="grow"><div class="name">${e.name}</div><div class="meta">${e.desc}</div></div><span class="badge">${e.active?"Aktif":"Yakında"}</span></div></div>`).join("")}
+function renderSeason(){const level=Math.floor(S.seasonXp/25),left=Math.max(0,S.seasonStart+seasonMs-now());$("seasonTimer").textContent=Math.ceil(left/dayMs)+" gün";$("seasonBox").innerHTML=`<div class="card"><div class="row"><div class="icon">🏆</div><div class="grow"><div class="name">Yeraltı Sezonu ${S.seasonNumber}</div><div class="meta">Sezon seviyesi ${level}</div></div><div class="value"><b>${S.seasonXp} XP</b></div></div><div class="bar" style="margin-top:10px"><i style="width:${S.seasonXp%25/25*100}%"></i></div><div class="season-track" style="margin-top:12px">${[1,2,3,4,5].map(n=>{const claimed=S.claimedSeasonLevels.includes(n),open=level>=n;return `<button class="reward-step ${claimed?"done":open?"current":""}" data-season-level="${n}" ${!open||claimed?"disabled":""}>Lv.${n}<br>${n%2?"💎":"🎁"}<br>${claimed?"Alındı":open?"Al":"Kilitli"}</button>`}).join("")}</div><div class="notice" style="margin-top:10px">Görev, savaş, hikâye ve rakip çete etkinliklerinden sezon XP kazan.</div></div>`}
+function renderEvents(){const events=[{icon:"💰",name:"Hafta Sonu Serveti",active:isWeekend(),desc:isWeekend()?"Tüm işletme geliri +%50.":"Cumartesi ve pazar aktif."},{icon:"🐉",name:"Boss Avı",active:true,desc:`Etkinlik puanı: ${S.eventScore}`},{icon:"🎁",name:"Kasa Festivali",active:chestFestivalActive(),desc:chestFestivalActive()?"Tüm kasalarda +%12 kalite şansı.":"Her 3 günde bir aktif."}];$("eventList").innerHTML=events.map(e=>`<div class="card"><div class="row"><div class="icon">${e.icon}</div><div class="grow"><div class="name">${e.name}</div><div class="meta">${e.desc}</div></div><span class="badge">${e.active?"Aktif":"Yakında"}</span></div></div>`).join("")}
 function renderChests(){const left=Math.max(0,S.freeChestAt-now()),mins=Math.ceil(left/60000);$("chestGrid").innerHTML=[["free","🎁","Ücretsiz Kasa",left?mins+" dk sonra":"Hazır","Aç",left>0],["diamond","💎","Elmas Kasa","Daha iyi ödüller","10 💎",S.gems<10],["mythic","🌌","Mitik Kasa","Yüksek ekipman şansı","35 💎",S.gems<35]].map(x=>`<div class="card"><div class="icon">${x[1]}</div><div class="name">${x[2]}</div><div class="meta">${x[3]}</div><button class="btn ${x[0]==="free"?"gold":x[0]==="diamond"?"blue":"purple"}" style="width:100%;margin-top:10px" data-chest="${x[0]}" ${x[5]?"disabled":""}>${x[4]}</button></div>`).join("")}
 function renderDaily(){const rewards=["3💎","5💎","$5K","7💎","$12K","10💎","20💎"],today=S.lastDaily!==dateKey()?S.dailyStreak%7:-1;$("dailyBox").innerHTML=`<div class="card"><div class="season-track">${rewards.map((r,i)=>`<div class="reward-step ${i<S.dailyStreak?"done":i===today?"current":""}">G${i+1}<br>${r}</div>`).join("")}</div><button class="btn green" style="width:100%;margin-top:11px" id="dailyBtn" ${S.lastDaily===dateKey()?"disabled":""}>${S.lastDaily===dateKey()?"Bugün Alındı":"Ödülü Al"}</button></div>`}
 function renderAchievements(){let done=0;$("achievementList").innerHTML=ACHIEVEMENTS.map(a=>{const p=stat(a.type),ok=p>=a.target,claimed=!!S.achievements[a.id];if(claimed)done++;return `<div class="card achievement ${claimed?"claimed":""}" data-ach="${a.id}"><div class="row"><div class="icon">🏅</div><div class="grow"><div class="name">${a.name}</div><div class="meta">${a.desc} · ${Math.floor(Math.min(p,a.target))}/${a.target}</div></div><div class="value"><b>${a.reward} 💎</b></div></div><button class="btn ${ok&&!claimed?"gold":"dark"}" style="width:100%;margin-top:9px" ${!ok||claimed?"disabled":""}>${claimed?"Alındı":ok?"Ödülü Al":"Devam Et"}</button></div>`}).join("");$("achievementText").textContent=`${done}/${ACHIEVEMENTS.length}`}
 function renderFamily(){const c=5000*S.family.level;$("familyBox").innerHTML=`<div class="card"><div class="row"><div class="icon">🐺</div><div class="grow"><div class="name">${S.family.name}</div><div class="meta">Aile seviyesi ${S.family.level}</div></div><div class="value"><b>${S.family.xp}/${S.family.level*50} XP</b></div></div><div class="bar" style="margin-top:10px"><i style="width:${S.family.xp/(S.family.level*50)*100}%"></i></div><div class="set-line"><span>Aile gelir bonusu</span><b>+%${S.family.level*2}</b></div><button class="btn gold" style="width:100%;margin-top:9px" id="familyDonateBtn">Bağış Yap · ${fmt(c)}</button></div>`}
 function renderSettings(){$("soundBtn").textContent="Ses: "+(S.settings.sound?"Açık":"Kapalı");$("vibrationBtn").textContent="Titreşim: "+(S.settings.vibration?"Açık":"Kapalı");$("debugOutput").textContent=debugReport()}
-function renderAll(){renderTop();renderBusinesses();renderStory();renderRivals();renderPrestige();renderCrew();renderEquipment();renderSkills();renderCollection();renderBattle();renderLeague();renderCities();renderMissions();renderSeason();renderEvents();renderChests();renderDaily();renderAchievements();renderFamily()}
+function renderAll(){renderTop();renderBusinesses();renderStory();renderRivals();renderOperations();renderPrestige();renderCrew();renderSynergy();renderEquipment();renderSkills();renderCollection();renderBattle();renderLeague();renderCities();renderMissions();renderSeason();renderEvents();renderMastery();renderContracts();renderChests();renderDaily();renderAchievements();renderFamily()}
 function updateProgress(){document.querySelectorAll("[data-biz]").forEach(el=>{const b=BUSINESSES.find(x=>x.id===el.dataset.biz),d=S.businesses[b.id],p=el.querySelector(".biz-progress");if(p)p.style.width=clamp(d.progress/b.cycle*100,0,100)+"%"})}
-function tick(){const t=performance.now(),dt=clamp((t-lastFrame)/1000,0,.5);lastFrame=t;S.playSeconds+=dt;for(const b of BUSINESSES){const d=S.businesses[b.id];if(!d.level||(!d.running&&!d.manager))continue;d.progress+=dt;while(d.progress>=b.cycle){d.progress-=b.cycle;earn(bizIncome(b));if(!d.manager){d.running=false;d.progress=0;break}}}if(now()>=S.missionRefreshAt)refreshMissions();spawnRival();renderTop();const active=document.querySelector(".screen.active")?.id;if(active==="screen-home")updateProgress();if(active==="screen-world")renderMissions();if(active==="screen-vault")renderChests()}
-function debugReport(){const issues=[];if(S.team.length<1||S.team.length>3)issues.push("Takım boyutu hatalı.");for(const id of S.team)if(!S.fighters[id]?.owned)issues.push("Sahip olunmayan ekip üyesi: "+id);for(const [id,d] of Object.entries(S.businesses))if(d.manager&&!S.fighters[BUSINESSES.find(b=>b.id===id)?.manager]?.owned)issues.push("Geçersiz yönetici: "+id);return JSON.stringify({version:S.version,saveKey:SAVE_KEY,issues,stats:{cash:S.cash,level:S.level,team:S.team,power:teamPower(),income:autoIncome(),missions:S.missions.map(m=>m.type),city:S.city,playSeconds:Math.floor(S.playSeconds)}},null,2)}
+function updateTimers(){const l=Math.max(0,S.missionRefreshAt-now()),m=Math.floor(l/60000),s=Math.floor(l%60000/1000);if($("missionTimer"))$("missionTimer").textContent=`${m}:${String(s).padStart(2,"0")} sonra`;const left=Math.max(0,S.freeChestAt-now());const free=document.querySelector(`[data-chest="free"]`);if(free){free.disabled=left>0;free.textContent=left?Math.ceil(left/60000)+" dk sonra":"Aç"}}
+function tick(){const t=performance.now(),dt=clamp((t-lastFrame)/1000,0,.5);lastFrame=t;S.playSeconds+=dt;S.contractProgress.activeSeconds=(S.contractProgress.activeSeconds||0)+dt;updateEnergy();let businessUiDirty=false;for(const b of BUSINESSES){const d=S.businesses[b.id];if(!d.level||(!d.running&&!d.manager))continue;d.progress+=dt;while(d.progress>=b.cycle){d.progress-=b.cycle;earn(bizIncome(b));if(!d.manager){d.running=false;d.progress=0;businessUiDirty=true;break}}}if(now()>=S.missionRefreshAt){refreshMissions();renderMissions()}spawnRival();processTimeCycles();renderTop();if(businessUiDirty&&document.querySelector("#panel-empire.active"))renderBusinesses();else updateProgress();updateTimers();if(document.querySelector("#panel-operations.active"))renderOperations()}
+function debugReport(){const issues=[];if(S.team.length<1||S.team.length>3)issues.push("Takım boyutu hatalı.");for(const id of S.team)if(!S.fighters[id]?.owned)issues.push("Sahip olunmayan ekip üyesi: "+id);for(const [id,d] of Object.entries(S.businesses))if(d.manager&&!S.fighters[BUSINESSES.find(b=>b.id===id)?.manager]?.owned)issues.push("Geçersiz yönetici: "+id);return JSON.stringify({version:S.version,saveKey:SAVE_KEY,issues,stats:{cash:S.cash,level:S.level,team:S.team,power:teamPower(),income:autoIncome(),vipLevel:vipLevel(),energy:S.energy,operationLevel:S.operationLevel,raidHp:S.raidBoss.hp,masteryIncome:masteryIncome(),synergy:synergy(),familyBonus:S.family.level*.02,weekendBonus:isWeekend()?.5:0,missions:S.missions.map(m=>m.type),city:S.city,playSeconds:Math.floor(S.playSeconds)}},null,2)}
 function bind(){
  document.querySelector(".tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("screen-"+b.dataset.screen).classList.add("active");renderAll()});
  document.querySelectorAll(".subtabs").forEach(nav=>nav.addEventListener("click",e=>{const b=e.target.closest(".subtab");if(!b)return;nav.querySelectorAll(".subtab").forEach(x=>x.classList.remove("active"));b.classList.add("active");const screen=nav.closest(".screen");screen.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));screen.querySelector("#panel-"+b.dataset.panel)?.classList.add("active");renderAll()}));
@@ -430,9 +571,14 @@ function bind(){
  $("rivalBox").addEventListener("click",e=>{if(e.target.closest("#fightRivalBtn"))fightRival();if(e.target.closest("#forceRivalBtn")){spawnRival(true);renderRivals()}});
  $("prestigeBox").addEventListener("click",e=>{if(e.target.closest("#prestigeBtn"))doPrestige()});
  $("battleBox").addEventListener("click",e=>{const b=e.target.closest("[data-battle]");if(b)startBattle(b.dataset.battle)});
- $("bossBox").addEventListener("click",e=>{const b=e.target.closest("[data-battle]");if(b)startBattle(b.dataset.battle)});
+
+ $("operationBox").addEventListener("click",e=>{const c=e.target.closest("[data-operation]");if(c)runOperation(c.dataset.operation)});
+ $("contractList").addEventListener("click",e=>{const c=e.target.closest("[data-contract]");if(c)claimContract(c.dataset.contract)});
+ $("bossBox").addEventListener("click",e=>{if(e.target.closest("#raidAttackBtn"))attackRaidBoss();else{const b=e.target.closest("[data-battle]");if(b)startBattle(b.dataset.battle)}});
+
  $("cityList").addEventListener("click",e=>{const c=e.target.closest("[data-city]");if(!c)return;const i=+c.dataset.city;if(S.level<CITIES[i].level||S.city===i)return;S.city=i;S.cityChanges++;updateCollection();toast(CITIES[i].name+" şehrine geçildi.");renderAll();save()});
  $("missionList").addEventListener("click",e=>{const c=e.target.closest("[data-mission]"),b=e.target.closest("[data-act]");if(!c||!b)return;b.dataset.act==="claim"?claimMission(+c.dataset.mission):rerollMission(+c.dataset.mission)});
+ $("seasonBox").addEventListener("click",e=>{const b=e.target.closest("[data-season-level]");if(b)claimSeasonLevel(+b.dataset.seasonLevel)});
  $("chestGrid").addEventListener("click",e=>{const b=e.target.closest("[data-chest]");if(b)openChest(b.dataset.chest)});
  $("dailyBox").addEventListener("click",e=>{if(e.target.closest("#dailyBtn"))claimDaily()});
  $("achievementList").addEventListener("click",e=>{const c=e.target.closest("[data-ach]");if(!c)return;const a=ACHIEVEMENTS.find(x=>x.id===c.dataset.ach);if(stat(a.type)<a.target||S.achievements[a.id])return;S.achievements[a.id]=true;S.gems+=a.reward;toast("Başarım ödülü alındı.");renderAchievements();renderTop();save()});
